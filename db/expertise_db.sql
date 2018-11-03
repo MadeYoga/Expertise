@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2018 at 11:54 AM
+-- Generation Time: Nov 03, 2018 at 04:48 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -85,7 +85,20 @@ INSERT INTO `premise` (`id`, `question`) VALUES
 (9, 'ayah/ibu memiliki nama marga asli putra daerah ?'),
 (10, 'Akademik'),
 (11, 'Finansial'),
-(12, 'Putra daerah');
+(12, 'Putra daerah'),
+(13, 'Terdapat garis pada layar ?'),
+(14, 'Layar pecah ? '),
+(15, 'Layar buram ? '),
+(16, 'White screen ? '),
+(17, 'Baterai drop ?'),
+(18, 'Smartphone panas ?'),
+(19, 'blank screen ? '),
+(20, 'Tidak dapat memproses Aplikasi ?'),
+(21, 'Smartphone reboot tiba-tiba ?'),
+(22, 'Tidak berhenti mengisi daya ?'),
+(23, 'Baterai cepat panas ?'),
+(24, 'Baterai menggelembung ? '),
+(25, 'Tidak berhenti mengisi daya ?');
 
 -- --------------------------------------------------------
 
@@ -121,7 +134,33 @@ INSERT INTO `premise_answer_list` (`id`, `premise_id`, `answer_id`) VALUES
 (15, 12, 1),
 (16, 12, 2),
 (17, 8, 1),
-(18, 8, 2);
+(18, 8, 2),
+(19, 13, 1),
+(20, 13, 2),
+(23, 14, 1),
+(24, 14, 2),
+(25, 15, 1),
+(26, 15, 2),
+(27, 16, 1),
+(28, 16, 2),
+(29, 17, 1),
+(30, 17, 2),
+(31, 18, 1),
+(32, 18, 2),
+(33, 19, 1),
+(34, 19, 2),
+(35, 20, 1),
+(36, 20, 2),
+(37, 21, 1),
+(38, 21, 2),
+(39, 22, 1),
+(40, 22, 2),
+(41, 23, 1),
+(42, 23, 2),
+(43, 24, 1),
+(44, 24, 2),
+(45, 25, 1),
+(46, 25, 2);
 
 -- --------------------------------------------------------
 
@@ -181,7 +220,11 @@ INSERT INTO `rule` (`id`, `conclusion`, `conclusion_value`, `expert_id`, `hierar
 (12, 'Finansial', 2, 1, 2),
 (13, 'Finansial', 2, 1, 2),
 (14, 'Putra daerah', 1, 1, 2),
-(15, 'Putra daerah', 2, 1, 2);
+(15, 'Putra daerah', 2, 1, 2),
+(16, 'LCD', 1, 2, 1),
+(17, 'IC, PowerSupply', 1, 2, 1),
+(18, 'Software', 1, 2, 1),
+(19, 'Baterai', 1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -225,7 +268,23 @@ INSERT INTO `rules_premise` (`id`, `rule_id`, `premise_id`, `premise_val`) VALUE
 (57, 3, 11, 2),
 (58, 4, 10, 1),
 (59, 4, 11, 1),
-(60, 4, 12, 2);
+(60, 4, 12, 2),
+(61, 16, 13, 1),
+(62, 16, 14, 1),
+(63, 16, 15, 1),
+(64, 16, 16, 1),
+(65, 17, 17, 1),
+(66, 17, 18, 1),
+(67, 17, 19, 1),
+(68, 17, 16, 1),
+(69, 18, 20, 1),
+(70, 18, 19, 1),
+(71, 18, 21, 1),
+(72, 18, 22, 1),
+(73, 19, 17, 1),
+(74, 19, 23, 1),
+(75, 19, 24, 1),
+(76, 19, 25, 1);
 
 --
 -- Indexes for dumped tables
@@ -302,13 +361,13 @@ ALTER TABLE `experts`
 -- AUTO_INCREMENT for table `premise`
 --
 ALTER TABLE `premise`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `premise_answer_list`
 --
 ALTER TABLE `premise_answer_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `premise_rules`
@@ -320,13 +379,13 @@ ALTER TABLE `premise_rules`
 -- AUTO_INCREMENT for table `rule`
 --
 ALTER TABLE `rule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `rules_premise`
 --
 ALTER TABLE `rules_premise`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- Constraints for dumped tables
