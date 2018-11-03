@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2018 Expertise Team.
+ * Copyright 2018 Expertise Team                    .
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -101,8 +101,9 @@ public class Manager {
     
     public Premise getNextPremise(){
         Premise premise = null;
-        for (int i = 0; i < queue_table.premises.size(); i++){
-            Premise target = queue_table.premises.get(i);
+        Rule current_rule = queue_table.current_rule;
+        for (int i = 0; i < current_rule.premises.size(); i++){
+            Premise target = current_rule.premises.get(i);
             if (working_memory.memory.containsKey(target.getId()) || 
                 working_memory.cache .containsKey(target.getId())){
                 continue;
@@ -151,8 +152,7 @@ public class Manager {
                         }
                     } 
                     else 
-                        // ASUMSI, JIKA 1 TIDAK TERJAWAB, 
-                        // MAKA SISAHNYA TIDAK TERJAWAB
+                        // ASUMSI, JIKA 1 TIDAK TERJAWAB, // MAKA SISAHNYA TIDAK TERJAWAB
                         break;
                     // SUDAH TERJAWAB SEMUA DAN BENAR! RETURN RULE CONCLUSION VALUE
                     if (count_answered_premise >= rule_target.premises.size()){
@@ -171,11 +171,10 @@ public class Manager {
         for (int i = 0; i < current_rule.premises.size(); i++){
             Premise target = current_rule.premises.get(i);
             
-            if (working_memory.memory.containsKey(target.getId()) || 
-                working_memory.cache .containsKey(target.getId())){
+            if (working_memory.cache .containsKey(target.getId())){
                 int current_conclusion = (int) working_memory.cache.get(target.getId());
                 if (current_conclusion != target.getRulesPremiseValue()){
-                    System.out.println("Rule " + current_rule.getId() + " END");
+                    System.out.println("Rule " + current_rule.getId() + " Salah");
                     return false;
                 }
                 continue;

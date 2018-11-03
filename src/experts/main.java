@@ -79,6 +79,52 @@ public class main extends javax.swing.JFrame {
         memory_item_list.setModel(list_model);
         active_rule_list.setModel(list_model2);
         
+        setButtonsReady();
+        
+    }
+    
+    public int getSelectedAnswerId(){
+        for (int i = 0; i < radio_buttons.size(); i++){
+            RadioButton button = radio_buttons.get(i);
+            if (radio_buttons.get(i).getButton().isSelected())
+                return ((Answer)button.getValue()).getId();
+        }
+        return -1;
+    }
+    
+    public void setButtonsReady(){
+        for(int i = 0; i < radio_buttons.size(); i++){
+            panel1.remove(radio_buttons.get(i).getButton());
+        }
+        
+        radio_buttons.clear();
+        
+        for (int i = 0; i < active_premise.list_of_answer.size(); i++){
+            
+            RadioButton button = new RadioButton();
+            button.setValue(active_premise.list_of_answer.get(i));
+            button.setText(active_premise.list_of_answer.get(i).getAnswer());
+            
+            radio_buttons.add(button);
+            radio_buttons.get(i).getButton().setBounds(250, 175 + i * 25, 50, 20);
+            
+            if (i == 0){
+                radio_buttons.get(i).getButton().setSelected(true);
+            }
+            
+            panel1.add(radio_buttons.get(i).getButton());
+            
+            radio_buttons.get(i).getButton().addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Answer ans = (Answer) button.getValue();
+                    System.out.println(ans.getId() + ans.getAnswer());
+                }
+            });
+            
+            button_group.add(radio_buttons.get(i).getButton());
+            
+        }
     }
     
     public void setMemoryListReady(){
@@ -137,7 +183,6 @@ public class main extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         active_rule_list = new javax.swing.JList<>();
         active_rule_label = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -176,13 +221,6 @@ public class main extends javax.swing.JFrame {
         active_rule_label.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         active_rule_label.setText("Active Rule");
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
         panel1Layout.setHorizontalGroup(
@@ -191,12 +229,9 @@ public class main extends javax.swing.JFrame {
                 .addGap(92, 92, 92)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(QuestionLabel)
-                    .addGroup(panel1Layout.createSequentialGroup()
-                        .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
+                    .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(conclusionLabel))
-                .addGap(517, 517, Short.MAX_VALUE))
+                .addGap(596, 596, Short.MAX_VALUE))
             .addGroup(panel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,9 +251,7 @@ public class main extends javax.swing.JFrame {
                 .addGap(120, 120, 120)
                 .addComponent(QuestionLabel)
                 .addGap(18, 18, 18)
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(conclusionLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
@@ -249,6 +282,7 @@ public class main extends javax.swing.JFrame {
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         // TODO add your handling code here:
+        // CHECK IF FINISHED, 
         if (
                 active_premise == null          || 
                 manager.getUnknownConclusion()  || 
@@ -256,84 +290,53 @@ public class main extends javax.swing.JFrame {
            )
             return;
         
-        // USER ANSWER WITH `ANSWER ID 2`
-        manager.setAnswer(active_premise, 2);
+        // MANAGER HANDLE USER'S ANSWER
+        int user_answer = getSelectedAnswerId();
+        manager.setAnswer(active_premise, user_answer);
         
+        // OUTPUT WORKING MEMORY LIST
         list_temp.addElement(
                 "<html>" + 
                 active_premise.getQuestion() + "<br>User Answer: " + 
-                "2" + 
+                user_answer + 
                 "</html>"
         );
         setMemoryListReady();
         memory_item_list.setModel(list_model);
         
+        // SET CURRENT QUEUE_TABLE's RULE IN LIST
         setQueueTableReady();
         
         // CHECK KONDISI RULE YANG SEDANG ACTIVE (queue_table)
         manager.checkRuleStatus();
         
-        // CHECK KONDISI KONKLUSI SAAT INI
+        // CHECK MANAGER'S CURRENT CONDITION
         if (manager.getUnknownConclusion()){
             QuestionLabel.setText("Question: -");
             conclusionLabel.setText("UNKNOWN");
             return;
         } else if (manager.conclusionObtained()) {
-            String conclusion = manager.getQueueTable().current_rule.getConclusion();
+            Rule rule = manager.getQueueTable().current_rule;
             QuestionLabel.setText("Question: -");
-            conclusionLabel.setText("Conclusion: " + conclusion);
+            conclusionLabel.setText(
+                    "Conclusion: " +
+                    "RULE " + rule.getId() + 
+                    ", " + rule.getConclusion() + 
+                    " = " + rule.getConclusionValue()
+            );
             return;
         }
         
-        // NEXT PREMISE
+        // GET NEXT PREMISE
         active_premise = manager.getNextPremise();
         if (active_premise == null)
             return;
+        
+        // OUTPUT LABEL
         QuestionLabel.setText("Question: " + active_premise.getQuestion());
+        // SET ACTIVE PREMISE ANSWER OPTION ON RADIO BUTTONS
+        setButtonsReady();
     }//GEN-LAST:event_submitButtonActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        if (
-                active_premise == null          || 
-                manager.getUnknownConclusion()  || 
-                manager.conclusionObtained()
-           )
-            return;
-        
-        // USER ANSWER WITH `ANSWER ID 2`
-        manager.setAnswer(active_premise, 1);
-        
-        list_temp.addElement(
-                "<html>" + 
-                active_premise.getQuestion() + "<br>User Answer: " + 
-                "1" + 
-                "</html>"
-        );
-        setMemoryListReady();
-        memory_item_list.setModel(list_model);
-        
-        setQueueTableReady();
-        
-        // CHECK KONDISI RULE YANG SEDANG ACTIVE (queue_table)
-        manager.checkRuleStatus();
-        
-        // CHECK KONDISI KONKLUSI SAAT INI
-        if (manager.getUnknownConclusion()){
-            QuestionLabel.setText("Question: -");
-            conclusionLabel.setText("UNKNOWN");
-        } else if (manager.conclusionObtained()) {
-            String conclusion = manager.getQueueTable().current_rule.getConclusion();
-            QuestionLabel.setText("Question: -");
-            conclusionLabel.setText("Conclusion: " + conclusion);
-        }
-        
-        // NEXT PREMISE
-        active_premise = manager.getNextPremise();
-        if (active_premise == null)
-            return;
-        QuestionLabel.setText("Question: " + active_premise.getQuestion());
-    }//GEN-LAST:event_jButton1ActionPerformed
     
     
     /**
@@ -379,7 +382,6 @@ public class main extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JLabel conclusionLabel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList<String> memory_item_list;
