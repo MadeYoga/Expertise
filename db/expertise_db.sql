@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2018 at 04:44 PM
+-- Generation Time: Nov 03, 2018 at 11:54 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -171,6 +171,8 @@ CREATE TABLE `rule` (
 INSERT INTO `rule` (`id`, `conclusion`, `conclusion_value`, `expert_id`, `hierarchy`) VALUES
 (1, 'Terima', 1, 1, 1),
 (2, 'Tolak', 1, 1, 1),
+(3, 'Tolak', 1, 1, 1),
+(4, 'Tolak', 1, 1, 1),
 (7, 'Akademik', 1, 1, 2),
 (8, 'Akademik', 2, 1, 2),
 (9, 'Akademik', 2, 1, 2),
@@ -203,8 +205,6 @@ INSERT INTO `rules_premise` (`id`, `rule_id`, `premise_id`, `premise_val`) VALUE
 (20, 1, 11, 1),
 (21, 1, 12, 1),
 (22, 2, 10, 2),
-(23, 2, 11, 2),
-(25, 2, 12, 2),
 (40, 7, 2, 1),
 (41, 7, 1, 1),
 (42, 8, 2, 1),
@@ -220,7 +220,12 @@ INSERT INTO `rules_premise` (`id`, `rule_id`, `premise_id`, `premise_val`) VALUE
 (52, 12, 7, 2),
 (53, 13, 5, 2),
 (54, 14, 9, 1),
-(55, 15, 9, 2);
+(55, 15, 9, 2),
+(56, 3, 10, 1),
+(57, 3, 11, 2),
+(58, 4, 10, 1),
+(59, 4, 11, 1),
+(60, 4, 12, 2);
 
 --
 -- Indexes for dumped tables
@@ -321,7 +326,7 @@ ALTER TABLE `rule`
 -- AUTO_INCREMENT for table `rules_premise`
 --
 ALTER TABLE `rules_premise`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- Constraints for dumped tables
