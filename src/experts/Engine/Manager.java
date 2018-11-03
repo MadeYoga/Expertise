@@ -1,8 +1,27 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2018 Expertise Team.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
+
 package experts.Engine;
 
 import experts.Entities.*;
@@ -114,10 +133,11 @@ public class Manager {
                         break;
                     
                     if (rule_status != premise_target.getRulesPremiseValue()){
+                        working_memory.memory.put(premise_target.getId(), rule_status);
                         working_memory.cache.put(premise_target.getId(), rule_status);
                         return -1;
                     }
-                    
+                    working_memory.memory.put(premise_target.getId(), premise_target.getRulesPremiseValue());
                     working_memory.cache.put(premise_target.getId(), premise_target.getRulesPremiseValue());
                     return premise_target.getRulesPremiseValue();
                 } 
@@ -153,6 +173,11 @@ public class Manager {
             
             if (working_memory.memory.containsKey(target.getId()) || 
                 working_memory.cache .containsKey(target.getId())){
+                int current_conclusion = (int) working_memory.cache.get(target.getId());
+                if (current_conclusion != target.getRulesPremiseValue()){
+                    System.out.println("Rule " + current_rule.getId() + " END");
+                    return false;
+                }
                 continue;
             }
             
@@ -176,7 +201,6 @@ public class Manager {
                     if (target.getRulesPremiseValue() != user_answer){
                         return false;
                     }
-                    // if all premise was answered:
                 }
             }
         }
@@ -199,14 +223,18 @@ public class Manager {
                     return ;
                 }
                 queue_table.current_rule = database.getRules().get(rule_pointer++);
-                System.out.println("CHECK RULE: " + queue_table.current_rule.getConclusion());
+                System.out.println(
+                        "CHECK RULE " + queue_table.current_rule.getId() + ": "
+                        + queue_table.current_rule.getConclusion()
+                );
             } while(!checkRuleStatus());
-        } else {
-            if (allPremiseAnswered()){
-                conclusion_obtained = true;
-                System.out.println("Conclusion: " + queue_table.current_rule.getConclusion());
-            }
+        } 
+        
+        if (allPremiseAnswered()){
+            conclusion_obtained = true;
+            System.out.println("Conclusion: " + queue_table.current_rule.getConclusion());
         }
+
     }
     
     public boolean allPremiseAnswered(){

@@ -1,8 +1,27 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2018 Expertise Team.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
+
 package experts;
 
 import experts.Database.FCDatabase;
@@ -40,8 +59,9 @@ public class main extends javax.swing.JFrame {
     
     public ButtonGroup button_group = new ButtonGroup();
     
-    public DefaultListModel list_model = new DefaultListModel();
+    public DefaultListModel list_model  = new DefaultListModel();
     public DefaultListModel list_model2 = new DefaultListModel();
+    public DefaultListModel list_temp   = new DefaultListModel();
     
     public main() {
         initComponents();
@@ -54,11 +74,47 @@ public class main extends javax.swing.JFrame {
         active_premise = manager.getNextPremise();
         QuestionLabel.setText("Question: " + active_premise.getQuestion());
         
+        setQueueTableReady();
+        
         memory_item_list.setModel(list_model);
         active_rule_list.setModel(list_model2);
         
     }
-
+    
+    public void setMemoryListReady(){
+        list_model.removeAllElements();
+        for (Object key : manager.getMemory().cache.keySet()){
+            Rule current_rule = manager.getQueueTable().current_rule;
+            for(int i = 0; i < current_rule.premises.size(); i++){
+                Premise target = current_rule.premises.get(i);
+                if ((int)key == target.getId()){
+                    list_model.addElement(
+                            target.getQuestion() + 
+                            " : " + 
+                            manager.getMemory().cache.get(key).toString()
+                    );
+                }
+            }
+        }
+        // list_model.addElement(list_temp);
+        for (Object o : list_temp.toArray()){
+            list_model.addElement(o);
+        }
+    }
+    
+    public void setQueueTableReady(){
+        list_model2.removeAllElements();
+        active_rule_label.setText("Active Rule: " + manager.getQueueTable().current_rule.getConclusion());
+        for (int i = 0; i < manager.getQueueTable().current_rule.premises.size(); i++){
+            Premise premise_target = manager.getQueueTable().current_rule.premises.get(i);
+            list_model2.addElement(
+                    "<html>" + premise_target.getId() + ". " + premise_target.getQuestion() +
+                    "<br>value: " + premise_target.getRulesPremiseValue() + 
+                    "</html>"
+            );
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -81,6 +137,7 @@ public class main extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         active_rule_list = new javax.swing.JList<>();
         active_rule_label = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -119,6 +176,13 @@ public class main extends javax.swing.JFrame {
         active_rule_label.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         active_rule_label.setText("Active Rule");
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
         panel1Layout.setHorizontalGroup(
@@ -126,14 +190,13 @@ public class main extends javax.swing.JFrame {
             .addGroup(panel1Layout.createSequentialGroup()
                 .addGap(92, 92, 92)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(QuestionLabel)
                     .addGroup(panel1Layout.createSequentialGroup()
-                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(QuestionLabel)
-                            .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(590, 596, Short.MAX_VALUE))
-                    .addGroup(panel1Layout.createSequentialGroup()
-                        .addComponent(conclusionLabel)
-                        .addContainerGap(596, Short.MAX_VALUE))))
+                        .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1))
+                    .addComponent(conclusionLabel))
+                .addGap(517, 517, Short.MAX_VALUE))
             .addGroup(panel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,7 +216,9 @@ public class main extends javax.swing.JFrame {
                 .addGap(120, 120, 120)
                 .addComponent(QuestionLabel)
                 .addGap(18, 18, 18)
-                .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addGap(18, 18, 18)
                 .addComponent(conclusionLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
@@ -192,7 +257,66 @@ public class main extends javax.swing.JFrame {
             return;
         
         // USER ANSWER WITH `ANSWER ID 2`
+        manager.setAnswer(active_premise, 2);
+        
+        list_temp.addElement(
+                "<html>" + 
+                active_premise.getQuestion() + "<br>User Answer: " + 
+                "2" + 
+                "</html>"
+        );
+        setMemoryListReady();
+        memory_item_list.setModel(list_model);
+        
+        setQueueTableReady();
+        
+        // CHECK KONDISI RULE YANG SEDANG ACTIVE (queue_table)
+        manager.checkRuleStatus();
+        
+        // CHECK KONDISI KONKLUSI SAAT INI
+        if (manager.getUnknownConclusion()){
+            QuestionLabel.setText("Question: -");
+            conclusionLabel.setText("UNKNOWN");
+            return;
+        } else if (manager.conclusionObtained()) {
+            String conclusion = manager.getQueueTable().current_rule.getConclusion();
+            QuestionLabel.setText("Question: -");
+            conclusionLabel.setText("Conclusion: " + conclusion);
+            return;
+        }
+        
+        // NEXT PREMISE
+        active_premise = manager.getNextPremise();
+        if (active_premise == null)
+            return;
+        QuestionLabel.setText("Question: " + active_premise.getQuestion());
+    }//GEN-LAST:event_submitButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if (
+                active_premise == null          || 
+                manager.getUnknownConclusion()  || 
+                manager.conclusionObtained()
+           )
+            return;
+        
+        // USER ANSWER WITH `ANSWER ID 2`
         manager.setAnswer(active_premise, 1);
+        
+        list_temp.addElement(
+                "<html>" + 
+                active_premise.getQuestion() + "<br>User Answer: " + 
+                "1" + 
+                "</html>"
+        );
+        setMemoryListReady();
+        memory_item_list.setModel(list_model);
+        
+        setQueueTableReady();
+        
+        // CHECK KONDISI RULE YANG SEDANG ACTIVE (queue_table)
+        manager.checkRuleStatus();
         
         // CHECK KONDISI KONKLUSI SAAT INI
         if (manager.getUnknownConclusion()){
@@ -204,14 +328,12 @@ public class main extends javax.swing.JFrame {
             conclusionLabel.setText("Conclusion: " + conclusion);
         }
         
-        // CHECK KONDISI RULE YANG SEDANG ACTIVE (queue_table)
-        manager.checkRuleStatus();
         // NEXT PREMISE
         active_premise = manager.getNextPremise();
         if (active_premise == null)
             return;
         QuestionLabel.setText("Question: " + active_premise.getQuestion());
-    }//GEN-LAST:event_submitButtonActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
     
     
     /**
@@ -257,6 +379,7 @@ public class main extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JLabel conclusionLabel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList<String> memory_item_list;
