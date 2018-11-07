@@ -24,8 +24,8 @@
 
 package experts.Database;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
+import java.sql.Connection;
+import java.sql.Statement;
 import experts.Entities.*;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -41,7 +41,7 @@ import java.util.logging.Logger;
 public class FCDatabase {
     
     // DATABASE CONNECTOR
-    private String url      = "jdbc:mysql://localhost:3306/experts2_db"; 
+    private String url      = "jdbc:mysql://localhost:3306/expert"; 
     private String username = "root";
     private String password = "";
     

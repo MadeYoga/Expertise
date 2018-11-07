@@ -23,6 +23,7 @@
  */
 package experts.Frame;
 
+import experts.Input.Form.MainForm;
 import javax.swing.JFrame;
 
 /**
@@ -62,6 +63,11 @@ public class Menu extends javax.swing.JFrame {
         });
 
         jButton2.setText("Add Expert");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel1.setText("Menu");
@@ -103,6 +109,13 @@ public class Menu extends javax.swing.JFrame {
         this.setVisible(false);
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        MainForm obj = new MainForm();
+        obj.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -66,7 +66,7 @@ public class Consult extends javax.swing.JFrame {
         setTitle("Expertise");
 
         // MANAGER LOAD EXPERT WITH ID 1
-        manager = new Manager(1);
+        manager = new Manager(17);
 
         active_premise = manager.getNextPremise();
         QuestionLabel.setText("Question: " + active_premise.getQuestion());
