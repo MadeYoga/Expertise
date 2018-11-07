@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package experts;
+package experts.Frame;
 
 import javax.swing.JFrame;
 
@@ -52,6 +52,7 @@ public class Menu extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Expertise");
 
         jButton1.setText("Consult");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -92,11 +93,12 @@ public class Menu extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        main obj = new main();
+        Consult obj = new Consult();
         obj.setVisible(true);
         this.setVisible(false);
         

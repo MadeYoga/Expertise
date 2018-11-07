@@ -23,6 +23,7 @@
  */
 package experts;
 
+import experts.Frame.Menu;
 import experts.Database.FCDatabase;
 import experts.Entities.Rule;
 import java.util.ArrayList;
@@ -31,13 +32,14 @@ import java.util.ArrayList;
  *
  * @author owner
  */
-public class Experts {
+public class Expertise {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+        Menu main_menu = new Menu();
+        main_menu.setVisible(true);
     }
     
 }

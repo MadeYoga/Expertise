@@ -21,8 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-package experts;
+package experts.Frame;
 
 import experts.Database.FCDatabase;
 import experts.Engine.Manager;
@@ -36,6 +35,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
@@ -46,121 +47,138 @@ import javax.swing.JRadioButton;
  *
  * @author owner
  */
-public class main extends javax.swing.JFrame {
+public class Consult extends javax.swing.JFrame {
 
     /**
      * Creates new form main
      */
-    
     public Manager manager;
-    public Premise active_premise = new Premise();
-    
-    public ArrayList <RadioButton> radio_buttons = new ArrayList <RadioButton> ();
-    
-    public ButtonGroup button_group = new ButtonGroup();
-    
-    public DefaultListModel list_model  = new DefaultListModel();
-    public DefaultListModel list_model2 = new DefaultListModel();
-    public DefaultListModel list_temp   = new DefaultListModel();
-    
-    public main() {
+    public Premise active_premise               = new Premise();
+    public ArrayList<RadioButton> radio_buttons = new ArrayList<RadioButton>();
+    public ButtonGroup button_group             = new ButtonGroup();
+    public DefaultListModel list_model          = new DefaultListModel();
+    public DefaultListModel list_model2         = new DefaultListModel();
+    public DefaultListModel list_temp           = new DefaultListModel();
+
+    public Consult() {
         initComponents();
-        
+
         setTitle("Expertise");
-        
+
         // MANAGER LOAD EXPERT WITH ID 1
         manager = new Manager(1);
-        
+
         active_premise = manager.getNextPremise();
         QuestionLabel.setText("Question: " + active_premise.getQuestion());
-        
+
         setQueueTableReady();
-        
+
         memory_item_list.setModel(list_model);
         active_rule_list.setModel(list_model2);
-        
+
         setButtonsReady();
         
     }
     
-    public int getSelectedAnswerId(){
-        for (int i = 0; i < radio_buttons.size(); i++){
+    public Consult(int expert_id) {
+        initComponents();
+
+        setTitle("Expertise");
+
+        // MANAGER LOAD EXPERT WITH ID 1
+        manager = new Manager(expert_id);
+
+        active_premise = manager.getNextPremise();
+        QuestionLabel.setText("Question: " + active_premise.getQuestion());
+
+        setQueueTableReady();
+
+        memory_item_list.setModel(list_model);
+        active_rule_list.setModel(list_model2);
+
+        setButtonsReady();
+        
+    }
+    
+    public int getSelectedAnswerId() {
+        for (int i = 0; i < radio_buttons.size(); i++) {
             RadioButton button = radio_buttons.get(i);
-            if (radio_buttons.get(i).getButton().isSelected())
-                return ((Answer)button.getValue()).getId();
+            if (radio_buttons.get(i).getButton().isSelected()) {
+                return ((Answer) button.getValue()).getId();
+            }
         }
         return -1;
     }
-    
-    public void setButtonsReady(){
-        for(int i = 0; i < radio_buttons.size(); i++){
+
+    public void setButtonsReady() {
+        for (int i = 0; i < radio_buttons.size(); i++) {
             panel1.remove(radio_buttons.get(i).getButton());
         }
-        
+
         radio_buttons.clear();
-        
-        for (int i = 0; i < active_premise.list_of_answer.size(); i++){
-            
+
+        for (int i = 0; i < active_premise.list_of_answer.size(); i++) {
+
             RadioButton button = new RadioButton();
             button.setValue(active_premise.list_of_answer.get(i));
             button.setText(active_premise.list_of_answer.get(i).getAnswer());
-            
+
             radio_buttons.add(button);
             radio_buttons.get(i).getButton().setBounds(250, 175 + i * 25, 50, 20);
-            
-            if (i == 0){
+
+            if (i == 0) {
                 radio_buttons.get(i).getButton().setSelected(true);
             }
-            
+
             panel1.add(radio_buttons.get(i).getButton());
-            
-            radio_buttons.get(i).getButton().addActionListener(new ActionListener(){
+
+            radio_buttons.get(i).getButton().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     Answer ans = (Answer) button.getValue();
                     System.out.println(ans.getId() + ans.getAnswer());
                 }
             });
-            
+
             button_group.add(radio_buttons.get(i).getButton());
-            
+
         }
     }
-    
-    public void setMemoryListReady(){
+
+    public void setMemoryListReady() {
         list_model.removeAllElements();
-        for (Object key : manager.getMemory().cache.keySet()){
+        for (Object key : manager.getMemory().cache.keySet()) {
             Rule current_rule = manager.getQueueTable().current_rule;
-            for(int i = 0; i < current_rule.premises.size(); i++){
+            for (int i = 0; i < current_rule.premises.size(); i++) {
                 Premise target = current_rule.premises.get(i);
-                if ((int)key == target.getId()){
+                if ((int) key == target.getId()) {
                     list_model.addElement(
-                            target.getQuestion() + 
-                            " : " + 
-                            manager.getMemory().cache.get(key).toString()
+                            target.getQuestion()
+                            + " : "
+                            + manager.getMemory().cache.get(key).toString()
                     );
                 }
             }
         }
         // list_model.addElement(list_temp);
-        for (Object o : list_temp.toArray()){
+        for (Object o : list_temp.toArray()) {
             list_model.addElement(o);
         }
     }
-    
-    public void setQueueTableReady(){
+
+    public void setQueueTableReady() {
         list_model2.removeAllElements();
         active_rule_label.setText("Active Rule: " + manager.getQueueTable().current_rule.getConclusion());
-        for (int i = 0; i < manager.getQueueTable().current_rule.premises.size(); i++){
+        for (int i = 0; i < manager.getQueueTable().current_rule.premises.size(); i++) {
             Premise premise_target = manager.getQueueTable().current_rule.premises.get(i);
             list_model2.addElement(
-                    "<html>" + premise_target.getId() + ". " + premise_target.getQuestion() +
-                    "<br>value: " + premise_target.getRulesPremiseValue() + 
-                    "</html>"
+                    "<html>" + premise_target.getId() + ". " + premise_target.getQuestion()
+                    + "<br>value: " + premise_target.getRulesPremiseValue()
+                    + "</html>"
             );
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -283,35 +301,34 @@ public class main extends javax.swing.JFrame {
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         // TODO add your handling code here:
         // CHECK IF FINISHED, 
-        if (
-                active_premise == null          || 
-                manager.getUnknownConclusion()  || 
-                manager.conclusionObtained()
-           )
+        if (active_premise == null
+                || manager.getUnknownConclusion()
+                || manager.conclusionObtained()) {
             return;
-        
+        }
+
         // MANAGER HANDLE USER'S ANSWER
         int user_answer = getSelectedAnswerId();
         manager.setAnswer(active_premise, user_answer);
-        
+
         // OUTPUT WORKING MEMORY LIST
         list_temp.addElement(
-                "<html>" + 
-                active_premise.getQuestion() + "<br>User Answer: " + 
-                user_answer + 
-                "</html>"
+                "<html>"
+                + active_premise.getQuestion() + "<br>User Answer: "
+                + user_answer
+                + "</html>"
         );
         setMemoryListReady();
         memory_item_list.setModel(list_model);
-        
+
         // SET CURRENT QUEUE_TABLE's RULE IN LIST
         setQueueTableReady();
-        
+
         // CHECK KONDISI RULE YANG SEDANG ACTIVE (queue_table)
         manager.checkRuleStatus();
-        
+
         // CHECK MANAGER'S CURRENT CONDITION
-        if (manager.getUnknownConclusion()){
+        if (manager.getUnknownConclusion()) {
             QuestionLabel.setText("Question: -");
             conclusionLabel.setText("UNKNOWN");
             return;
@@ -319,26 +336,26 @@ public class main extends javax.swing.JFrame {
             Rule rule = manager.getQueueTable().current_rule;
             QuestionLabel.setText("Question: -");
             conclusionLabel.setText(
-                    "Conclusion: " +
-                    "RULE " + rule.getId() + 
-                    ", " + rule.getConclusion() + 
-                    " = " + rule.getConclusionValue()
+                    "Conclusion: "
+                    + "RULE " + rule.getId()
+                    + ", " + rule.getConclusion()
+                    + " = " + rule.getConclusionValue()
             );
             return;
         }
-        
+
         // GET NEXT PREMISE
         active_premise = manager.getNextPremise();
-        if (active_premise == null)
+        if (active_premise == null) {
             return;
-        
+        }
+
         // OUTPUT LABEL
         QuestionLabel.setText("Question: " + active_premise.getQuestion());
         // SET ACTIVE PREMISE ANSWER OPTION ON RADIO BUTTONS
         setButtonsReady();
     }//GEN-LAST:event_submitButtonActionPerformed
-    
-    
+
     /**
      * @param args the command line arguments
      */
@@ -356,20 +373,21 @@ public class main extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Consult.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Consult.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Consult.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Consult.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new main().setVisible(true);
+                new Consult().setVisible(true);
             }
         });
     }
