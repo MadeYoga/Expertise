@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package experts.Database;
+package experts.Engine;
 
 import java.sql.Connection;
 import java.sql.Statement;
@@ -86,7 +86,7 @@ public class FCDatabase {
     }
     
     public ArrayList <Premise> loadRulesPremise(Rule rule) {
-        ArrayList<Premise> result = null; // new ArrayList<Premise>(); // SHOULD BE NULL 
+        ArrayList<Premise> result = null; 
         String query = "SELECT *, RP.premise_val FROM PREMISE P\n" + 
                        "JOIN RULES_PREMISE RP ON RP.premise_id = P.id\n" +
                        "WHERE RP.rule_id = " + rule.getId();

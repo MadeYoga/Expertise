@@ -23,6 +23,8 @@
  */
 package experts.Frame;
 
+import experts.Database.ExpertStore;
+import experts.Database.Storage;
 import experts.Input.Form.MainForm;
 import javax.swing.JFrame;
 
@@ -35,8 +37,12 @@ public class Menu extends javax.swing.JFrame {
     /**
      * Creates new form Menu
      */
+    
+    Storage expert_store = new ExpertStore();
+    
     public Menu() {
         initComponents();
+        System.out.println(expert_store.toString());
     }
 
     /**

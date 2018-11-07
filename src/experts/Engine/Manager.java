@@ -25,7 +25,6 @@
 package experts.Engine;
 
 import experts.Entities.*;
-import experts.Database.FCDatabase;
 import java.util.HashSet;
 /**
  *

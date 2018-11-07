@@ -23,7 +23,7 @@
  */
 package experts.Frame;
 
-import experts.Database.FCDatabase;
+import experts.Engine.FCDatabase;
 import experts.Engine.Manager;
 import experts.Entities.Answer;
 import experts.Entities.Premise;
@@ -125,7 +125,7 @@ public class Consult extends javax.swing.JFrame {
 
             radio_buttons.add(button);
             radio_buttons.get(i).getButton().setBounds(250, 175 + i * 25, 50, 20);
-
+            
             if (i == 0) {
                 radio_buttons.get(i).getButton().setSelected(true);
             }
