@@ -41,7 +41,7 @@ public class ExpertStore extends Storage {
         String query = "SELECT * FROM EXPERTS";
         try{
             Connection conn = (Connection) DriverManager.getConnection(
-                    url, 
+                    url,
                     username, 
                     password
             );

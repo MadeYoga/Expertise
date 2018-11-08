@@ -23,42 +23,10 @@
  */
 package experts.Database;
 
-import experts.Entities.Answer;
-import experts.Entities.Expert;
-import experts.Entities.Premise;
-import experts.Entities.Rule;
-import java.util.ArrayList;
-
 /**
  *
  * @author owner
  */
-public class Storage {
-    
-    private ArrayList <Object> items = new ArrayList<Object>();
-    
-    protected String url      = "jdbc:mysql://localhost:3306/expert"; 
-    protected String username = "root";
-    protected String password = "";
-
-    public String getUrl() {
-        return url;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public ArrayList<Object> getItems() {
-        return items;
-    }
-
-    public void setItems(ArrayList<Object> items) {
-        this.items = items;
-    }
+public class BCDatabase {
     
 }

@@ -21,44 +21,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package experts.Database;
-
-import experts.Entities.Answer;
-import experts.Entities.Expert;
-import experts.Entities.Premise;
-import experts.Entities.Rule;
-import java.util.ArrayList;
+package experts.Entities;
 
 /**
  *
  * @author owner
  */
-public class Storage {
+public class LogicOperator {
     
-    private ArrayList <Object> items = new ArrayList<Object>();
+    private int id          = -1;
+    private String operator = "";
     
-    protected String url      = "jdbc:mysql://localhost:3306/expert"; 
-    protected String username = "root";
-    protected String password = "";
-
-    public String getUrl() {
-        return url;
+    public LogicOperator(int _id, String _operator){
+        id       = _id;
+        operator = _operator;
+    }
+    
+    public int getId() {
+        return id;
     }
 
-    public String getUsername() {
-        return username;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getPassword() {
-        return password;
+    public String getOperator() {
+        return operator;
     }
 
-    public ArrayList<Object> getItems() {
-        return items;
-    }
-
-    public void setItems(ArrayList<Object> items) {
-        this.items = items;
+    public void setOperator(String operator) {
+        this.operator = operator;
     }
     
 }
