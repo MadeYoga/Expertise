@@ -32,19 +32,19 @@ import java.util.HashSet;
  */
 public class Manager {
     
-    private FCDatabase database;
-    private QueueTable queue_table;
-    private WorkingMemory working_memory;
+    private FCDatabase      database;
+    private QueueTable      queue_table;
+    private WorkingMemory   working_memory;
     
+    private int current_expert_id = -1;
     private int rule_pointer = 0;
     
     private boolean conclusion_obtained = false;
-    private boolean unknown_conclusion = false;
+    private boolean unknown_conclusion  = false;
     
     public Manager(){
-        database = new FCDatabase();
-        // database.loadExperts();
-        queue_table   = new QueueTable();
+        database       = new FCDatabase();
+        queue_table    = new QueueTable();
         working_memory = new WorkingMemory();
     }
     
