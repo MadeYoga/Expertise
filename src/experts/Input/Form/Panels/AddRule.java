@@ -23,7 +23,6 @@
  */
 package experts.Input.Form.Panels;
 
-import experts.Frame.Menu;
 import experts.Input.Database.*;
 import experts.Input.Entities.*;
 import experts.Input.Form.MainForm;
@@ -171,10 +170,21 @@ public class AddRule extends javax.swing.JPanel
 	    return;
 	}
 	
-	//save rule (answer, premise, conclusion) to database
+        int hirarki = 1; //default to non-final rule
+        int result = JOptionPane.showConfirmDialog
+			(this, 
+			"Final rule?", 
+			"Warning",JOptionPane.YES_NO_OPTION);
+
+	if (result == JOptionPane.YES_OPTION)
+	{
+            hirarki = 2; //set to final rule
+	}
+        
+	//save rule (answer, premise, conclusion, hierarchy) to database
 	RuleDatabase db = new RuleDatabase();
 	int conclusion_answer_id = Integer.parseInt(this.ConclusionValueList.getSelectedItem().toString().substring(0, this.ConclusionValueList.getSelectedItem().toString().indexOf(".")));
-	int rule_id = db.InsertRule(this._ExpertID, this.ConclusionText.getText(), conclusion_answer_id);
+	int rule_id = db.InsertRule(this._ExpertID, this.ConclusionText.getText(), conclusion_answer_id, hirarki);
 	
 	//save rulepremise (rule id, premise id, answer id) 
 	//create premise id
@@ -212,14 +222,14 @@ public class AddRule extends javax.swing.JPanel
 	if (result == JOptionPane.YES_OPTION)
 	{
 	    //buat form baru dengan conainer yang berbeda
-//	    MainForm form = new MainForm();
-//	    AddPremiseRule temp = new AddPremiseRule(form, this._ExpertID);
-//	    form.SetContainer(temp);
-//	    form.setVisible(true);
-//	    this._MainForm.Close();
-            Menu main_menu = new Menu();
-            main_menu.setVisible(true);
-            this._MainForm.dispose();
+	    MainForm form = new MainForm();
+	    AddPremiseRule temp = new AddPremiseRule(form, this._ExpertID);
+	    form.SetContainer(temp);
+	    form.setVisible(true);
+	    this._MainForm.Close();
+//            Menu main_menu = new Menu();
+//            main_menu.setVisible(true);
+//            this._MainForm.dispose();
 	}
 	
 	return;
@@ -232,8 +242,7 @@ public class AddRule extends javax.swing.JPanel
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         RuleIDLabel = new javax.swing.JLabel();
         PremiseLabel = new javax.swing.JLabel();
@@ -252,122 +261,218 @@ public class AddRule extends javax.swing.JPanel
         ConclusionText = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         ConclusionValueList = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
 
         setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
-        setPreferredSize(new java.awt.Dimension(500, 400));
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setMaximumSize(new java.awt.Dimension(1920, 1080));
+        setMinimumSize(new java.awt.Dimension(1024, 600));
+        setPreferredSize(new java.awt.Dimension(1024, 600));
 
         RuleIDLabel.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
+        RuleIDLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         RuleIDLabel.setText("Rule ID 1");
-        add(RuleIDLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+        RuleIDLabel.setMaximumSize(new java.awt.Dimension(300, 50));
+        RuleIDLabel.setMinimumSize(new java.awt.Dimension(300, 50));
+        RuleIDLabel.setPreferredSize(new java.awt.Dimension(300, 50));
 
         PremiseLabel.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         PremiseLabel.setText("Premise");
-        add(PremiseLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
+        PremiseLabel.setPreferredSize(new java.awt.Dimension(150, 25));
 
         PremiseList.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         PremiseList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         PremiseList.setToolTipText("Answer for premise.");
         PremiseList.setPreferredSize(new java.awt.Dimension(200, 31));
-        add(PremiseList, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 200, -1));
 
         jLabel1.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("=");
         jLabel1.setPreferredSize(new java.awt.Dimension(20, 25));
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 100, -1, 30));
 
         AnswerLabel.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         AnswerLabel.setText("Answer");
-        add(AnswerLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 70, -1, -1));
 
         AnswerList.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         AnswerList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         AnswerList.setToolTipText("Answer for premise.");
         AnswerList.setPreferredSize(new java.awt.Dimension(200, 31));
-        add(AnswerList, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 100, 200, -1));
+
+        jScrollPane1.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(320, 150));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(320, 150));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(320, 150));
 
         EnteredPremiseList.setEditable(false);
         EnteredPremiseList.setColumns(20);
+        EnteredPremiseList.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         EnteredPremiseList.setRows(5);
         jScrollPane1.setViewportView(EnteredPremiseList);
-
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 300, 110));
 
         AddButton.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         AddButton.setText("Add");
         AddButton.setToolTipText("Add Premise to rule.");
         AddButton.setPreferredSize(new java.awt.Dimension(150, 33));
-        AddButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        AddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddButtonActionPerformed(evt);
             }
         });
-        add(AddButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 180, -1, -1));
 
         ResetButton.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         ResetButton.setText("Reset");
         ResetButton.setToolTipText("Reset all premise in this rule.");
         ResetButton.setPreferredSize(new java.awt.Dimension(150, 33));
-        ResetButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        ResetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ResetButtonActionPerformed(evt);
             }
         });
-        add(ResetButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 220, -1, -1));
 
         NextButton.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         NextButton.setText("Next");
         NextButton.setToolTipText("Insert new rule.");
         NextButton.setPreferredSize(new java.awt.Dimension(150, 33));
-        NextButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        NextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NextButtonActionPerformed(evt);
             }
         });
-        add(NextButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 260, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         jLabel2.setText("Entered Premise :");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, -1));
+        jLabel2.setMaximumSize(new java.awt.Dimension(200, 25));
+        jLabel2.setMinimumSize(new java.awt.Dimension(200, 25));
+        jLabel2.setPreferredSize(new java.awt.Dimension(200, 25));
 
         FinishButton.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         FinishButton.setText("Finish");
         FinishButton.setToolTipText("Finish insert rule.");
         FinishButton.setPreferredSize(new java.awt.Dimension(150, 33));
-        FinishButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        FinishButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FinishButtonActionPerformed(evt);
             }
         });
-        add(FinishButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 340, -1, 33));
 
         jLabel3.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel3.setText("Conclusion :");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, -1, -1));
+        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jLabel3.setPreferredSize(new java.awt.Dimension(150, 25));
 
         ConclusionText.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         ConclusionText.setToolTipText("Premise name.");
-        ConclusionText.setPreferredSize(new java.awt.Dimension(150, 31));
-        add(ConclusionText, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 300, -1, -1));
+        ConclusionText.setPreferredSize(new java.awt.Dimension(200, 31));
 
         jLabel4.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel4.setText("Value      :");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, -1, -1));
+        jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jLabel4.setPreferredSize(new java.awt.Dimension(150, 25));
 
         ConclusionValueList.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         ConclusionValueList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         ConclusionValueList.setToolTipText("Answer for premise.");
         ConclusionValueList.setPreferredSize(new java.awt.Dimension(200, 31));
-        add(ConclusionValueList, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 340, 150, -1));
+
+        jLabel5.setFont(new java.awt.Font("Monospaced", 0, 36)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Add Rule");
+        jLabel5.setMaximumSize(new java.awt.Dimension(300, 50));
+        jLabel5.setMinimumSize(new java.awt.Dimension(300, 50));
+        jLabel5.setPreferredSize(new java.awt.Dimension(300, 50));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(362, 362, 362)
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(362, 362, 362))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(362, 362, 362)
+                .addComponent(RuleIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(362, 362, 362))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(252, 252, 252)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PremiseList, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PremiseLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(50, 50, 50)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(AnswerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AnswerList, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(252, 252, 252))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(252, 252, 252)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(13, 13, 13)
+                                .addComponent(ConclusionValueList, 0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(13, 13, 13)
+                                .addComponent(ConclusionText, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(53, 53, 53)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(ResetButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(10, 10, 10))
+                            .addComponent(NextButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(FinishButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(234, 234, 234))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(RuleIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PremiseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AnswerLabel))
+                .addGap(5, 5, 5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PremiseList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AnswerList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(17, 17, 17)
+                        .addComponent(ResetButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(NextButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(ConclusionText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ConclusionValueList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(FinishButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(67, 67, 67))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_AddButtonActionPerformed
@@ -407,6 +512,7 @@ public class AddRule extends javax.swing.JPanel
     protected javax.swing.JLabel jLabel2;
     protected javax.swing.JLabel jLabel3;
     protected javax.swing.JLabel jLabel4;
+    protected javax.swing.JLabel jLabel5;
     protected javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

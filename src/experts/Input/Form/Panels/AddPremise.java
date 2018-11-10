@@ -38,7 +38,7 @@ public class AddPremise extends javax.swing.JPanel
 {
     protected MainForm _MainForm = null;
     protected int _ExpertID = 0;
-    //protected ArrayList <Premise> _Premise = new ArrayList <Premise>();
+    protected int _PremiseIDCounter = 0;
     protected Premise _Premise = new Premise();
     protected ArrayList <Answer> _Answer = new ArrayList <Answer>();
     
@@ -57,6 +57,13 @@ public class AddPremise extends javax.swing.JPanel
 	this._ExpertID = expert_id;
 	this.AnswerList.setText("");
 	this.LoadAnswer();
+        this.IncrementPremiseCounter();
+    }
+    
+    public void IncrementPremiseCounter()
+    {
+        this._PremiseIDCounter += 1;
+        this.PremiseIDLabel.setText("Premise ID " + this._PremiseIDCounter);
     }
     
     public void LoadAnswer()
@@ -153,6 +160,9 @@ public class AddPremise extends javax.swing.JPanel
 	//save 
 	db.InserPremisAnswerList(premise_id, answer_id);
 	
+        //increment
+        this.IncrementPremiseCounter();
+        
 	//clear 
 	this._Premise.Clear();
 	this._Premise = new Premise();
@@ -188,8 +198,7 @@ public class AddPremise extends javax.swing.JPanel
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         PremiseIDLabel = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -204,22 +213,35 @@ public class AddPremise extends javax.swing.JPanel
         NextButton = new javax.swing.JButton();
         AddAnswer = new javax.swing.JButton();
         FinishButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
-        setPreferredSize(new java.awt.Dimension(500, 400));
+        setMaximumSize(new java.awt.Dimension(1920, 1080));
+        setMinimumSize(new java.awt.Dimension(1024, 600));
+        setPreferredSize(new java.awt.Dimension(1024, 600));
 
         PremiseIDLabel.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
+        PremiseIDLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         PremiseIDLabel.setText("Premise ID 1");
         PremiseIDLabel.setToolTipText("");
+        PremiseIDLabel.setMaximumSize(new java.awt.Dimension(300, 25));
+        PremiseIDLabel.setMinimumSize(new java.awt.Dimension(300, 25));
+        PremiseIDLabel.setPreferredSize(new java.awt.Dimension(300, 25));
 
         jLabel2.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         jLabel2.setText("Premise name : ");
+        jLabel2.setMaximumSize(new java.awt.Dimension(200, 25));
+        jLabel2.setMinimumSize(new java.awt.Dimension(200, 25));
+        jLabel2.setPreferredSize(new java.awt.Dimension(200, 25));
 
         PremiseText.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         PremiseText.setToolTipText("Premise name.");
-        PremiseText.setPreferredSize(new java.awt.Dimension(300, 31));
+        PremiseText.setPreferredSize(new java.awt.Dimension(400, 31));
 
         jLabel3.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         jLabel3.setText("Question :");
+        jLabel3.setMaximumSize(new java.awt.Dimension(200, 25));
+        jLabel3.setMinimumSize(new java.awt.Dimension(200, 25));
+        jLabel3.setPreferredSize(new java.awt.Dimension(200, 25));
 
         QuestionText.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         QuestionText.setToolTipText("Question for premise.");
@@ -227,9 +249,12 @@ public class AddPremise extends javax.swing.JPanel
 
         jLabel4.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         jLabel4.setText("Answer List");
+        jLabel4.setMaximumSize(new java.awt.Dimension(200, 25));
+        jLabel4.setMinimumSize(new java.awt.Dimension(200, 25));
+        jLabel4.setPreferredSize(new java.awt.Dimension(200, 25));
 
         jScrollPane1.setMinimumSize(new java.awt.Dimension(200, 100));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(200, 120));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(400, 200));
 
         AnswerList.setEditable(false);
         AnswerList.setColumns(20);
@@ -238,100 +263,132 @@ public class AddPremise extends javax.swing.JPanel
 
         jLabel5.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         jLabel5.setText("Answer");
+        jLabel5.setMaximumSize(new java.awt.Dimension(200, 25));
+        jLabel5.setMinimumSize(new java.awt.Dimension(200, 25));
+        jLabel5.setPreferredSize(new java.awt.Dimension(200, 25));
 
         AnswerComboBox.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         AnswerComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         AnswerComboBox.setToolTipText("Answer");
+        AnswerComboBox.setMinimumSize(new java.awt.Dimension(200, 35));
         AnswerComboBox.setPreferredSize(new java.awt.Dimension(200, 35));
 
         NextButton.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         NextButton.setText("Next");
-        NextButton.setPreferredSize(new java.awt.Dimension(100, 33));
-        NextButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        NextButton.setMaximumSize(new java.awt.Dimension(150, 40));
+        NextButton.setMinimumSize(new java.awt.Dimension(150, 40));
+        NextButton.setPreferredSize(new java.awt.Dimension(150, 40));
+        NextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NextButtonActionPerformed(evt);
             }
         });
 
         AddAnswer.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         AddAnswer.setText("Add");
-        AddAnswer.setPreferredSize(new java.awt.Dimension(100, 33));
-        AddAnswer.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        AddAnswer.setMaximumSize(new java.awt.Dimension(150, 40));
+        AddAnswer.setMinimumSize(new java.awt.Dimension(150, 40));
+        AddAnswer.setPreferredSize(new java.awt.Dimension(150, 40));
+        AddAnswer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddAnswerActionPerformed(evt);
             }
         });
 
         FinishButton.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         FinishButton.setText("Finish");
-        FinishButton.setPreferredSize(new java.awt.Dimension(200, 33));
-        FinishButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        FinishButton.setMaximumSize(new java.awt.Dimension(150, 40));
+        FinishButton.setMinimumSize(new java.awt.Dimension(150, 40));
+        FinishButton.setPreferredSize(new java.awt.Dimension(150, 40));
+        FinishButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FinishButtonActionPerformed(evt);
             }
         });
+
+        jLabel1.setFont(new java.awt.Font("Monospaced", 0, 36)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Add Premise");
+        jLabel1.setMaximumSize(new java.awt.Dimension(300, 50));
+        jLabel1.setMinimumSize(new java.awt.Dimension(300, 50));
+        jLabel1.setPreferredSize(new java.awt.Dimension(300, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(380, 380, 380)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(344, 344, 344))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(362, 362, 362)
+                .addComponent(PremiseIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(362, 362, 362))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(312, 312, 312)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(512, 512, 512))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(312, 312, 312)
+                .addComponent(PremiseText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(312, 312, 312))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(312, 312, 312)
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(512, 512, 512))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(312, 312, 312)
+                .addComponent(QuestionText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(312, 312, 312))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(100, 100, 100)
+                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(250, 250, 250)
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(274, 274, 274))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(100, 100, 100)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(50, 50, 50)
+                .addComponent(AnswerComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PremiseIDLabel)
-                    .addComponent(jLabel2)
-                    .addComponent(PremiseText, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(QuestionText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(129, 129, 129)
-                        .addComponent(jLabel5))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(AnswerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(NextButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(AddAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(FinishButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(AddAnswer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(NextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(FinishButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(104, 104, 104))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(PremiseIDLabel)
-                .addGap(5, 5, 5)
-                .addComponent(jLabel2)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(PremiseIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(5, 5, 5)
                 .addComponent(PremiseText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
-                .addComponent(jLabel3)
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(5, 5, 5)
                 .addComponent(QuestionText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
-                .addGap(5, 5, 5)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AnswerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(AnswerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(NextButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(AddAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27)
-                        .addComponent(FinishButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(AddAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(NextButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(FinishButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(70, 70, 70))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -359,6 +416,7 @@ public class AddPremise extends javax.swing.JPanel
     protected javax.swing.JLabel PremiseIDLabel;
     protected javax.swing.JTextField PremiseText;
     protected javax.swing.JTextField QuestionText;
+    protected javax.swing.JLabel jLabel1;
     protected javax.swing.JLabel jLabel2;
     protected javax.swing.JLabel jLabel3;
     protected javax.swing.JLabel jLabel4;

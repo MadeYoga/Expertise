@@ -34,8 +34,14 @@ public class program
     public static void main(String[] args) throws Exception
     {
 	
-	SQLiteDatabase db = new SQLiteDatabase();
-	db.Test();
+	//SQLiteDatabase db = new SQLiteDatabase();
+	//db.Test();
+        
+        MainForm a = new MainForm();
+        System.out.println(a.getWidth());
+        System.out.print(a.getHeight());
+        
+        
 //	Rule rule = new Rule();
 //	Premise premise = new Premise();
 //	

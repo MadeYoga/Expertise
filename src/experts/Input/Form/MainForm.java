@@ -24,7 +24,6 @@
 package experts.Input.Form;
 
 import experts.Input.Form.Panels.*;
-import experts.Input.Form.Panels.AddExpert;
 import java.awt.Container;
 
 /**
@@ -42,7 +41,7 @@ public class MainForm extends javax.swing.JFrame
     {
 	initComponents();
 	this.setContentPane(new AddExpert(this));
-//	this.setContentPane(new AddPremise(this, 1));
+//	this.setContentPane(new AddPremiseRule(this, 17));
 	setLocationRelativeTo(null);
     }
 
@@ -71,20 +70,21 @@ public class MainForm extends javax.swing.JFrame
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(1936, 1119));
+        setMinimumSize(new java.awt.Dimension(1040, 639));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGap(0, 1024, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
 
         pack();

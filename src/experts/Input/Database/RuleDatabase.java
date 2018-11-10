@@ -23,10 +23,8 @@
  */
 package experts.Input.Database;
 
-import experts.Entities.Rule;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,13 +39,13 @@ public class RuleDatabase extends SQLiteDatabase
 	super();
     }    
     
-    public int InsertRule(int expert_id, String conclusion, int answer_id)
+    public int InsertRule(int expert_id, String conclusion, int answer_id, int hierarchy)
     {
 	try
 	{
 	    this.Connect();
 	    String sql = "INSERT INTO RULE (EXPERT_ID, CONCLUSION, CONCLUSION_VALUE, HIERARCHY) " + 
-			 "VALUES (" + expert_id + ", '" + conclusion + "', " + answer_id + ", 1)";
+			 "VALUES (" + expert_id + ", '" + conclusion + "', " + answer_id + ", " + hierarchy + ")";
 	    
 	    try (Statement stmt = this._Connection.createStatement())
 	    {
@@ -107,8 +105,76 @@ public class RuleDatabase extends SQLiteDatabase
 	}
     }
     
+    public int CountRule(int expert_id)
+    {
+        String sql = " SELECT COUNT(ID) FROM RULE WHERE EXPERT_ID = " + expert_id;
+        return this.SelectINT(sql);
+    }
+    
+    public String[] LoadRule(int expert_id)
+    {
+        String[] rule = new String[this.CountRule(expert_id)];
+                
+        try 
+        {
+            this.Connect();
+            
+            String sql = "SELECT ID, CONCLUSION FROM RULE WHERE EXPERT_ID = " + expert_id;
+            
+            try (Statement stmt = this._Connection.createStatement())
+	    {
+		try (ResultSet rs = stmt.executeQuery(sql))
+		{
+		    int counter = 0;
+		    while(rs.next())
+		    {
+			rule[counter] = rs.getInt(1) + ". " + rs.getString(2);
+			counter++;
+		    }
+		}
+	    }
+            return rule;
+        } 
+        catch (Exception ex) 
+        {
+            Logger.getLogger(RuleDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally
+        {
+            this.Close();
+        }
+        return rule;
+    }
+    
+    public String CreateStatement(int expert_id)
+    {
+        return "";
+    }
+    
     public void InsertPremiseRule(int premise_id, int[] rule_id)
     {
-	
+        try 
+        {
+            this.Connect();
+            
+            for (int i = 0; i < rule_id.length; i++)            
+            {
+                String sql = "INSERT INTO PREMISE_RULES (PREMISE_ID, RULE_ID) " +
+                        "VALUES (" + premise_id + ", "  + rule_id[i] + ")";
+                
+                try (Statement stmt = this._Connection.createStatement())
+                {
+                    stmt.execute(sql);
+                }
+            }
+        } 
+        catch (Exception ex) 
+        {
+            Logger.getLogger(RuleDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+	finally
+        {
+            this.Close();
+        }
     }
 }
