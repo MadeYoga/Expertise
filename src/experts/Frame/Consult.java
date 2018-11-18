@@ -204,7 +204,7 @@ public class Consult extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        panel1.setBackground(new java.awt.Color(204, 204, 255));
+        panel1.setBackground(new java.awt.Color(255, 255, 255));
 
         QuestionLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         QuestionLabel.setText("Premise");
@@ -244,43 +244,42 @@ public class Consult extends javax.swing.JFrame {
         panel1Layout.setHorizontalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel1Layout.createSequentialGroup()
-                .addGap(92, 92, 92)
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(QuestionLabel)
-                    .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(conclusionLabel))
-                .addGap(596, 596, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addComponent(QuestionLabel))
             .addGroup(panel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(workingMemoryLabel)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(conclusionLabel))
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(workingMemoryLabel)
+                .addGap(272, 272, 272)
+                .addComponent(active_rule_label))
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panel1Layout.createSequentialGroup()
-                        .addComponent(active_rule_label)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2))
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel1Layout.createSequentialGroup()
                 .addGap(120, 120, 120)
                 .addComponent(QuestionLabel)
-                .addGap(18, 18, 18)
+                .addGap(6, 6, 6)
                 .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(75, 75, 75)
                 .addComponent(conclusionLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(84, 84, 84)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(workingMemoryLabel)
                     .addComponent(active_rule_label))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
+                .addGap(11, 11, 11)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -300,10 +299,10 @@ public class Consult extends javax.swing.JFrame {
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         // TODO add your handling code here:
-        // CHECK IF FINISHED, 
+        // CHECK IF FINISHED,
         if (active_premise == null
-                || manager.getUnknownConclusion()
-                || manager.conclusionObtained()) {
+            || manager.getUnknownConclusion()
+            || manager.conclusionObtained()) {
             return;
         }
 
@@ -313,10 +312,10 @@ public class Consult extends javax.swing.JFrame {
 
         // OUTPUT WORKING MEMORY LIST
         list_temp.addElement(
-                "<html>"
-                + active_premise.getQuestion() + "<br>User Answer: "
-                + user_answer
-                + "</html>"
+            "<html>"
+            + active_premise.getQuestion() + "<br>User Answer: "
+            + user_answer
+            + "</html>"
         );
         setMemoryListReady();
         memory_item_list.setModel(list_model);
@@ -336,10 +335,10 @@ public class Consult extends javax.swing.JFrame {
             Rule rule = manager.getQueueTable().current_rule;
             QuestionLabel.setText("Question: -");
             conclusionLabel.setText(
-                    "Conclusion: "
-                    + "RULE " + rule.getId()
-                    + ", " + rule.getConclusion()
-                    + " = " + rule.getConclusionValue()
+                "Conclusion: "
+                + "RULE " + rule.getId()
+                + ", " + rule.getConclusion()
+                + " = " + rule.getConclusionValue()
             );
             return;
         }
