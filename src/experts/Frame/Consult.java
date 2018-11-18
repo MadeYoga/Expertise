@@ -23,7 +23,7 @@
  */
 package experts.Frame;
 
-import experts.Engine.FCDatabase;
+import experts.Engine.BCDatabase;
 import experts.Engine.Manager;
 import experts.Entities.Answer;
 import experts.Entities.Premise;

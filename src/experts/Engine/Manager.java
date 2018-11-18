@@ -32,7 +32,7 @@ import java.util.HashSet;
  */
 public class Manager {
     
-    private FCDatabase      database;
+    private BCDatabase      database;
     private QueueTable      queue_table;
     private WorkingMemory   working_memory;
     
@@ -43,14 +43,14 @@ public class Manager {
     private boolean unknown_conclusion  = false;
     
     public Manager(){
-        database       = new FCDatabase();
+        database       = new BCDatabase();
         queue_table    = new QueueTable();
         working_memory = new WorkingMemory();
     }
     
     public Manager(int experts_id) {
         // INITIALIZE RULES / PREMISE CLAUSE
-        database = new FCDatabase();
+        database = new BCDatabase();
         database.loadExperts(experts_id);
         
         // INITIALIZE QUEUETABLE
@@ -265,7 +265,7 @@ public class Manager {
         return working_memory;
     }
     
-    public FCDatabase getDatabase(){
+    public BCDatabase getDatabase(){
         return database;
     }
     

@@ -36,6 +36,7 @@ public class Rule {
     private int conclusion_value    = -1;
     private int hierarchy           = -1;
     
+    public Premise parent = null;
     public ArrayList <Premise> premises = new ArrayList <Premise>();
     
     public Rule(){

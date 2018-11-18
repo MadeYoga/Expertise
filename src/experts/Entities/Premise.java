@@ -39,6 +39,8 @@ public class Premise {
     int rules_premise_val = -1; // ACTUAL VALUE
     int rules_premise_id  = -1;
     
+    public Rule parent = null;
+    
     public ArrayList <Answer> list_of_answer = new ArrayList <Answer>();
     public ArrayList <Rule> rules = null;
     

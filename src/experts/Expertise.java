@@ -24,7 +24,7 @@
 package experts;
 
 import experts.Frame.Menu;
-import experts.Engine.FCDatabase;
+import experts.Engine.BCDatabase;
 import experts.Entities.Rule;
 import java.util.ArrayList;
 

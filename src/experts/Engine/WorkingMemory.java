@@ -31,14 +31,8 @@ import java.util.HashMap;
  */
 public class WorkingMemory {
     
-    // ???
     public HashMap memory = new HashMap();
     public HashMap cache = new HashMap();
-    // memory.put(key, val);
-    // memory.get(key)
-    
-    public void showCacheOnConsole(){
-        System.out.println(cache.toString());
-    }
+    public HashMap current_path = new HashMap();
     
 }
