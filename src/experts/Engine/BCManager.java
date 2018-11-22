@@ -24,6 +24,7 @@
 
 package experts.Engine;
 
+import experts.Database.AnswerStore;
 import experts.Entities.*;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -46,6 +47,8 @@ public class BCManager {
     private boolean unknown_conclusion  = false;
     
     private Stack path_ = new Stack();
+    
+    public AnswerStore answerStore = new AnswerStore();
     
     public BCManager(){
         database       = new BCDatabase();
@@ -76,8 +79,60 @@ public class BCManager {
         return true;
     }
     
-    public void how() {
-        
+    public String how() {
+        String how_ = "RULE " + goal_table.current_rule.getConclusion() + "\n";
+        Queue q = new LinkedList();
+        for (int i = 0; i < goal_table.current_rule.premises.size(); i++) {
+            Premise current_premise = goal_table.current_rule.premises.get(i);
+            if (working_memory.cache.containsKey(current_premise.getId()) ||
+                working_memory.memory.containsKey(current_premise.getId())){
+                q.offer(current_premise);
+                
+                if (current_premise.rules.size() > 0)
+                    how_ += (i + 1) + ". " + current_premise.getQuestion() + ", Conclusion: ";
+                else
+                    how_ += (i + 1) + ". " + current_premise.getQuestion() + ", User Answer: ";
+                int _id = -1;
+                if (working_memory.memory.containsKey(current_premise.getId()))
+                    _id = (int) working_memory.memory.get(current_premise.getId());
+                else
+                    _id = (int) working_memory.cache.get(current_premise.getId());
+                how_ += answerStore.get_answer_by_id(_id) + "\n";
+            }
+            if (current_premise.rules.size() > 0){
+                how_ += how(current_premise) + "\n";
+            }
+        }
+        return how_;
+    }
+    
+    public String how(Premise current_premise){
+        String how_ = "";
+        Queue q = new LinkedList();
+//        for (int i = 0; i < current_premise.rules.size(); i++){
+        Rule rule_sample = current_premise.rules.get(0);
+        for (int j = 0; j < rule_sample.premises.size(); j++){
+            Premise next_premise = rule_sample.premises.get(j);
+            if (working_memory.memory.containsKey(next_premise.getId())){
+                if (!q.contains(next_premise))
+                    q.offer(next_premise);
+                else continue;
+            }
+            if (next_premise.rules.size() > 0){
+                how_ += how(current_premise);
+            }
+        }
+//            break;
+//        }
+        while (!q.isEmpty()){
+            how_ += q.peek().toString();
+            how_ += ", User Answer: ";
+            int id = (int)working_memory.memory.get(((Premise)q.peek()).getId());
+            how_ += answerStore.get_answer_by_id(id) + "\n";
+            q.poll();
+        }
+        // System.out.println(how_);
+        return how_;
     }
     
     public String why() {
@@ -302,7 +357,7 @@ public class BCManager {
         return conclusion_obtained;
     }
     
-    public GoalTable getQueueTable(){
+    public GoalTable getGoalTable(){
         return goal_table;
     }
     

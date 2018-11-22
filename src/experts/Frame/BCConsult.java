@@ -23,6 +23,8 @@
  */
 package experts.Frame;
 
+import experts.Database.AnswerStore;
+import experts.Database.Storage;
 import experts.Engine.BCDatabase;
 import experts.Engine.BCManager;
 import experts.Entities.Answer;
@@ -59,14 +61,14 @@ public class BCConsult extends javax.swing.JFrame {
     public DefaultListModel list_model          = new DefaultListModel();
     public DefaultListModel list_model2         = new DefaultListModel();
     public DefaultListModel list_temp           = new DefaultListModel();
-
+    
     public BCConsult() {
         initComponents();
 
         setTitle("Expertise");
-
+        howButton.setVisible(false);
         // MANAGER LOAD EXPERT WITH ID 1
-        manager = new BCManager(17);
+        manager = new BCManager(1);
 
         active_premise = manager.getNextPremise();
         QuestionLabel.setText("Question: " + active_premise.getQuestion());
@@ -82,12 +84,14 @@ public class BCConsult extends javax.swing.JFrame {
     
     public BCConsult(int expert_id) {
         initComponents();
-
+        
         setTitle("Expertise");
-
+        howButton.setVisible(false);
+        
         // MANAGER LOAD EXPERT WITH ID 1
-        manager = new BCManager(expert_id);
-
+        manager = new BCManager(expert_id);        
+        manager.answerStore = new AnswerStore(expert_id);
+        
         active_premise = manager.getNextPremise();
         manager.printPath_();
         QuestionLabel.setText("Question: " + active_premise.getQuestion());
@@ -125,7 +129,7 @@ public class BCConsult extends javax.swing.JFrame {
             button.setText(active_premise.list_of_answer.get(i).getAnswer());
 
             radio_buttons.add(button);
-            radio_buttons.get(i).getButton().setBounds(280, 175 + i * 25, 100, 20);
+            radio_buttons.get(i).getButton().setBounds(360, 155 + i * 25, 100, 20);
             
             if (i == 0) {
                 radio_buttons.get(i).getButton().setSelected(true);
@@ -149,14 +153,17 @@ public class BCConsult extends javax.swing.JFrame {
     public void setMemoryListReady() {
         list_model.removeAllElements();
         for (Object key : manager.getMemory().cache.keySet()) {
-            Rule current_rule = manager.getQueueTable().current_rule;
+            Rule current_rule = manager.getGoalTable().current_rule;
             for (int i = 0; i < current_rule.premises.size(); i++) {
                 Premise target = current_rule.premises.get(i);
                 if ((int) key == target.getId()) {
+                    Answer answer = manager.answerStore.get_answer_by_id (
+                        (int) manager.getMemory().cache.get(key)
+                    );
                     list_model.addElement(
                             target.getQuestion()
                             + " : "
-                            + manager.getMemory().cache.get(key).toString()
+                            + answer.getAnswer()
                     );
                 }
             }
@@ -169,12 +176,12 @@ public class BCConsult extends javax.swing.JFrame {
 
     public void setQueueTableReady() {
         list_model2.removeAllElements();
-        active_rule_label.setText("Active Rule: " + manager.getQueueTable().current_rule.getConclusion());
-        for (int i = 0; i < manager.getQueueTable().current_rule.premises.size(); i++) {
-            Premise premise_target = manager.getQueueTable().current_rule.premises.get(i);
+        active_rule_label.setText("Active Rule: " + manager.getGoalTable().current_rule.getConclusion());
+        for (int i = 0; i < manager.getGoalTable().current_rule.premises.size(); i++) {
+            Premise premise_target = manager.getGoalTable().current_rule.premises.get(i);
             list_model2.addElement(
                     "<html>" + premise_target.getId() + ". " + premise_target.getQuestion()
-                    + "<br>value: " + premise_target.getRulesPremiseValue()
+                    + "<br>Actual Value: " + manager.answerStore.get_answer_by_id(premise_target.getRulesPremiseValue())
                     + "</html>"
             );
         }
@@ -203,6 +210,7 @@ public class BCConsult extends javax.swing.JFrame {
         active_rule_list = new javax.swing.JList<>();
         active_rule_label = new javax.swing.JLabel();
         whyButton = new javax.swing.JButton();
+        howButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -248,6 +256,13 @@ public class BCConsult extends javax.swing.JFrame {
             }
         });
 
+        howButton.setText("How ?");
+        howButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                howButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
         panel1Layout.setHorizontalGroup(
@@ -257,9 +272,11 @@ public class BCConsult extends javax.swing.JFrame {
                 .addComponent(QuestionLabel))
             .addGroup(panel1Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(whyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(whyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(howButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(panel1Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(conclusionLabel))
@@ -282,7 +299,8 @@ public class BCConsult extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(whyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(whyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(howButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(75, 75, 75)
                 .addComponent(conclusionLabel)
                 .addGap(84, 84, 84)
@@ -327,7 +345,7 @@ public class BCConsult extends javax.swing.JFrame {
         list_temp.addElement(
             "<html>"
             + active_premise.getQuestion() + "<br>User Answer: "
-            + user_answer
+            + manager.answerStore.get_answer_by_id(user_answer).getAnswer()
             + "</html>"
         );
         setMemoryListReady();
@@ -345,13 +363,16 @@ public class BCConsult extends javax.swing.JFrame {
             conclusionLabel.setText("UNKNOWN");
             return;
         } else if (manager.conclusionObtained()) {
-            Rule rule = manager.getQueueTable().current_rule;
+            howButton.setVisible(true);
+            whyButton.setVisible(false);
+            Rule rule = manager.getGoalTable().current_rule;
             QuestionLabel.setText("Question: -");
             conclusionLabel.setText(
                 "Conclusion: "
                 + "RULE " + rule.getId()
                 + ", " + rule.getConclusion()
-                + " = " + rule.getConclusionValue()
+                + " = " + manager.answerStore.get_answer_by_id(
+                        rule.getConclusionValue() ).getAnswer()
             );
             return;
         }
@@ -378,6 +399,17 @@ public class BCConsult extends javax.swing.JFrame {
                 JOptionPane.INFORMATION_MESSAGE
         );
     }//GEN-LAST:event_whyButtonActionPerformed
+
+    private void howButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_howButtonActionPerformed
+        // TODO add your handling code here:
+        // System.out.println(manager.how());
+        JOptionPane.showMessageDialog(
+                this,
+                manager.how(),
+                "How can Expertise get this conclusion ?",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }//GEN-LAST:event_howButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -425,6 +457,7 @@ public class BCConsult extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JLabel conclusionLabel;
+    private javax.swing.JButton howButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList<String> memory_item_list;

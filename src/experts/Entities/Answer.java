@@ -41,6 +41,11 @@ public class Answer {
         answer = _answer;
     }
 
+    @Override
+    public String toString() {
+        return answer;
+    }
+
     public int getId() {
         return id;
     }
