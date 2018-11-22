@@ -61,7 +61,6 @@ public class BCDatabase {
         String query = "SELECT * FROM RULE" + 
                        "\nWHERE RULE.EXPERT_ID = " + expert_id + 
                        "\nAND RULE.hierarchy = 1";
-        
         try{
             Connection conn = (Connection) DriverManager.getConnection(url, username, password);
             Statement stmt  = (Statement) conn.createStatement();

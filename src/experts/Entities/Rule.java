@@ -47,6 +47,11 @@ public class Rule {
     public void showRuleOnConsole(){
         System.out.println("Hierarchy: " + hierarchy + ", RULES " + getId() + ". " + conclusion);
     }
+
+    @Override
+    public String toString() {
+        return "Rule " + "" + id + ", " + conclusion + ", " + conclusion_value;
+    }
     
     public int getId() {
         return id;

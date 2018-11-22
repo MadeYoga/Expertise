@@ -27,8 +27,6 @@ package experts.Engine;
  *
  * @author owner
  */
-public class FCDatabase {
-    private String url      = "jdbc:mysql://localhost:3306/expert"; 
-    private String username = "root";
-    private String password = "";
+public class FCManager {
+    
 }

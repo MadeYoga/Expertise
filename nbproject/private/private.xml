@@ -3,15 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Frame/Consult.java</file>
-            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Engine/Manager.java</file>
+            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Engine/FCDatabase.java</file>
+            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Engine/BCManager.java</file>
             <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Engine/QueueTable.java</file>
-            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Input/Entities/Premise.java</file>
-            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Engine/BCDatabase.java</file>
             <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Entities/Rule.java</file>
             <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Entities/Premise.java</file>
-            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Entities/LogicOperator.java</file>
-            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Engine/WorkingMemory.java</file>
+            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Frame/FCConsult.java</file>
         </group>
     </open-files>
 </project-private>

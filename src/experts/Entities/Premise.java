@@ -57,6 +57,11 @@ public class Premise {
         }
         System.out.println();
     }
+
+    @Override
+    public String toString() {
+        return "Premise " + id + ", " + question ;
+    }
     
     public int getId() {
         return id;

@@ -89,6 +89,7 @@ public class BCConsult extends javax.swing.JFrame {
         manager = new BCManager(expert_id);
 
         active_premise = manager.getNextPremise();
+        manager.printPath_();
         QuestionLabel.setText("Question: " + active_premise.getQuestion());
 
         setQueueTableReady();
@@ -124,7 +125,7 @@ public class BCConsult extends javax.swing.JFrame {
             button.setText(active_premise.list_of_answer.get(i).getAnswer());
 
             radio_buttons.add(button);
-            radio_buttons.get(i).getButton().setBounds(250, 175 + i * 25, 50, 20);
+            radio_buttons.get(i).getButton().setBounds(280, 175 + i * 25, 100, 20);
             
             if (i == 0) {
                 radio_buttons.get(i).getButton().setSelected(true);
@@ -201,6 +202,7 @@ public class BCConsult extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         active_rule_list = new javax.swing.JList<>();
         active_rule_label = new javax.swing.JLabel();
+        whyButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -239,6 +241,13 @@ public class BCConsult extends javax.swing.JFrame {
         active_rule_label.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         active_rule_label.setText("Active Rule");
 
+        whyButton.setText("why ?");
+        whyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                whyButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
         panel1Layout.setHorizontalGroup(
@@ -248,7 +257,9 @@ public class BCConsult extends javax.swing.JFrame {
                 .addComponent(QuestionLabel))
             .addGroup(panel1Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(whyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(panel1Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(conclusionLabel))
@@ -269,7 +280,9 @@ public class BCConsult extends javax.swing.JFrame {
                 .addGap(120, 120, 120)
                 .addComponent(QuestionLabel)
                 .addGap(6, 6, 6)
-                .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(whyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(75, 75, 75)
                 .addComponent(conclusionLabel)
                 .addGap(84, 84, 84)
@@ -309,7 +322,7 @@ public class BCConsult extends javax.swing.JFrame {
         // MANAGER HANDLE USER'S ANSWER
         int user_answer = getSelectedAnswerId();
         manager.setAnswer(active_premise, user_answer);
-
+        
         // OUTPUT WORKING MEMORY LIST
         list_temp.addElement(
             "<html>"
@@ -325,7 +338,7 @@ public class BCConsult extends javax.swing.JFrame {
 
         // CHECK KONDISI RULE YANG SEDANG ACTIVE (queue_table)
         manager.checkRuleStatus();
-
+        
         // CHECK MANAGER'S CURRENT CONDITION
         if (manager.getUnknownConclusion()) {
             QuestionLabel.setText("Question: -");
@@ -348,12 +361,23 @@ public class BCConsult extends javax.swing.JFrame {
         if (active_premise == null) {
             return;
         }
+        manager.printPath_();
 
         // OUTPUT LABEL
         QuestionLabel.setText("Question: " + active_premise.getQuestion());
         // SET ACTIVE PREMISE ANSWER OPTION ON RADIO BUTTONS
         setButtonsReady();
     }//GEN-LAST:event_submitButtonActionPerformed
+
+    private void whyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_whyButtonActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(
+                this,
+                manager.get_path_(),
+                "Why ask this question ?",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }//GEN-LAST:event_whyButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -406,6 +430,7 @@ public class BCConsult extends javax.swing.JFrame {
     private javax.swing.JList<String> memory_item_list;
     private javax.swing.JPanel panel1;
     private javax.swing.JButton submitButton;
+    private javax.swing.JButton whyButton;
     private javax.swing.JLabel workingMemoryLabel;
     // End of variables declaration//GEN-END:variables
 }

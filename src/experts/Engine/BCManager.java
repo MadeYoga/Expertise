@@ -26,6 +26,9 @@ package experts.Engine;
 
 import experts.Entities.*;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 /**
  *
  * @author owner
@@ -41,6 +44,8 @@ public class BCManager {
     
     private boolean conclusion_obtained = false;
     private boolean unknown_conclusion  = false;
+    
+    private Stack path_ = new Stack();
     
     public BCManager(){
         database       = new BCDatabase();
@@ -75,18 +80,40 @@ public class BCManager {
         
     }
     
-    public void why() {
-        
+    public String why() {
+        return get_path_();
     }
     
-    public String path_(){
-        return "";
+    public String get_path_(){
+        String path = "<html>" + goal_table.current_rule.toString() + "<br> &nbsp -> ";
+        int count_space = 1;
+        Stack s = new Stack();
+        while (!path_.empty()) {
+            s.push(path_.pop());
+        }
+        while (!s.empty()){
+            Object value = s.pop();
+            if (s.empty())
+                path += "<strong> " + value.toString() + "</strong>";
+            else {
+                path += value.toString() + "<br>";
+                for (int i = count_space; i >= 0; i--){
+                    path += " &nbsp ";
+                }
+                path += "-> ";
+            }
+            
+            path_.push(value);
+        }
+        path += "</html>";
+        return path;
     }
     
     private Premise getNextPremise(Premise p){
         Premise premise = null;
         for (int i = 0; i < p.rules.size(); i++){
             Rule rule_target = p.rules.get(i);
+            path_.push(rule_target);
             for (int j = 0; j < rule_target.premises.size(); j++){
                 Premise premise_target = rule_target.premises.get(j);
                 if (working_memory.memory.containsKey(premise_target.getId()) || 
@@ -95,13 +122,18 @@ public class BCManager {
                 }
                 if (premise_target.rules.size() > 0){
                     Premise next_premise = getNextPremise(premise_target);
-                    if (next_premise != null)
+                    if (next_premise != null) {
+                        path_.push(next_premise);
                         return next_premise;
+                    }
+                    // path_.pop();
                 }
                 else if (!working_memory.memory.containsKey(premise_target.getId())){
+                    path_.push(premise_target);
                     return premise_target;
                 }
             }
+            path_.pop();
         }
         return premise;
     }
@@ -110,6 +142,7 @@ public class BCManager {
         Premise premise = null;
         Rule current_rule = goal_table.current_rule;
         for (int i = 0; i < current_rule.premises.size(); i++){
+            path_.clear();
             Premise target = current_rule.premises.get(i);
             if (working_memory.memory.containsKey(target.getId()) || 
                 working_memory.cache .containsKey(target.getId())){
@@ -117,10 +150,14 @@ public class BCManager {
             }
             if (target.rules.size() > 0){
                 Premise next_premise = getNextPremise(target);
-                if (next_premise != null)
+                if (next_premise != null){
+                    // path_.push(next_premise);
                     return next_premise;
+                }
+                // path_.pop();
             }
             else if (!working_memory.memory.containsKey(target.getId())){
+                path_.push(target);
                 return target;
             }
         }
@@ -211,6 +248,10 @@ public class BCManager {
             }
         }
         return true;
+    }
+    
+    public void printPath_(){
+        System.out.println(path_.toString());
     }
     
     public void setAnswer(Premise active_premise, int answer_id){
