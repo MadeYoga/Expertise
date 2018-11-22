@@ -17,7 +17,7 @@ public class Rule {
     private String conclusion       = "";
     private int conclusion_value    = -1;
     private int hierarchy           = -1;
-    public ArrayList <String>  statuses = new ArrayList <String> ();
+    
     public ArrayList <Premise> premises = new ArrayList <Premise>();
     
     public Rule(){

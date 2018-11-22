@@ -23,6 +23,7 @@
  */
 package experts.Input.Database;
 
+import experts.Input.Entities.Rule;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -176,5 +177,70 @@ public class RuleDatabase extends SQLiteDatabase
         {
             this.Close();
         }
+    }
+    
+    public String GetConclusion(int rule_id)
+    {
+        try 
+        {
+            this.Connect();
+            
+            String sql = "SELECT CONSLUSION FROM RULE WHERE ID = " + rule_id;
+            
+            try (Statement stmt = this._Connection.createStatement())
+	    {
+		try (ResultSet rs = stmt.executeQuery(sql))
+		{
+		    while(rs.next())
+		    {
+                        return rs.getString(1);
+		    }
+		}
+	    }
+        } 
+        catch (Exception ex) 
+        {
+            Logger.getLogger(RuleDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally
+        {
+            this.Close();
+        }
+        return "";
+    }
+    
+    public Rule GetRule(int rule_id)
+    {
+        try 
+        {
+            this.Connect();
+            
+            String sql = "SELECT * FROM RULE WHERE ID = " + rule_id;
+            
+            try (Statement stmt = this._Connection.createStatement())
+	    {
+		try (ResultSet rs = stmt.executeQuery(sql))
+		{
+		    while(rs.next())
+		    {
+			Rule rule = new Rule(rule_id);
+                        rule.setConclusion(rs.getString(2));
+                        rule.setConclusionValue(rs.getInt(3));
+                        rule.setHierarchy(rs.getInt(4));
+                        return rule;
+		    }
+		}
+	    }
+            return null;
+        } 
+        catch (Exception ex) 
+        {
+            Logger.getLogger(RuleDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally
+        {
+            this.Close();
+        }
+        return null;
     }
 }
