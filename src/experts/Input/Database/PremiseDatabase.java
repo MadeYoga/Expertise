@@ -167,4 +167,44 @@ public class PremiseDatabase extends SQLiteDatabase
 	    this.InsertQuery(sql);
 	}
     }
+    
+    public String GetPremiseFromRule(int rule_id)
+    {
+        String sql = "SELECT PREMISE.NAME, ANSWER.ANSWER " +
+                     "FROM PREMISE " +
+                     "INNER JOIN RULES_PREMISE ON RULES_PREMISE.PREMISE_ID = PREMISE.id " + 
+                     "INNER JOIN ANSWER ON RULES_PREMISE.PREMISE_VAL = ANSWER.ID " +
+                     "WHERE PREMISE.ID IN (SELECT DISTINCT(RULES_PREMISE.premise_id) FROM RULES_PREMISE WHERE RULES_PREMISE.RULE_ID = " + rule_id + ") " +
+                     "AND RULES_PREMISE.RULE_ID = " + rule_id;
+        
+        String temp = "";
+        
+        try 
+        {
+            this.Connect();
+            
+            try (Statement stmt = this._Connection.createStatement())
+	    {
+		try (ResultSet rs = stmt.executeQuery(sql))
+		{
+		    while(rs.next())
+		    {
+                        temp += rs.getString(1) + " = " + rs.getString(2);
+                        temp += " AND ";
+		    }
+                    return temp.substring(0, temp.length() - 4);
+		}
+	    }            
+        }
+        catch (Exception e) 
+        {
+            System.out.println(e.getMessage());
+        }
+        finally
+        {
+            this.Close();
+        }
+        
+        return null;
+    }
 }

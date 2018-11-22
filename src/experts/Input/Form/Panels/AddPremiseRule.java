@@ -57,7 +57,8 @@ public class AddPremiseRule extends javax.swing.JPanel
 	this._ExpertID = expert_id;
         this.LoadPremise();
         this.LoadRule();
-        this.RuleDetail.setText(this.RuleList.getSelectedItem().toString());
+        //this.RuleDetail.setText(this.RuleList.getSelectedItem().toString());
+        this.SelectedRuleListItemChanged();
     }
 
     public void LoadPremise()
@@ -162,8 +163,13 @@ public class AddPremiseRule extends javax.swing.JPanel
             return;
         }
         
+        int rule_id = Integer.parseInt(this.RuleList.getSelectedItem().toString().substring(0, this.RuleList.getSelectedItem().toString().indexOf(".")));
+        
+        PremiseDatabase db = new PremiseDatabase();
+        this.RuleDetail.setText(db.GetPremiseFromRule(rule_id));
+
         //temporary rule detail, will changed another day
-        this.RuleDetail.setText(this.RuleList.getSelectedItem().toString());
+        //this.RuleDetail.setText(this.RuleList.getSelectedItem().toString());        
     }
     
     
@@ -302,7 +308,7 @@ public class AddPremiseRule extends javax.swing.JPanel
         Log.setRows(5);
         jScrollPane2.setViewportView(Log);
 
-        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 370, -1, -1));
+        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 370, 330, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
