@@ -21,63 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package experts.Entities;
+package experts.Engine;
 
+import experts.Entities.Premise;
+import experts.Entities.Rule;
 import java.util.ArrayList;
 
 /**
  *
  * @author owner
  */
-public class Rule {
+public class GoalTable {
     
-    private int id                  = -1;
-    private String conclusion       = "";
-    private int conclusion_value    = -1;
-    private int hierarchy           = -1;
-    
-    public Premise parent = null;
-    public ArrayList <String>  statuses = new ArrayList <String> ();
+    // CURRENT RULES PREMISES 
     public ArrayList <Premise> premises = new ArrayList <Premise>();
     
-    public Rule(){
-        
-    }
-    
-    public void showRuleOnConsole(){
-        System.out.println("Hierarchy: " + hierarchy + ", RULES " + getId() + ". " + conclusion);
-    }
-    
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getConclusion() {
-        return conclusion;
-    }
-
-    public void setConclusion(String conclusion) {
-        this.conclusion = conclusion;
-    }
-
-    public int getConclusionValue() {
-        return conclusion_value;
-    }
-
-    public void setConclusionValue(int conclusion_value) {
-        this.conclusion_value = conclusion_value;
-    }
-
-    public int getHierarchy() {
-        return hierarchy;
-    }
-
-    public void setHierarchy(int hierarchy) {
-        this.hierarchy = hierarchy;
-    }
+    public Rule current_rule = new Rule();
     
 }

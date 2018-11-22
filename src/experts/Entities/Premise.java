@@ -40,7 +40,7 @@ public class Premise {
     int rules_premise_id  = -1;
     
     public Rule parent = null;
-    
+    public ArrayList <String>  statuses = new ArrayList <String> ();
     public ArrayList <Answer> list_of_answer = new ArrayList <Answer>();
     public ArrayList <Rule> rules = null;
     

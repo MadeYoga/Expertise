@@ -27,6 +27,6 @@ package experts.Engine;
  *
  * @author owner
  */
-public class QueueTable {
+public class FCDatabase {
     
 }

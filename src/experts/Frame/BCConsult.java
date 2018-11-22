@@ -24,10 +24,10 @@
 package experts.Frame;
 
 import experts.Engine.BCDatabase;
-import experts.Engine.Manager;
+import experts.Engine.BCManager;
 import experts.Entities.Answer;
 import experts.Entities.Premise;
-import experts.Engine.QueueTable;
+import experts.Engine.GoalTable;
 import experts.Entities.Rule;
 import experts.Engine.WorkingMemory;
 import experts.Modified.swing.RadioButton;
@@ -47,12 +47,12 @@ import javax.swing.JRadioButton;
  *
  * @author owner
  */
-public class Consult extends javax.swing.JFrame {
+public class BCConsult extends javax.swing.JFrame {
 
     /**
      * Creates new form main
      */
-    public Manager manager;
+    public BCManager manager;
     public Premise active_premise               = new Premise();
     public ArrayList<RadioButton> radio_buttons = new ArrayList<RadioButton>();
     public ButtonGroup button_group             = new ButtonGroup();
@@ -60,13 +60,13 @@ public class Consult extends javax.swing.JFrame {
     public DefaultListModel list_model2         = new DefaultListModel();
     public DefaultListModel list_temp           = new DefaultListModel();
 
-    public Consult() {
+    public BCConsult() {
         initComponents();
 
         setTitle("Expertise");
 
         // MANAGER LOAD EXPERT WITH ID 1
-        manager = new Manager(17);
+        manager = new BCManager(17);
 
         active_premise = manager.getNextPremise();
         QuestionLabel.setText("Question: " + active_premise.getQuestion());
@@ -80,13 +80,13 @@ public class Consult extends javax.swing.JFrame {
         
     }
     
-    public Consult(int expert_id) {
+    public BCConsult(int expert_id) {
         initComponents();
 
         setTitle("Expertise");
 
         // MANAGER LOAD EXPERT WITH ID 1
-        manager = new Manager(expert_id);
+        manager = new BCManager(expert_id);
 
         active_premise = manager.getNextPremise();
         QuestionLabel.setText("Question: " + active_premise.getQuestion());
@@ -372,21 +372,23 @@ public class Consult extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Consult.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BCConsult.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Consult.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BCConsult.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Consult.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BCConsult.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Consult.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BCConsult.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Consult().setVisible(true);
+                new BCConsult().setVisible(true);
             }
         });
     }

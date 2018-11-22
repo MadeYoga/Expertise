@@ -30,10 +30,10 @@ import java.util.HashSet;
  *
  * @author owner
  */
-public class Manager {
+public class BCManager {
     
     private BCDatabase      database;
-    private QueueTable      queue_table;
+    private GoalTable       goal_table;
     private WorkingMemory   working_memory;
     
     private int current_expert_id = -1;
@@ -42,21 +42,21 @@ public class Manager {
     private boolean conclusion_obtained = false;
     private boolean unknown_conclusion  = false;
     
-    public Manager(){
+    public BCManager(){
         database       = new BCDatabase();
-        queue_table    = new QueueTable();
+        goal_table    = new GoalTable();
         working_memory = new WorkingMemory();
     }
     
-    public Manager(int experts_id) {
+    public BCManager(int experts_id) {
         // INITIALIZE RULES / PREMISE CLAUSE
         database = new BCDatabase();
         database.loadExperts(experts_id);
         
-        // INITIALIZE QUEUETABLE
-        queue_table = new QueueTable();
-        queue_table.current_rule = database.getRules().get(rule_pointer);
-        queue_table.premises = database.getRules().get(rule_pointer++).premises;
+        // INITIALIZE GOALTABLE
+        goal_table = new GoalTable();
+        goal_table.current_rule = database.getRules().get(rule_pointer);
+        goal_table.premises = database.getRules().get(rule_pointer++).premises;
         
         // INITIALIZE WORKING MEMORY
         working_memory = new WorkingMemory();
@@ -71,8 +71,16 @@ public class Manager {
         return true;
     }
     
-    public void showKnowledgeBase(){
+    public void how() {
         
+    }
+    
+    public void why() {
+        
+    }
+    
+    public String path_(){
+        return "";
     }
     
     private Premise getNextPremise(Premise p){
@@ -100,7 +108,7 @@ public class Manager {
     
     public Premise getNextPremise(){
         Premise premise = null;
-        Rule current_rule = queue_table.current_rule;
+        Rule current_rule = goal_table.current_rule;
         for (int i = 0; i < current_rule.premises.size(); i++){
             Premise target = current_rule.premises.get(i);
             if (working_memory.memory.containsKey(target.getId()) || 
@@ -166,7 +174,7 @@ public class Manager {
     }
     
     public boolean checkRuleStatus(){
-        Rule current_rule = queue_table.current_rule;
+        Rule current_rule = goal_table.current_rule;
         for (int i = 0; i < current_rule.premises.size(); i++){
             Premise target = current_rule.premises.get(i);
             
@@ -220,24 +228,24 @@ public class Manager {
                     System.out.println("Conclusion: UNKNOWN");
                     return ;
                 }
-                queue_table.current_rule = database.getRules().get(rule_pointer++);
+                goal_table.current_rule = database.getRules().get(rule_pointer++);
                 System.out.println(
-                        "CHECK RULE " + queue_table.current_rule.getId() + ": "
-                        + queue_table.current_rule.getConclusion()
+                        "CHECK RULE " + goal_table.current_rule.getId() + ": "
+                        + goal_table.current_rule.getConclusion()
                 );
             } while(!checkRuleStatus());
         } 
         
         if (allPremiseAnswered()){
             conclusion_obtained = true;
-            System.out.println("Conclusion: " + queue_table.current_rule.getConclusion());
+            System.out.println("Conclusion: " + goal_table.current_rule.getConclusion());
         }
 
     }
     
     public boolean allPremiseAnswered(){
-        for (int i = 0; i < queue_table.current_rule.premises.size(); i++){
-            Premise sample = queue_table.current_rule.premises.get(i);
+        for (int i = 0; i < goal_table.current_rule.premises.size(); i++){
+            Premise sample = goal_table.current_rule.premises.get(i);
             if (
                     !working_memory.memory.containsKey(sample.getId()) && 
                     !working_memory.cache .containsKey(sample.getId())
@@ -253,8 +261,8 @@ public class Manager {
         return conclusion_obtained;
     }
     
-    public QueueTable getQueueTable(){
-        return queue_table;
+    public GoalTable getQueueTable(){
+        return goal_table;
     }
     
     public boolean getUnknownConclusion(){
