@@ -176,12 +176,18 @@ public class BCConsult extends javax.swing.JFrame {
 
     public void setQueueTableReady() {
         list_model2.removeAllElements();
-        active_rule_label.setText("Active Rule: " + manager.getGoalTable().current_rule.getConclusion());
+        active_rule_label.setText(
+                "Active Rule: " 
+                + manager.getGoalTable().current_rule.getConclusion()
+        );
         for (int i = 0; i < manager.getGoalTable().current_rule.premises.size(); i++) {
             Premise premise_target = manager.getGoalTable().current_rule.premises.get(i);
             list_model2.addElement(
-                    "<html>" + premise_target.getId() + ". " + premise_target.getQuestion()
-                    + "<br>Actual Value: " + manager.answerStore.get_answer_by_id(premise_target.getRulesPremiseValue())
+                    "<html>" + premise_target.getId() + ". " 
+                    + premise_target.getQuestion()
+                    + "<br>Actual Value: " 
+                    + manager.answerStore.get_answer_by_id(
+                            premise_target.getRulesPremiseValue())
                     + "</html>"
             );
         }
