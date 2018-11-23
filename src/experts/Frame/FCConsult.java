@@ -23,19 +23,41 @@
  */
 package experts.Frame;
 
+import experts.Engine.FCManager;
+import experts.Entities.Premise;
+
 /**
  *
  * @author owner
  */
 public class FCConsult extends javax.swing.JFrame {
-
+    
+    public FCManager manager;
+    public Premise current_premise;
+    
     /**
      * Creates new form FCConsult
      */
     public FCConsult() {
         initComponents();
+        setTitle("Expertise: Forward Chaining ");
+        manager = new FCManager(2);
+        
+        current_premise = manager.getFirstQuestion();
+        
+        questionLabel.setText(
+                "Question: " + 
+                current_premise.getQuestion()
+        );
+        
     }
-
+    
+    public FCConsult(int _expert_id){
+        initComponents();
+        setTitle("Expertise: Forward Chaining ");
+        manager = new FCManager(_expert_id);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,21 +67,71 @@ public class FCConsult extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        questionLabel = new javax.swing.JLabel();
+        submitButton = new javax.swing.JButton();
+        whyButton = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        questionLabel.setText("Question: ");
+
+        submitButton.setText("Submit");
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitButtonActionPerformed(evt);
+            }
+        });
+
+        whyButton.setText("why");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(whyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(questionLabel))
+                .addContainerGap(144, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(85, 85, 85)
+                .addComponent(questionLabel)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(submitButton)
+                    .addComponent(whyButton))
+                .addContainerGap(160, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+        // TODO add your handling code here:
+        
+        if (current_premise == null) {
+            return;
+        }
+        
+        manager.setAnswer(current_premise, 31);
+        
+        current_premise = manager.getNextPremise();
+        
+        if (current_premise == null) {
+            return;
+        }
+        
+        questionLabel.setText("Question: " + current_premise.getQuestion());
+        
+    }//GEN-LAST:event_submitButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -97,5 +169,8 @@ public class FCConsult extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel questionLabel;
+    private javax.swing.JButton submitButton;
+    private javax.swing.JButton whyButton;
     // End of variables declaration//GEN-END:variables
 }

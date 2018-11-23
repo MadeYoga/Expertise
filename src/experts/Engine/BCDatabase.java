@@ -84,6 +84,34 @@ public class BCDatabase {
         return result;
     }
     
+    public ArrayList <Rule> loadAllRules(int expert_id){
+        
+        ArrayList<Rule> result = new ArrayList<Rule>();
+        String query = "SELECT * FROM RULE" + 
+                       "\nWHERE RULE.EXPERT_ID = " + expert_id;
+        try{
+            Connection conn = (Connection) DriverManager.getConnection(url, username, password);
+            Statement stmt  = (Statement) conn.createStatement();
+            ResultSet rs    = stmt.executeQuery(query);
+            while(rs.next()) {
+                Rule rule = new Rule();
+                rule.setId(rs.getInt(1));
+                rule.setConclusion(rs.getString("conclusion"));
+                rule.setConclusionValue(rs.getInt("conclusion_value"));
+                rule.setHierarchy(rs.getInt("hierarchy"));
+                result.add(rule);
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+        
+        return result;
+    }
+    
     public ArrayList <Premise> loadRulesPremise(Rule rule) {
         ArrayList<Premise> result = null; 
         String query = "SELECT *, RP.premise_val FROM PREMISE P\n" + 

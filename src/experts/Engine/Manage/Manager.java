@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2018 Expertise Team.
+ * Copyright 2018 owner.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,18 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package experts.Engine;
-
-import java.util.HashMap;
+package experts.Engine.Manage;
 
 /**
  *
  * @author owner
  */
-public class WorkingMemory {
-    
-    public HashMap memory = new HashMap();
-    public HashMap cache = new HashMap();
-    public HashMap environment = new HashMap();
+public class Manager {
     
 }
