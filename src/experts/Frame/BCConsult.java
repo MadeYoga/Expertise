@@ -32,6 +32,7 @@ import experts.Entities.Premise;
 import experts.Engine.GoalTable;
 import experts.Entities.Rule;
 import experts.Engine.WorkingMemory;
+import experts.Entities.Expert;
 import experts.Modified.swing.RadioButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,6 +43,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
@@ -54,6 +56,7 @@ public class BCConsult extends javax.swing.JFrame {
     /**
      * Creates new form main
      */
+    public Menu parent;
     public BCManager manager;
     public Premise active_premise               = new Premise();
     public ArrayList<RadioButton> radio_buttons = new ArrayList<RadioButton>();
@@ -61,11 +64,12 @@ public class BCConsult extends javax.swing.JFrame {
     public DefaultListModel list_model          = new DefaultListModel();
     public DefaultListModel list_model2         = new DefaultListModel();
     public DefaultListModel list_temp           = new DefaultListModel();
+    public Answer selected_answer;
     
     public BCConsult() {
         initComponents();
 
-        setTitle("Expertise");
+        setTitle("Expertise: Backward Chaining");
         howButton.setVisible(false);
         // MANAGER LOAD EXPERT WITH ID 1
         manager = new BCManager(1);
@@ -82,10 +86,10 @@ public class BCConsult extends javax.swing.JFrame {
         
     }
     
-    public BCConsult(int expert_id) {
+    public BCConsult(int expert_id, Menu parent) {
         initComponents();
         
-        setTitle("Expertise");
+        setTitle("Expertise: Backward Chaining");
         howButton.setVisible(false);
         
         // MANAGER LOAD EXPERT WITH ID 1
@@ -102,6 +106,53 @@ public class BCConsult extends javax.swing.JFrame {
         active_rule_list.setModel(list_model2);
 
         setButtonsReady();
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                parent.setVisible(true);
+            }
+        });
+        
+        this.parent = parent;
+        
+    }
+    
+    public BCConsult(Expert expert, Menu parent) {
+        initComponents();
+        
+        setTitle("Expertise: Backward Chaining");
+        howButton.setVisible(false);
+        
+        titleLabel.setText(expert.getName() + " Experts");
+        
+        // MANAGER LOAD EXPERT WITH ID 1
+        manager = new BCManager(expert.getId());        
+        manager.answerStore = new AnswerStore(expert.getId());
+        
+        active_premise = manager.getNextPremise();
+        manager.printPath_();
+        QuestionLabel.setText("Question: " + active_premise.getQuestion());
+
+        setQueueTableReady();
+
+        memory_item_list.setModel(list_model);
+        active_rule_list.setModel(list_model2);
+
+        setButtonsReady();
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                parent.setVisible(true);
+            }
+        });
+        
+        this.parent = parent;
         
     }
     
@@ -129,7 +180,7 @@ public class BCConsult extends javax.swing.JFrame {
             button.setText(active_premise.list_of_answer.get(i).getAnswer());
 
             radio_buttons.add(button);
-            radio_buttons.get(i).getButton().setBounds(360, 155 + i * 25, 100, 20);
+            radio_buttons.get(i).getButton().setBounds(300, 160 + i * 25, 100, 20);
             
             if (i == 0) {
                 radio_buttons.get(i).getButton().setSelected(true);
@@ -142,6 +193,7 @@ public class BCConsult extends javax.swing.JFrame {
                 public void actionPerformed(ActionEvent e) {
                     Answer ans = (Answer) button.getValue();
                     System.out.println(ans.getId() + ans.getAnswer());
+                    selected_answer = ans;
                 }
             });
 
@@ -217,6 +269,8 @@ public class BCConsult extends javax.swing.JFrame {
         active_rule_label = new javax.swing.JLabel();
         whyButton = new javax.swing.JButton();
         howButton = new javax.swing.JButton();
+        titleLabel = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -269,38 +323,54 @@ public class BCConsult extends javax.swing.JFrame {
             }
         });
 
+        titleLabel.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        titleLabel.setText("Expert's Name");
+
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
         panel1Layout.setHorizontalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel1Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(QuestionLabel))
+                .addContainerGap()
+                .addComponent(jSeparator1)
+                .addContainerGap())
             .addGroup(panel1Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(whyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(howButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(workingMemoryLabel)
+                        .addGap(272, 272, 272)
+                        .addComponent(active_rule_label))
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(titleLabel)))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(panel1Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(conclusionLabel))
-            .addGroup(panel1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(workingMemoryLabel)
-                .addGap(272, 272, 272)
-                .addComponent(active_rule_label))
-            .addGroup(panel1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(whyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(howButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(conclusionLabel)
+                    .addComponent(QuestionLabel))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel1Layout.createSequentialGroup()
-                .addGap(120, 120, 120)
+                .addGap(27, 27, 27)
+                .addComponent(titleLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
                 .addComponent(QuestionLabel)
                 .addGap(6, 6, 6)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -309,7 +379,7 @@ public class BCConsult extends javax.swing.JFrame {
                     .addComponent(howButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(75, 75, 75)
                 .addComponent(conclusionLabel)
-                .addGap(84, 84, 84)
+                .addGap(121, 121, 121)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(workingMemoryLabel)
                     .addComponent(active_rule_label))
@@ -323,11 +393,11 @@ public class BCConsult extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -344,14 +414,14 @@ public class BCConsult extends javax.swing.JFrame {
         }
 
         // MANAGER HANDLE USER'S ANSWER
-        int user_answer = getSelectedAnswerId();
-        manager.setAnswer(active_premise, user_answer);
+        // int user_answer = getSelectedAnswerId();
+        manager.setAnswer(active_premise, selected_answer.getId());
         
         // OUTPUT WORKING MEMORY LIST
         list_temp.addElement(
             "<html>"
             + active_premise.getQuestion() + "<br>User Answer: "
-            + manager.answerStore.get_answer_by_id(user_answer).getAnswer()
+            + manager.answerStore.get_answer_by_id(selected_answer.getId()).getAnswer()
             + "</html>"
         );
         setMemoryListReady();
@@ -466,9 +536,11 @@ public class BCConsult extends javax.swing.JFrame {
     private javax.swing.JButton howButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JList<String> memory_item_list;
     private javax.swing.JPanel panel1;
     private javax.swing.JButton submitButton;
+    private javax.swing.JLabel titleLabel;
     private javax.swing.JButton whyButton;
     private javax.swing.JLabel workingMemoryLabel;
     // End of variables declaration//GEN-END:variables

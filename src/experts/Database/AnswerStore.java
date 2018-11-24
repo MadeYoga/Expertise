@@ -39,6 +39,27 @@ public class AnswerStore extends Storage {
     
     public AnswerStore(){
         super();
+        String query = "SELECT * FROM ANSWER";
+        try{
+            Connection conn = (Connection) DriverManager.getConnection(
+                url,
+                username, 
+                password
+            );
+            Statement stmt  = (Statement) conn.createStatement();
+            ResultSet rs    = stmt.executeQuery(query);
+            while(rs.next()) {
+                Answer answer = new Answer();
+                answer.setId(rs.getInt("id"));
+                answer.setAnswer(rs.getString("answer"));
+                super.getItems().add(answer);
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
     }
     
     public AnswerStore(int _expert_id){

@@ -86,8 +86,25 @@ public class FCManager {
     }
     
     public Premise getNextPremise(){
-        if (marked_rule == null)
+        if (obtain_conclusion || unknown_conclusion) 
+        {
             return null;
+        }
+        if (marked_rule == null) // first question
+        {
+            for (int i = 0; i < database.rules.size(); i++) 
+            {
+                for (int j = 0; j < database.rules.get(i).premises.size(); j++)
+                {
+                    Premise target = database.rules.get(i).premises.get(j);
+                    if (database.questions.containsKey(target.getId()))
+                    {
+                        return target;
+                    }
+                }
+            }
+            return null;
+        }
         for (int i = 0; i < marked_rule.premises.size(); i++) {
             Premise target = marked_rule.premises.get(i);
             if (target.statuses.contains("FR") && 
@@ -113,10 +130,18 @@ public class FCManager {
         updateTriggeredStatus();
         updateFiredStatus();
         if (!anyActiveRule() && !anyTriggeredRule())
+        {
             unknown_conclusion = true;
+            showRulesStatuses();
+            return;
+        }
+        else if (obtain_conclusion || unknown_conclusion)
+        {
+            showRulesStatuses();
+            return;
+        }
         marked_rule = getMarkedRule();
         showRulesStatuses();
-        showEnvironment();
         return;
     }
     
@@ -165,6 +190,7 @@ public class FCManager {
                     } 
                     else {
                         database.rules.get(i).statuses.remove("U");
+                        database.rules.get(i).statuses.remove("D");
                         database.rules.get(i).statuses.remove("A");
                         database.rules.get(i).statuses.remove("M");
                         database.rules.get(i).statuses.add("U");
@@ -300,17 +326,38 @@ public class FCManager {
         return false;
     }
     
-    private void showEnvironment() {
-        System.out.println(working_memory.environment.toString());
+    public String how() {
+        String how_ = "";
+        for (int i = 0; i < database.rules.size(); i++) {
+            if (database.rules.get(i).statuses.contains("TD")) {
+                how_ += "Rule " + database.rules.get(i).getConclusion() + "\n";
+                for (int j = 0; j < database.rules.get(i).premises.size();j++)
+                {
+                    Premise p = database.rules.get(i).premises.get(j);
+                    how_ += p.getQuestion() + ", User Answer: ";
+                    how_ += answerStore.get_answer_by_id(p.getRulesPremiseValue());
+                    how_ += "\n";
+                }
+                how_ += "\n";
+            }
+        }
+        how_ += "Rule " + last_triggered_rule.getConclusion() + "\n";
+        for (int j = 0; j < last_triggered_rule.premises.size(); j++) {
+            Premise p = last_triggered_rule.premises.get(j);
+            how_ += p.getQuestion() + ", Conclusion Answer: ";
+            how_ += answerStore.get_answer_by_id(p.getRulesPremiseValue());
+            how_ += "\n";
+        }
+        return how_;
     }
     
-    private void showRulesStatuses() {
-        System.out.println(
-             "---------------------------------------------------" 
-            );
+    public void showRulesStatuses() {
+        System.out.println("--------------");
         for (int i = 0; i < database.rules.size(); i++) {
             System.out.println(
                 database.rules.get(i).toString() + " " + 
+                answerStore.get_answer_by_id(
+                        database.rules.get(i).getConclusionValue()) + " " + 
                 database.rules.get(i).statuses.toString()
             );
         }

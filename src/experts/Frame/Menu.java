@@ -146,10 +146,9 @@ public class Menu extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        BCConsult obj = new BCConsult(selected_expert.getId());
+        BCConsult obj = new BCConsult(selected_expert, this);
         obj.setVisible(true);
         this.setVisible(false);
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

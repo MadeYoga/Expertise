@@ -46,6 +46,7 @@ public class TextAreaOutputStream extends OutputStream{
         this.jTextArea1 = textArea;
     }
     
+    @Override
     public void write( int b ) throws IOException {
         jTextArea1.append( String.valueOf( ( char )b ) );
         jTextArea1.setCaretPosition(jTextArea1.getDocument().getLength());
