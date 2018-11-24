@@ -3,13 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Engine/FCDatabase.java</file>
             <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Engine/BCManager.java</file>
-            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Database/ExpertStore.java</file>
-            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Database/Storage.java</file>
-            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Modified/swing/RadioButton.java</file>
-            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Database/AnswerStore.java</file>
-            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Frame/BCConsult.java</file>
-            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Entities/Answer.java</file>
+            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Engine/BCDatabase.java</file>
+            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Frame/FCConsult.java</file>
+            <file>file:/G:/Kuliah/Semester%205/APLIKASI%20SISTEM%20PAKAR/Experts2/src/experts/Engine/FCManager.java</file>
         </group>
     </open-files>
 </project-private>

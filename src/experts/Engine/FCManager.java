@@ -52,23 +52,37 @@ public class FCManager {
     public AnswerStore answerStore;
     public Rule marked_rule;
     public Rule last_triggered_rule;
+    private boolean obtain_conclusion;
+    private boolean unknown_conclusion;
     
     public FCManager(){
         
-        working_memory = new WorkingMemory();
-        database       = new FCDatabase();
-        queue_table    = new QueueTable();
-        answerStore    = new AnswerStore();
+        working_memory     = new WorkingMemory();
+        database           = new FCDatabase();
+        queue_table        = new QueueTable();
+        answerStore        = new AnswerStore();
+        obtain_conclusion  = false;
+        unknown_conclusion = false;
         
     }
     
     public FCManager(int _expert_id){
         
-        database       = new FCDatabase(_expert_id);
-        working_memory = new WorkingMemory();
-        queue_table    = new QueueTable();
-        answerStore    = new AnswerStore();
+        database           = new FCDatabase(_expert_id);
+        working_memory     = new WorkingMemory();
+        queue_table        = new QueueTable();
+        answerStore        = new AnswerStore();
+        obtain_conclusion  = false;
+        unknown_conclusion = false;
         
+    }
+
+    public boolean isObtainConclusion() {
+        return obtain_conclusion;
+    }
+
+    public boolean isUnknownConclusion() {
+        return unknown_conclusion;
     }
     
     public Premise getNextPremise(){
@@ -98,6 +112,8 @@ public class FCManager {
         updateStatusByEnvironment();
         updateTriggeredStatus();
         updateFiredStatus();
+        if (!anyActiveRule() && !anyTriggeredRule())
+            unknown_conclusion = true;
         marked_rule = getMarkedRule();
         showRulesStatuses();
         showEnvironment();
@@ -228,6 +244,7 @@ public class FCManager {
     
     private void updateFiredStatus() {
         boolean use_in_future = false;
+        int ltr_idx = -1;
         for (int i = 0; i < database.rules.size(); i++) {
             if (database.rules.get(i).statuses.contains("D")) {
                 continue;
@@ -243,20 +260,44 @@ public class FCManager {
                 if (!use_in_future && 
                     database.rules.get(i).getId() == last_triggered_rule.getId()) 
                 {
+                    ltr_idx = i;
                     database.rules.get(i).statuses.remove("TD");
                     database.rules.get(i).statuses.add("FD");
+                    obtain_conclusion = true;
+                    return;
                 }
             }
+        }
+        if (!anyActiveRule() && ltr_idx != -1) {
+            database.rules.get(ltr_idx).statuses.remove("TD");
+            database.rules.get(ltr_idx).statuses.add("FD");
+            obtain_conclusion = true;
         }
     }
     
     private boolean anyActiveRule() {
         for (int i = 0; i < database.rules.size(); i++) {
             if (database.rules.get(i).statuses.contains("A")) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
+    }
+    
+    private boolean anyTriggeredRule() {
+        for (int i = 0; i < database.rules.size(); i++) {
+            if (database.rules.get(i).statuses.contains("TR"))
+                return true;
+        }
+        return false;
+    }
+    
+    private boolean anyFiredRule() {
+        for (int i = 0; i < database.rules.size(); i++) {
+            if (database.rules.get(i).statuses.contains("FR"))
+                return true;
+        }
+        return false;
     }
     
     private void showEnvironment() {

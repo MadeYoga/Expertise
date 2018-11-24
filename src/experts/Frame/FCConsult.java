@@ -70,6 +70,7 @@ public class FCConsult extends javax.swing.JFrame {
         questionLabel = new javax.swing.JLabel();
         submitButton = new javax.swing.JButton();
         whyButton = new javax.swing.JButton();
+        conclusionLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,6 +85,8 @@ public class FCConsult extends javax.swing.JFrame {
 
         whyButton.setText("why");
 
+        conclusionLabel.setText("Conclusion: ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -91,6 +94,7 @@ public class FCConsult extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(conclusionLabel)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -107,7 +111,9 @@ public class FCConsult extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(submitButton)
                     .addComponent(whyButton))
-                .addContainerGap(160, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(conclusionLabel)
+                .addContainerGap(128, Short.MAX_VALUE))
         );
 
         pack();
@@ -118,10 +124,20 @@ public class FCConsult extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         if (current_premise == null) {
+            System.out.println("current_premise null");
             return;
         }
         
-        manager.setAnswer(current_premise, 31);
+        manager.setAnswer(current_premise, 32);
+        
+        if (manager.isObtainConclusion()) {
+            conclusionLabel.setText(
+                    "Conclusion: " + 
+                    manager.last_triggered_rule.getConclusion()
+            );
+        } else if (manager.isUnknownConclusion()) {
+            conclusionLabel.setText("Conclusion: UNKNOWN");
+        }
         
         current_premise = manager.getNextPremise();
         
@@ -169,6 +185,7 @@ public class FCConsult extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel conclusionLabel;
     private javax.swing.JLabel questionLabel;
     private javax.swing.JButton submitButton;
     private javax.swing.JButton whyButton;
