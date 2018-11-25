@@ -91,10 +91,8 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="howButton" pref="35" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="whyButton" pref="35" max="32767" attributes="0"/>
-                      <Component id="submitButton" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="whyButton" pref="35" max="32767" attributes="0"/>
+                  <Component id="submitButton" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="conclusionLabel" min="-2" max="-2" attributes="0"/>

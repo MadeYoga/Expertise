@@ -274,7 +274,7 @@ public class BCConsult extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        panel1.setBackground(new java.awt.Color(255, 255, 255));
+        panel1.setBackground(new java.awt.Color(204, 204, 204));
 
         QuestionLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         QuestionLabel.setText("Premise");
