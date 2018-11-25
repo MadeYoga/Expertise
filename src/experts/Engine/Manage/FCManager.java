@@ -126,11 +126,10 @@ public class FCManager {
     public void setAnswer(Premise answered_premise, int user_answer){
         working_memory.environment.put(
                 answered_premise.getQuestion(), user_answer);
-        updateDatabase(user_answer);
-        updateStatusByEnvironment();
-        updateTriggeredStatus();
-        updateStatusByEnvironment();
-        updateTriggeredStatus();
+        updateDatabase(answered_premise, user_answer);                          // update status by user answer
+        do {
+            updateStatusByEnvironment();                                        // update status by environment value
+        } while (updateTriggeredStatus());
         updateFiredStatus();
         if (!anyActiveRule() && !anyTriggeredRule())
         {
@@ -157,10 +156,10 @@ public class FCManager {
             for (int j = 0; j < current_rule.premises.size(); j++) {
                 Premise current_premise = current_rule.premises.get(j);
                 if (!working_memory.environment
-                            .containsKey(current_premise.getQuestion()))
+                            .containsKey(current_premise.getQuestion()))        // not yet answered
                     continue;
-                if ( !current_premise.statuses.contains("FR") )
-                    continue;
+                if ( !current_premise.statuses.contains("FR") )                 // already checked&updated before
+                    continue;                                                   // answered + not updated == current answered premise
                 if (current_premise.getRulesPremiseValue() != user_answer) {
                     database.rules.get(i).statuses.remove("U");
                     database.rules.get(i).statuses.remove("A");
@@ -180,18 +179,55 @@ public class FCManager {
         return;
     }
     
+    public void updateDatabase(Premise p, int user_answer)                      // enhanced performance
+    {
+        for (int i = 0; i < database.rules.size(); i++) 
+        {
+            Rule current_rule = database.rules.get(i);
+            if (current_rule.statuses.contains("D") ||
+                current_rule.statuses.contains("TD"))
+                continue;
+            for (int j = 0; j < current_rule.premises.size(); j++) 
+            {
+                Premise current_premise = current_rule.premises.get(j);
+                if (current_premise.getId() == p.getId()) 
+                {
+                    if (current_premise.getRulesPremiseValue() != user_answer) 
+                    {
+                        database.rules.get(i).statuses.remove("U");
+                        database.rules.get(i).statuses.remove("A");
+                        database.rules.get(i).statuses.remove("M");
+                        database.rules.get(i).statuses.add("U");
+                        database.rules.get(i).statuses.add("D");
+                        database.rules.get(i).premises.get(j).statuses.remove("FR");
+                        database.rules.get(i).premises.get(j).statuses.add("FA");
+                    } 
+                    else 
+                    {
+                        database.rules.get(i).premises.get(j).statuses.remove("FR");
+                        database.rules.get(i).premises.get(j).statuses.add("TU");
+                    }
+                    working_memory.environment.put(
+                            current_premise.getQuestion(), user_answer);
+                    break;
+                }
+            }
+        }
+        return;
+    }
+    
     private void updateStatusByEnvironment(){
         for (int i = 0; i < database.rules.size(); i++) {
             for (int j = 0; j < database.rules.get(i).premises.size(); j++) {
                 Premise p = database.rules.get(i).premises.get(j);
                 if (working_memory.environment.containsKey(p.getQuestion()) &&
-                        p.statuses.contains("FR")){
+                        p.statuses.contains("FR"))
+                {
                     if ((int) working_memory.environment.get(p.getQuestion()) == 
                             p.getRulesPremiseValue()) {
                         database.rules.get(i).premises.get(j).statuses.remove("FR");
                         database.rules.get(i).premises.get(j).statuses.add("TU"); 
-                    } 
-                    else {
+                    } else {
                         database.rules.get(i).statuses.remove("U");
                         database.rules.get(i).statuses.remove("D");
                         database.rules.get(i).statuses.remove("A");
@@ -206,7 +242,8 @@ public class FCManager {
         }
     }
     
-    private void updateTriggeredStatus(){
+    private boolean updateTriggeredStatus(){
+        boolean something_is_changed = false;
         for (int i = 0; i < database.rules.size(); i++) {
             if (database.rules.get(i).statuses.contains("TD"))
                 continue;
@@ -218,8 +255,10 @@ public class FCManager {
                 database.rules.get(i).statuses.remove("M");
                 database.rules.get(i).statuses.add("TD");
                 last_triggered_rule = database.rules.get(i);
+                something_is_changed = true;
             }
         }
+        return something_is_changed;
     }
     
     public Rule getMarkedRule() {
