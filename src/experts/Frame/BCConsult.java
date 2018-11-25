@@ -26,7 +26,7 @@ package experts.Frame;
 import experts.Database.AnswerStore;
 import experts.Database.Storage;
 import experts.Engine.BCDatabase;
-import experts.Engine.BCManager;
+import experts.Engine.Manage.BCManager;
 import experts.Entities.Answer;
 import experts.Entities.Premise;
 import experts.Engine.GoalTable;
@@ -182,9 +182,9 @@ public class BCConsult extends javax.swing.JFrame {
             radio_buttons.add(button);
             radio_buttons.get(i).getButton().setBounds(300, 160 + i * 25, 100, 20);
             
-            if (i == 0) {
-                radio_buttons.get(i).getButton().setSelected(true);
-            }
+//            if (i == 0) {
+//                radio_buttons.get(i).getButton().setSelected(true);
+//            }
 
             panel1.add(radio_buttons.get(i).getButton());
 
@@ -273,8 +273,6 @@ public class BCConsult extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        panel1.setBackground(new java.awt.Color(204, 204, 204));
 
         QuestionLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         QuestionLabel.setText("Premise");
@@ -377,9 +375,9 @@ public class BCConsult extends javax.swing.JFrame {
                     .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(whyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(howButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(75, 75, 75)
+                .addGap(18, 18, 18)
                 .addComponent(conclusionLabel)
-                .addGap(121, 121, 121)
+                .addGap(178, 178, 178)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(workingMemoryLabel)
                     .addComponent(active_rule_label))

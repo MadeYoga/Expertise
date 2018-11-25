@@ -42,11 +42,6 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="panel1">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="cc" red="cc" type="rgb"/>
-        </Property>
-      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -109,9 +104,9 @@
                       <Component id="whyButton" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                       <Component id="howButton" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="75" pref="75" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="conclusionLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="121" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="178" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="workingMemoryLabel" min="-2" max="-2" attributes="0"/>
                       <Component id="active_rule_label" min="-2" max="-2" attributes="0"/>

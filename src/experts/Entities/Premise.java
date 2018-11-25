@@ -31,18 +31,22 @@ import java.util.ArrayList;
  */
 public class Premise {
     
-    int     id              = -1;
-    String  question        = "";
-    String  answer          = "";
+    private int     id              = -1;
+    private String  question        = "";
+    private String  answer          = "";
     
     // NILAI KETENTUAN PREMISE DARI RULE
-    int rules_premise_val = -1; // ACTUAL VALUE
-    int rules_premise_id  = -1;
-    
+    private int rules_premise_val   = -1; // ACTUAL VALUE
+    private int rules_premise_id    = -1;
+    private float certainty_factor  = -1;
     public Rule parent = null;
     public ArrayList <String>  statuses = new ArrayList <String> ();
     public ArrayList <Answer> list_of_answer = new ArrayList <Answer>();
     public ArrayList <Rule> rules = null;
+    
+    public Premise(){
+        
+    }
     
     public Premise(int _id, String _question){
         id          = _id;
@@ -102,9 +106,13 @@ public class Premise {
     public void setRulesPremiseValue(int value){
         this.rules_premise_val = value;
     }
-    
-    public Premise(){
-        
+
+    public float getCertaintyFactor() {
+        return certainty_factor;
+    }
+
+    public void setCertaintyFactor(float certainty_factor) {
+        this.certainty_factor = certainty_factor;
     }
     
 }

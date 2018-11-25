@@ -24,7 +24,7 @@
 package experts.Frame;
 
 import experts.Database.AnswerStore;
-import experts.Engine.FCManager;
+import experts.Engine.Manage.FCManager;
 import experts.Entities.Answer;
 import experts.Entities.Expert;
 import experts.Entities.Premise;

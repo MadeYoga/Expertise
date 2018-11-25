@@ -22,9 +22,12 @@
  * THE SOFTWARE.
  */
 
-package experts.Engine;
+package experts.Engine.Manage;
 
 import experts.Database.AnswerStore;
+import experts.Engine.BCDatabase;
+import experts.Engine.GoalTable;
+import experts.Engine.WorkingMemory;
 import experts.Entities.*;
 import java.util.HashSet;
 import java.util.LinkedList;

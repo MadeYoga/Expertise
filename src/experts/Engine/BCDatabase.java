@@ -99,6 +99,7 @@ public class BCDatabase {
                 rule.setConclusion(rs.getString("conclusion"));
                 rule.setConclusionValue(rs.getInt("conclusion_value"));
                 rule.setHierarchy(rs.getInt("hierarchy"));
+                rule.setCertaintyFactor(rs.getFloat("cf"));
                 result.add(rule);
             }
             rs.close();
@@ -127,7 +128,7 @@ public class BCDatabase {
                 loaded_premise.rules = loadPremiseRules(loaded_premise);
                 loaded_premise.list_of_answer = loadPremiseAnswers(loaded_premise);
                 loaded_premise.setRulesPremiseValue(rs.getInt("RP.premise_val"));
-                
+                loaded_premise.setCertaintyFactor(rs.getFloat("cf"));
                 // UPDATE 18 NOVEMBER, PREMISE's PARENT
                 loaded_premise.parent = rule;
                 result.add(loaded_premise);

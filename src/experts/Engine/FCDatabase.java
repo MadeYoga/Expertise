@@ -122,6 +122,7 @@ public class FCDatabase {
                         .loadPremiseAnswers(loaded_premise);
                 loaded_premise.setRulesPremiseValue(
                         rs.getInt("RP.premise_val"));
+                loaded_premise.setCertaintyFactor(rs.getFloat("cf"));
                 result.add(loaded_premise);
             }
             rs.close();

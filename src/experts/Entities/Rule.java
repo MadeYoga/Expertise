@@ -35,7 +35,7 @@ public class Rule {
     private String conclusion       = "";
     private int conclusion_value    = -1;
     private int hierarchy           = -1;
-    
+    private float certainty_factor  = -1;
     public Premise parent = null;
     public ArrayList <String>  statuses = new ArrayList <String> ();
     public ArrayList <Premise> premises = new ArrayList <Premise>();
@@ -50,7 +50,7 @@ public class Rule {
 
     @Override
     public String toString() {
-        return "Rule " + "" + id + ", " + conclusion + " ";
+        return "Rule " + "" + id + ", " + conclusion + ", cf: " + certainty_factor;
     }
     
     public int getId() {
@@ -83,6 +83,14 @@ public class Rule {
 
     public void setHierarchy(int hierarchy) {
         this.hierarchy = hierarchy;
+    }
+
+    public float getCertaintyFactor() {
+        return certainty_factor;
+    }
+
+    public void setCertaintyFactor(float certainty_factor) {
+        this.certainty_factor = certainty_factor;
     }
     
 }

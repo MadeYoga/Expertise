@@ -21,9 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package experts.Engine;
+package experts.Engine.Manage;
 
 import experts.Database.AnswerStore;
+import experts.Engine.FCDatabase;
+import experts.Engine.QueueTable;
+import experts.Engine.WorkingMemory;
 import experts.Entities.Premise;
 import experts.Entities.Rule;
 import java.util.Map;
