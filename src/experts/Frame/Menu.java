@@ -263,6 +263,16 @@ public class Menu extends javax.swing.JFrame {
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        if (selected_expert == null) 
+        {
+            JOptionPane.showMessageDialog(
+                    null, 
+                    "No Expert Selected", 
+                    "InfoBox: Expertise", 
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
         if(FC.isSelected())
         {
             FCConsult obj = new FCConsult(selected_expert, this);
@@ -278,9 +288,8 @@ public class Menu extends javax.swing.JFrame {
         else
         {
             String st = "No Method Selected";
-            String titleBar = "System Expert";
+            String titleBar = "Expertise";
             JOptionPane.showMessageDialog(null, st, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
-
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
