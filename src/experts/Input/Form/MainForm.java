@@ -40,8 +40,8 @@ public class MainForm extends javax.swing.JFrame
     public MainForm()
     {
 	initComponents();
-//	this.setContentPane(new AddExpert(this));
-	this.setContentPane(new AddPremiseRule(this, 19));
+	this.setContentPane(new AddExpert(this));
+//	this.setContentPane(new AddPremiseRule(this, 19));
 	setLocationRelativeTo(null);
     }
 
