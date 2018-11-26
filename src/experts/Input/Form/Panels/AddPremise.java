@@ -129,7 +129,7 @@ public class AddPremise extends javax.swing.JPanel
 	PremiseDatabase db = new PremiseDatabase();
 	if (db.HasSamePremiseName(_ExpertID, this.PremiseText.getText().trim()) == true)
 	{
-	    JOptionPane.showMessageDialog(this, "Premise with name (" + this.PremiseText.getText().trim() +") " +
+	    JOptionPane.showMessageDialog(this, "Premise with name (" + this.PremiseText.getText().trim() + ") " +
 						"has already recorded.");
 	    return;
 	}
