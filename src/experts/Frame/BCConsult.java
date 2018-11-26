@@ -27,6 +27,7 @@ import experts.Database.AnswerStore;
 import experts.Database.Storage;
 import experts.Engine.BCDatabase;
 import experts.Engine.Manage.BCManager;
+import experts.Engine.cf.MYCIN;
 import experts.Entities.Answer;
 import experts.Entities.Expert;
 import experts.Entities.Premise;
@@ -35,6 +36,8 @@ import experts.Modified.swing.RadioButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -175,10 +178,6 @@ public class BCConsult extends javax.swing.JFrame {
             radio_buttons.add(button);
             radio_buttons.get(i).getButton().setBounds(315, 175 + i * 25, 100, 20);
             
-            if (i == 0) {
-                radio_buttons.get(i).getButton().setSelected(true);
-            }
-
             panel1.add(radio_buttons.get(i).getButton());
 
             radio_buttons.get(i).getButton().addActionListener(new ActionListener() {
@@ -384,7 +383,7 @@ public class BCConsult extends javax.swing.JFrame {
                 .addGroup(BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(active_rule_label)
                     .addComponent(workingMemoryLabel))
-                .addContainerGap(227, Short.MAX_VALUE))
+                .addContainerGap(229, Short.MAX_VALUE))
             .addGroup(BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(BottomLayout.createSequentialGroup()
                     .addGap(50, 50, 50)
@@ -438,7 +437,7 @@ public class BCConsult extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -447,6 +446,15 @@ public class BCConsult extends javax.swing.JFrame {
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         // TODO add your handling code here:
+        
+        if (selected_answer == null) {
+            JOptionPane.showMessageDialog (
+                this, "Choose 1 answer", "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+        
         // CHECK IF FINISHED,
         if (active_premise == null
             || manager.getUnknownConclusion()
@@ -480,18 +488,23 @@ public class BCConsult extends javax.swing.JFrame {
             conclusionLabel.setText("UNKNOWN");
             return;
         } else if (manager.conclusionObtained()) {
-            howButton.setVisible(true);
-            whyButton.setVisible(false);
-            Rule rule = manager.getGoalTable().current_rule;
-            QuestionLabel.setText("Question: -");
-            conclusionLabel.setText(
-                "Conclusion: "
-                + "RULE " + rule.getId()
-                + ", " + rule.getConclusion()
-                + " = " + manager.answerStore.get_answer_by_id(
-                        rule.getConclusionValue() ).getAnswer()
-            );
-            return;
+            try {
+                howButton.setVisible(true);
+                whyButton.setVisible(false);
+                Rule rule = manager.getGoalTable().current_rule;
+                QuestionLabel.setText("Question: -");
+                conclusionLabel.setText(
+                        "Conclusion: "
+                                + "RULE " + rule.getId()
+                                + ", " + new MYCIN().getUncertaintyTerm(rule) 
+                                + " " + rule.getConclusion()
+                                + " = " + manager.answerStore.get_answer_by_id(
+                                        rule.getConclusionValue() ).getAnswer()
+                );
+                return;
+            } catch (Exception ex) {
+                Logger.getLogger(BCConsult.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         // GET NEXT PREMISE
