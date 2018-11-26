@@ -25,6 +25,7 @@ package experts.Frame;
 
 import experts.Database.AnswerStore;
 import experts.Engine.Manage.FCManager;
+import experts.Engine.cf.MYCIN;
 import experts.Entities.Answer;
 import experts.Entities.Expert;
 import experts.Entities.Premise;
@@ -35,8 +36,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -45,15 +49,15 @@ import javax.swing.JOptionPane;
  */
 public class FCConsult extends javax.swing.JFrame {
     
-    public Menu parent;
-    public FCManager manager;
-    public Premise current_premise;
-    public AnswerStore answerStore;
-    private DefaultListModel environment_list;
-    private DefaultListModel answer_list;
+    public  Menu                   parent;
+    public  FCManager              manager;
+    public  Premise                current_premise;
+    public  AnswerStore            answerStore;
+    private DefaultListModel       environment_list;
+    private DefaultListModel       answer_list;
     private ArrayList<RadioButton> radio_buttons = new ArrayList<RadioButton>();
-    private ButtonGroup button_group             = new ButtonGroup();
-    private Answer selected_answer;
+    private ButtonGroup            button_group  = new ButtonGroup();
+    private Answer                 selected_answer;
     
     /**
      * Creates new form FCConsult
@@ -133,6 +137,15 @@ public class FCConsult extends javax.swing.JFrame {
         
         howButton.setVisible(false);
         
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                parent.setVisible(true);
+            }
+        });
+        
         this.parent = parent;
         
     }
@@ -161,8 +174,7 @@ public class FCConsult extends javax.swing.JFrame {
         System.setOut( outStream );
         
         System.setErr( outStream );
-    
-     
+        
         environment_list = new DefaultListModel();
         
         answer_list = new DefaultListModel();
@@ -174,6 +186,15 @@ public class FCConsult extends javax.swing.JFrame {
         setAnswerList();
         
         howButton.setVisible(false);
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                parent.setVisible(true);
+            }
+        });
         
         this.parent = parent;
         
@@ -418,6 +439,14 @@ public class FCConsult extends javax.swing.JFrame {
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         // TODO add your handling code here:
         
+        if (selected_answer == null) {
+            JOptionPane.showMessageDialog (
+                this, "Choose 1 answer", "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+        
         if (current_premise == null) {
             System.out.println("current_premise: null");
             return;
@@ -428,13 +457,19 @@ public class FCConsult extends javax.swing.JFrame {
         setEnvironmentList();
         
         if (manager.isObtainConclusion()) {
-            conclusionLabel.setText(
-                    "Conclusion: " + 
+            try {
+                conclusionLabel.setText(
+                    "Conclusion: " +
+                    new MYCIN().getUncertaintyTerm(manager.last_triggered_rule)
+                    + " " +
                     manager.last_triggered_rule.getConclusion()
-            );
-            questionLabel.setText("Question: -");
-            whyButton.setVisible(false);
-            howButton.setVisible(true);
+                );
+                questionLabel.setText("Question: -");
+                whyButton.setVisible(false);
+                howButton.setVisible(true);
+            } catch (Exception ex) {
+                Logger.getLogger(FCConsult.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else if (manager.isUnknownConclusion()) {
             conclusionLabel.setText("Conclusion: UNKNOWN");
             questionLabel.setText("Question: -");
