@@ -26,7 +26,7 @@ package experts.Frame;
 import experts.Database.AnswerStore;
 import experts.Database.Storage;
 import experts.Engine.BCDatabase;
-import experts.Engine.Manage.BCManager;
+import experts.Engine.BCManager;
 import experts.Entities.Answer;
 import experts.Entities.Premise;
 import experts.Engine.GoalTable;
@@ -180,11 +180,11 @@ public class BCConsult extends javax.swing.JFrame {
             button.setText(active_premise.list_of_answer.get(i).getAnswer());
 
             radio_buttons.add(button);
-            radio_buttons.get(i).getButton().setBounds(300, 160 + i * 25, 100, 20);
+            radio_buttons.get(i).getButton().setBounds(315, 175 + i * 25, 100, 20);
             
-//            if (i == 0) {
-//                radio_buttons.get(i).getButton().setSelected(true);
-//            }
+            if (i == 0) {
+                radio_buttons.get(i).getButton().setSelected(true);
+            }
 
             panel1.add(radio_buttons.get(i).getButton());
 
@@ -261,20 +261,25 @@ public class BCConsult extends javax.swing.JFrame {
         QuestionLabel = new javax.swing.JLabel();
         submitButton = new javax.swing.JButton();
         conclusionLabel = new javax.swing.JLabel();
+        whyButton = new javax.swing.JButton();
+        howButton = new javax.swing.JButton();
+        title = new javax.swing.JPanel();
+        titleLabel = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        Bottom = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         memory_item_list = new javax.swing.JList<>();
         workingMemoryLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         active_rule_list = new javax.swing.JList<>();
         active_rule_label = new javax.swing.JLabel();
-        whyButton = new javax.swing.JButton();
-        howButton = new javax.swing.JButton();
-        titleLabel = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
-        QuestionLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        panel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        QuestionLabel.setFont(new java.awt.Font("Palatino Linotype", 1, 24)); // NOI18N
         QuestionLabel.setText("Premise");
 
         submitButton.setText("submit");
@@ -284,28 +289,8 @@ public class BCConsult extends javax.swing.JFrame {
             }
         });
 
-        conclusionLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        conclusionLabel.setFont(new java.awt.Font("Palatino Linotype", 1, 24)); // NOI18N
         conclusionLabel.setText("Conclusion");
-
-        memory_item_list.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(memory_item_list);
-
-        workingMemoryLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        workingMemoryLabel.setText("Working Memory");
-
-        active_rule_list.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(active_rule_list);
-
-        active_rule_label.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        active_rule_label.setText("Active Rule");
 
         whyButton.setText("why ?");
         whyButton.addActionListener(new java.awt.event.ActionListener() {
@@ -321,70 +306,135 @@ public class BCConsult extends javax.swing.JFrame {
             }
         });
 
-        titleLabel.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        title.setBackground(new java.awt.Color(51, 51, 51));
+
+        titleLabel.setFont(new java.awt.Font("Typoster Outline", 0, 36)); // NOI18N
+        titleLabel.setForeground(new java.awt.Color(255, 255, 255));
+        titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titleLabel.setText("Expert's Name");
+
+        javax.swing.GroupLayout titleLayout = new javax.swing.GroupLayout(title);
+        title.setLayout(titleLayout);
+        titleLayout.setHorizontalGroup(
+            titleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(titleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(titleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(titleLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 803, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        titleLayout.setVerticalGroup(
+            titleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titleLayout.createSequentialGroup()
+                .addContainerGap(37, Short.MAX_VALUE)
+                .addComponent(titleLabel)
+                .addGap(32, 32, 32))
+            .addGroup(titleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(titleLayout.createSequentialGroup()
+                    .addContainerGap(89, Short.MAX_VALUE)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
+        );
+
+        Bottom.setBackground(new java.awt.Color(102, 102, 102));
+
+        memory_item_list.setFont(new java.awt.Font("Palatino Linotype", 0, 13)); // NOI18N
+        memory_item_list.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(memory_item_list);
+
+        workingMemoryLabel.setFont(new java.awt.Font("Palatino Linotype", 1, 18)); // NOI18N
+        workingMemoryLabel.setForeground(new java.awt.Color(255, 255, 255));
+        workingMemoryLabel.setText("Working Memory");
+
+        active_rule_list.setFont(new java.awt.Font("Palatino Linotype", 0, 13)); // NOI18N
+        active_rule_list.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(active_rule_list);
+
+        active_rule_label.setFont(new java.awt.Font("Palatino Linotype", 1, 18)); // NOI18N
+        active_rule_label.setForeground(new java.awt.Color(255, 255, 255));
+        active_rule_label.setText("Active Rule");
+
+        javax.swing.GroupLayout BottomLayout = new javax.swing.GroupLayout(Bottom);
+        Bottom.setLayout(BottomLayout);
+        BottomLayout.setHorizontalGroup(
+            BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BottomLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(workingMemoryLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 254, Short.MAX_VALUE)
+                .addComponent(active_rule_label)
+                .addGap(311, 311, 311))
+            .addGroup(BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(BottomLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        BottomLayout.setVerticalGroup(
+            BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BottomLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(active_rule_label)
+                    .addComponent(workingMemoryLabel))
+                .addContainerGap(227, Short.MAX_VALUE))
+            .addGroup(BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(BottomLayout.createSequentialGroup()
+                    .addGap(50, 50, 50)
+                    .addGroup(BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(39, Short.MAX_VALUE)))
+        );
 
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
         panel1Layout.setHorizontalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(Bottom, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(panel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jSeparator1)
-                .addContainerGap())
-            .addGroup(panel1Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(workingMemoryLabel)
-                        .addGap(272, 272, 272)
-                        .addComponent(active_rule_label))
-                    .addGroup(panel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panel1Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(titleLabel)))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(panel1Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(conclusionLabel)
                     .addGroup(panel1Layout.createSequentialGroup()
                         .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(whyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(howButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(conclusionLabel)
                     .addComponent(QuestionLabel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(titleLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(QuestionLabel)
                 .addGap(6, 6, 6)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(whyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(howButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(72, 72, 72)
                 .addComponent(conclusionLabel)
-                .addGap(178, 178, 178)
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(workingMemoryLabel)
-                    .addComponent(active_rule_label))
-                .addGap(11, 11, 11)
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Bottom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -395,7 +445,7 @@ public class BCConsult extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -524,6 +574,7 @@ public class BCConsult extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Bottom;
     private javax.swing.JLabel QuestionLabel;
     private javax.swing.JLabel active_rule_label;
     private javax.swing.JList<String> active_rule_list;
@@ -538,6 +589,7 @@ public class BCConsult extends javax.swing.JFrame {
     private javax.swing.JList<String> memory_item_list;
     private javax.swing.JPanel panel1;
     private javax.swing.JButton submitButton;
+    private javax.swing.JPanel title;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JButton whyButton;
     private javax.swing.JLabel workingMemoryLabel;
