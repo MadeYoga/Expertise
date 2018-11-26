@@ -29,8 +29,21 @@ import experts.Entities.Rule;
  *
  * @author owner
  */
-public interface ConfidenceFactor {
-    public String getUncertaintyTerm(Rule rule) throws Exception;
-    public float  calculate_cf(Rule rule);
-    public String convert_(float cf);
+public class ConfidenceFactorUnion implements ConfidenceFactor{
+
+    @Override
+    public String getUncertaintyTerm(Rule rule) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public float calculate_cf(Rule rule) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String convert_(float cf) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }
