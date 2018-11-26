@@ -174,7 +174,7 @@ public class Menu extends javax.swing.JFrame {
                 jLabel4MouseClicked(evt);
             }
         });
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(459, 106, 290, -1));
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 110, 320, -1));
 
         FC.setBackground(new java.awt.Color(204, 204, 204));
         method.add(FC);

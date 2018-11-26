@@ -26,7 +26,7 @@ package experts.Frame;
 import experts.Database.AnswerStore;
 import experts.Database.Storage;
 import experts.Engine.BCDatabase;
-import experts.Engine.BCManager;
+import experts.Engine.Manage.BCManager;
 import experts.Entities.Answer;
 import experts.Entities.Premise;
 import experts.Engine.GoalTable;
