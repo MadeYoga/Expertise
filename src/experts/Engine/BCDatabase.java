@@ -71,6 +71,7 @@ public class BCDatabase {
                 rule.setConclusion(rs.getString("conclusion"));
                 rule.setConclusionValue(rs.getInt("conclusion_value"));
                 rule.setHierarchy(rs.getInt("hierarchy"));
+                rule.setCertaintyFactor(rs.getFloat("cf"));
                 result.add(rule);
             }
             rs.close();
@@ -158,6 +159,7 @@ public class BCDatabase {
                 loaded_rule.setConclusion(rs.getString("conclusion"));
                 loaded_rule.setConclusionValue(rs.getInt("conclusion_value"));
                 loaded_rule.setHierarchy(rs.getInt("hierarchy"));
+                loaded_rule.setCertaintyFactor(rs.getFloat("cf"));
                 loaded_rule.premises = loadRulesPremise(loaded_rule);
                 
                 // UPDATE 18 NOVEMBER, RULE's PARENT
