@@ -200,7 +200,6 @@ public class AddPremiseRule extends javax.swing.JPanel
         setMaximumSize(new java.awt.Dimension(1920, 1080));
         setMinimumSize(new java.awt.Dimension(1024, 600));
         setPreferredSize(new java.awt.Dimension(1024, 600));
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Monospaced", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -208,7 +207,6 @@ public class AddPremiseRule extends javax.swing.JPanel
         jLabel1.setMaximumSize(new java.awt.Dimension(360, 50));
         jLabel1.setMinimumSize(new java.awt.Dimension(360, 50));
         jLabel1.setPreferredSize(new java.awt.Dimension(360, 50));
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(332, 50, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -216,21 +214,18 @@ public class AddPremiseRule extends javax.swing.JPanel
         jLabel2.setMaximumSize(new java.awt.Dimension(200, 35));
         jLabel2.setMinimumSize(new java.awt.Dimension(200, 35));
         jLabel2.setPreferredSize(new java.awt.Dimension(200, 35));
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 140, -1, -1));
 
         PremiseList.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         PremiseList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         PremiseList.setMaximumSize(new java.awt.Dimension(250, 35));
         PremiseList.setMinimumSize(new java.awt.Dimension(250, 35));
         PremiseList.setPreferredSize(new java.awt.Dimension(250, 35));
-        add(PremiseList, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 140, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         jLabel3.setText("Rule");
         jLabel3.setMaximumSize(new java.awt.Dimension(200, 35));
         jLabel3.setMinimumSize(new java.awt.Dimension(200, 35));
         jLabel3.setPreferredSize(new java.awt.Dimension(200, 35));
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 180, -1, -1));
 
         RuleList.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         RuleList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -242,7 +237,6 @@ public class AddPremiseRule extends javax.swing.JPanel
                 RuleListItemStateChanged(evt);
             }
         });
-        add(RuleList, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 180, -1, -1));
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(450, 131));
 
@@ -251,8 +245,6 @@ public class AddPremiseRule extends javax.swing.JPanel
         RuleDetail.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         RuleDetail.setRows(5);
         jScrollPane1.setViewportView(RuleDetail);
-
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 230, -1, -1));
 
         AddButton.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         AddButton.setText("Add");
@@ -264,7 +256,6 @@ public class AddPremiseRule extends javax.swing.JPanel
                 AddButtonActionPerformed(evt);
             }
         });
-        add(AddButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 180, -1, -1));
 
         ResetButton.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         ResetButton.setText("Reset");
@@ -276,7 +267,6 @@ public class AddPremiseRule extends javax.swing.JPanel
                 ResetButtonActionPerformed(evt);
             }
         });
-        add(ResetButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 230, -1, -1));
 
         NextButton.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         NextButton.setText("Next");
@@ -288,7 +278,6 @@ public class AddPremiseRule extends javax.swing.JPanel
                 NextButtonActionPerformed(evt);
             }
         });
-        add(NextButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(632, 370, -1, -1));
 
         FinishButton.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         FinishButton.setText("Finish");
@@ -300,7 +289,6 @@ public class AddPremiseRule extends javax.swing.JPanel
                 FinishButtonActionPerformed(evt);
             }
         });
-        add(FinishButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(632, 420, -1, -1));
 
         jScrollPane2.setPreferredSize(new java.awt.Dimension(200, 100));
 
@@ -308,7 +296,73 @@ public class AddPremiseRule extends javax.swing.JPanel
         Log.setRows(5);
         jScrollPane2.setViewportView(Log);
 
-        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 370, 330, -1));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(332, 332, 332)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(332, 332, 332))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(282, 282, 282)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(198, 198, 198)
+                        .addComponent(PremiseList, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(294, 294, 294))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(282, 282, 282)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(198, 198, 198)
+                        .addComponent(RuleList, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(10, 10, 10)
+                .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(184, 184, 184))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(282, 282, 282)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(8, 8, 8)
+                .addComponent(ResetButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(184, 184, 184))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(280, 280, 280)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(NextButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(FinishButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(292, 292, 292))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PremiseList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RuleList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ResetButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(NextButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(FinishButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
