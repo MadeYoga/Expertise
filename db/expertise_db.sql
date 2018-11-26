@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.8.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 07, 2018 at 12:02 PM
--- Server version: 10.1.36-MariaDB
--- PHP Version: 7.2.11
+-- Generation Time: Nov 26, 2018 at 03:55 AM
+-- Server version: 10.1.32-MariaDB
+-- PHP Version: 7.2.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -39,8 +39,8 @@ CREATE TABLE `answer` (
 --
 
 INSERT INTO `answer` (`id`, `answer`, `expertid`) VALUES
-(1, 'YA', NULL),
-(2, 'NO', NULL),
+(1, 'YA', 1),
+(2, 'NO', 1),
 (3, 'YA', 6),
 (4, 'TIDAK', 6),
 (5, 'TERIMA', 6),
@@ -66,7 +66,11 @@ INSERT INTO `answer` (`id`, `answer`, `expertid`) VALUES
 (25, 'YA', 16),
 (26, 'TIDAK', 16),
 (27, 'YA', 17),
-(28, 'NO', 17);
+(28, 'NO', 17),
+(29, 'YA', 18),
+(30, 'TIDAK', 18),
+(31, 'YA', 2),
+(32, 'NO', 2);
 
 -- --------------------------------------------------------
 
@@ -98,7 +102,8 @@ INSERT INTO `experts` (`id`, `name`, `description`) VALUES
 (14, 'TESTING 10', 'TESTING 10'),
 (15, 'TESTING 11', 'TESTING 11'),
 (16, 'TETING 12', 'TESTING 12'),
-(17, 'TESTING 13', 'TESTING 13');
+(17, 'TESTING 13', 'TESTING 13'),
+(18, 'ExpertDoc', 'PAKAR ANAK');
 
 -- --------------------------------------------------------
 
@@ -110,54 +115,57 @@ CREATE TABLE `premise` (
   `id` int(11) NOT NULL,
   `question` varchar(256) NOT NULL,
   `expertid` int(11) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL
+  `name` varchar(255) DEFAULT NULL,
+  `cf` float NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `premise`
 --
 
-INSERT INTO `premise` (`id`, `question`, `expertid`, `name`) VALUES
-(1, 'lulus test math ?', NULL, NULL),
-(2, 'lulus test b.ing ?', NULL, NULL),
-(5, 'tidak memiliki mobil pribadi ?', NULL, NULL),
-(7, 'pemakaian daya listrik di rekening <= 2200VA', NULL, NULL),
-(8, 'uang gaji perbulan <= 1jt, dari ortu ?', NULL, NULL),
-(9, 'ayah/ibu memiliki nama marga asli putra daerah ?', NULL, NULL),
-(10, 'Akademik', NULL, NULL),
-(11, 'Finansial', NULL, NULL),
-(12, 'Putra daerah', NULL, NULL),
-(13, 'Terdapat garis pada layar ?', NULL, NULL),
-(14, 'Layar pecah ? ', NULL, NULL),
-(15, 'Layar buram ? ', NULL, NULL),
-(16, 'White screen ? ', NULL, NULL),
-(17, 'Baterai drop ?', NULL, NULL),
-(18, 'Smartphone panas ?', NULL, NULL),
-(19, 'blank screen ? ', NULL, NULL),
-(20, 'Tidak dapat memproses Aplikasi ?', NULL, NULL),
-(21, 'Smartphone reboot tiba-tiba ?', NULL, NULL),
-(22, 'Tidak berhenti mengisi daya ?', NULL, NULL),
-(23, 'Baterai cepat panas ?', NULL, NULL),
-(24, 'Baterai menggelembung ? ', NULL, NULL),
-(25, 'Tidak berhenti mengisi daya ?', NULL, NULL),
-(26, 'AKADEMIK TERPENUHI ?', 6, 'AKADEMIK'),
-(27, 'AKADEMIK TERPENUHI ?', 7, 'AKADEMIK'),
-(28, 'FINANSIAL TERPENUHI ?', 7, 'FINANSIAL '),
-(29, 'AKADEMIK TERPENUHI ?', 8, 'AKADEMIK'),
-(30, 'FINANSIAL TERPENUHI ?', 8, 'FINANSIAL'),
-(31, 'AKADEMIK TERPENUHI ?', 9, 'AKADEMIK'),
-(32, 'FIANSIAL TERPENUHI ?', 9, 'FINANSIAL'),
-(33, 'AKADEMIK TERPENUHI ?', 10, 'AKADEMIK'),
-(34, 'FINANSIAL TERPENUHI ?', 10, 'FINANSIAL '),
-(35, 'AKADEMIK TERPENUHI', 11, 'AKADEMIK'),
-(36, 'AKADEMIK TERPENUHI ?', 12, 'AKADEMIK'),
-(37, 'AKADEMIK TERPENUHI ?', 13, 'AKADEMIK '),
-(38, 'AKADEMIK TERPENUHI ?', 16, 'AKADEMIK'),
-(39, 'FINANSIAL TERPENUHI ?', 16, 'FINANSIAL'),
-(40, 'PUTRA DAERAH TERPENUHI ?', 16, 'PUTRA DAERAH'),
-(41, 'RACUN ADA ?', 17, 'RACUN'),
-(42, 'ROTI BERJAMUR ? ', 17, 'BERJAMUR '),
-(43, 'ROTI BAU ? ', 17, 'BAU');
+INSERT INTO `premise` (`id`, `question`, `expertid`, `name`, `cf`) VALUES
+(1, 'lulus test math ?', NULL, NULL, 1),
+(2, 'lulus test b.ing ?', NULL, NULL, 1),
+(5, 'tidak memiliki mobil pribadi ?', NULL, NULL, 1),
+(7, 'pemakaian daya listrik di rekening <= 2200VA', NULL, NULL, 1),
+(8, 'uang gaji perbulan <= 1jt, dari ortu ?', NULL, NULL, 1),
+(9, 'ayah/ibu memiliki nama marga asli putra daerah ?', NULL, NULL, 1),
+(10, 'Akademik', NULL, 'Akademik', 1),
+(11, 'Finansial', NULL, 'Finansial', 1),
+(12, 'Putra daerah', NULL, 'Putra daerah', 1),
+(13, 'Terdapat garis pada layar ?', NULL, NULL, 1),
+(14, 'Layar pecah ? ', NULL, NULL, 1),
+(15, 'Layar buram ? ', NULL, NULL, 1),
+(16, 'White screen ? ', NULL, NULL, 1),
+(17, 'Baterai drop ?', NULL, NULL, 1),
+(18, 'Smartphone panas ?', NULL, NULL, 1),
+(19, 'blank screen ? ', NULL, NULL, 1),
+(20, 'Tidak dapat memproses Aplikasi ?', NULL, NULL, 1),
+(21, 'Smartphone reboot tiba-tiba ?', NULL, NULL, 1),
+(22, 'Tidak berhenti mengisi daya ?', NULL, NULL, 1),
+(23, 'Baterai cepat panas ?', NULL, NULL, 1),
+(24, 'Baterai menggelembung ? ', NULL, NULL, 1),
+(25, 'Tidak berhenti mengisi daya ?', NULL, NULL, 1),
+(26, 'AKADEMIK TERPENUHI ?', 6, 'AKADEMIK', 1),
+(27, 'AKADEMIK TERPENUHI ?', 7, 'AKADEMIK', 1),
+(28, 'FINANSIAL TERPENUHI ?', 7, 'FINANSIAL ', 1),
+(29, 'AKADEMIK TERPENUHI ?', 8, 'AKADEMIK', 1),
+(30, 'FINANSIAL TERPENUHI ?', 8, 'FINANSIAL', 1),
+(31, 'AKADEMIK TERPENUHI ?', 9, 'AKADEMIK', 1),
+(32, 'FIANSIAL TERPENUHI ?', 9, 'FINANSIAL', 1),
+(33, 'AKADEMIK TERPENUHI ?', 10, 'AKADEMIK', 1),
+(34, 'FINANSIAL TERPENUHI ?', 10, 'FINANSIAL ', 1),
+(35, 'AKADEMIK TERPENUHI', 11, 'AKADEMIK', 1),
+(36, 'AKADEMIK TERPENUHI ?', 12, 'AKADEMIK', 1),
+(37, 'AKADEMIK TERPENUHI ?', 13, 'AKADEMIK ', 1),
+(38, 'AKADEMIK TERPENUHI ?', 16, 'AKADEMIK', 1),
+(39, 'FINANSIAL TERPENUHI ?', 16, 'FINANSIAL', 1),
+(40, 'PUTRA DAERAH TERPENUHI ?', 16, 'PUTRA DAERAH', 1),
+(41, 'RACUN ADA ?', 17, 'RACUN', 1),
+(42, 'ROTI BERJAMUR ? ', 17, 'BERJAMUR ', 1),
+(43, 'ROTI BAU ? ', 17, 'BAU', 1),
+(44, 'Akademik Terpenuhi ?', 18, 'Akademik', 1),
+(45, 'Finansial terpenuhi ?', 18, 'Finansial', 1);
 
 -- --------------------------------------------------------
 
@@ -194,32 +202,32 @@ INSERT INTO `premise_answer_list` (`id`, `premise_id`, `answer_id`) VALUES
 (16, 12, 2),
 (17, 8, 1),
 (18, 8, 2),
-(19, 13, 1),
-(20, 13, 2),
-(23, 14, 1),
-(24, 14, 2),
-(25, 15, 1),
-(26, 15, 2),
-(27, 16, 1),
-(28, 16, 2),
-(29, 17, 1),
-(30, 17, 2),
-(31, 18, 1),
-(32, 18, 2),
-(33, 19, 1),
-(34, 19, 2),
-(35, 20, 1),
-(36, 20, 2),
-(37, 21, 1),
-(38, 21, 2),
-(39, 22, 1),
-(40, 22, 2),
-(41, 23, 1),
-(42, 23, 2),
-(43, 24, 1),
-(44, 24, 2),
-(45, 25, 1),
-(46, 25, 2),
+(19, 13, 31),
+(20, 13, 32),
+(23, 14, 31),
+(24, 14, 32),
+(25, 15, 31),
+(26, 15, 32),
+(27, 16, 31),
+(28, 16, 32),
+(29, 17, 31),
+(30, 17, 32),
+(31, 18, 31),
+(32, 18, 32),
+(33, 19, 31),
+(34, 19, 32),
+(35, 20, 31),
+(36, 20, 32),
+(37, 21, 31),
+(38, 21, 32),
+(39, 22, 31),
+(40, 22, 32),
+(41, 23, 31),
+(42, 23, 32),
+(43, 24, 31),
+(44, 24, 32),
+(45, 25, 31),
+(46, 25, 32),
 (47, 27, 7),
 (48, 27, 8),
 (49, 28, 8),
@@ -253,7 +261,11 @@ INSERT INTO `premise_answer_list` (`id`, `premise_id`, `answer_id`) VALUES
 (77, 42, 27),
 (78, 42, 28),
 (79, 43, 27),
-(80, 43, 28);
+(80, 43, 28),
+(81, 44, 29),
+(82, 44, 30),
+(83, 45, 29),
+(84, 45, 30);
 
 -- --------------------------------------------------------
 
@@ -293,42 +305,44 @@ CREATE TABLE `rule` (
   `conclusion` varchar(32) NOT NULL,
   `conclusion_value` int(11) NOT NULL,
   `expert_id` int(11) NOT NULL,
-  `hierarchy` int(11) DEFAULT NULL
+  `hierarchy` int(11) DEFAULT NULL,
+  `cf` float NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `rule`
 --
 
-INSERT INTO `rule` (`id`, `conclusion`, `conclusion_value`, `expert_id`, `hierarchy`) VALUES
-(1, 'Terima', 1, 1, 1),
-(2, 'Tolak', 1, 1, 1),
-(3, 'Tolak', 1, 1, 1),
-(4, 'Tolak', 1, 1, 1),
-(7, 'Akademik', 1, 1, 2),
-(8, 'Akademik', 2, 1, 2),
-(9, 'Akademik', 2, 1, 2),
-(10, 'Finansial', 1, 1, 2),
-(11, 'Finansial', 2, 1, 2),
-(12, 'Finansial', 2, 1, 2),
-(13, 'Finansial', 2, 1, 2),
-(14, 'Putra daerah', 1, 1, 2),
-(15, 'Putra daerah', 2, 1, 2),
-(16, 'LCD', 1, 2, 1),
-(17, 'IC, PowerSupply', 1, 2, 1),
-(18, 'Software', 1, 2, 1),
-(19, 'Baterai', 1, 2, 1),
-(20, 'BEASISWA', 17, 10, 1),
-(21, 'BEASISWA', 19, 11, 1),
-(22, 'BEASISWA', 21, 12, 1),
-(23, 'BEASISWA', 23, 13, 1),
-(24, 'BEASISWA', 25, 16, 1),
-(25, 'BEASISWA', 26, 16, 1),
-(26, 'BEASISWA', 26, 16, 1),
-(27, 'MAKAN', 28, 17, 1),
-(28, 'MAKAN', 27, 17, 1),
-(29, 'MAKAN', 28, 17, 1),
-(30, 'MAKAN', 28, 17, 1);
+INSERT INTO `rule` (`id`, `conclusion`, `conclusion_value`, `expert_id`, `hierarchy`, `cf`) VALUES
+(1, 'Terima', 1, 1, 1, 1),
+(2, 'Tolak', 1, 1, 1, 1),
+(3, 'Tolak', 1, 1, 1, 1),
+(4, 'Tolak', 1, 1, 1, 1),
+(7, 'Akademik', 1, 1, 2, 1),
+(8, 'Akademik', 2, 1, 2, 1),
+(9, 'Akademik', 2, 1, 2, 1),
+(10, 'Finansial', 1, 1, 2, 1),
+(11, 'Finansial', 2, 1, 2, 1),
+(12, 'Finansial', 2, 1, 2, 1),
+(13, 'Finansial', 2, 1, 2, 1),
+(14, 'Putra daerah', 1, 1, 2, 1),
+(15, 'Putra daerah', 2, 1, 2, 1),
+(16, 'LCD', 31, 2, 1, 1),
+(17, 'IC, PowerSupply', 31, 2, 1, 1),
+(18, 'Software', 31, 2, 1, 1),
+(19, 'Baterai', 31, 2, 1, 1),
+(20, 'BEASISWA', 17, 10, 1, 1),
+(21, 'BEASISWA', 19, 11, 1, 1),
+(22, 'BEASISWA', 21, 12, 1, 1),
+(23, 'BEASISWA', 23, 13, 1, 1),
+(24, 'BEASISWA', 25, 16, 1, 1),
+(25, 'BEASISWA', 26, 16, 1, 1),
+(26, 'BEASISWA', 26, 16, 1, 1),
+(27, 'MAKAN', 28, 17, 1, 1),
+(28, 'MAKAN', 27, 17, 1, 1),
+(29, 'MAKAN', 28, 17, 1, 1),
+(30, 'MAKAN', 28, 17, 1, 1),
+(31, 'Finansial', 29, 18, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -373,22 +387,22 @@ INSERT INTO `rules_premise` (`id`, `rule_id`, `premise_id`, `premise_val`) VALUE
 (58, 4, 10, 1),
 (59, 4, 11, 1),
 (60, 4, 12, 2),
-(61, 16, 13, 1),
-(62, 16, 14, 1),
-(63, 16, 15, 1),
-(64, 16, 16, 1),
-(65, 17, 17, 1),
-(66, 17, 18, 1),
-(67, 17, 19, 1),
-(68, 17, 16, 1),
-(69, 18, 20, 1),
-(70, 18, 19, 1),
-(71, 18, 21, 1),
-(72, 18, 22, 1),
-(73, 19, 17, 1),
-(74, 19, 23, 1),
-(75, 19, 24, 1),
-(76, 19, 25, 1),
+(61, 16, 13, 31),
+(62, 16, 14, 31),
+(63, 16, 15, 31),
+(64, 16, 16, 31),
+(65, 17, 17, 31),
+(66, 17, 18, 31),
+(67, 17, 19, 31),
+(68, 17, 16, 31),
+(69, 18, 20, 31),
+(70, 18, 19, 31),
+(71, 18, 21, 31),
+(72, 18, 22, 31),
+(73, 19, 17, 31),
+(74, 19, 23, 31),
+(75, 19, 24, 31),
+(76, 19, 25, 31),
 (77, 23, 37, 23),
 (78, 24, 38, 25),
 (79, 24, 39, 25),
@@ -406,7 +420,9 @@ INSERT INTO `rules_premise` (`id`, `rule_id`, `premise_id`, `premise_val`) VALUE
 (91, 29, 42, 27),
 (92, 29, 43, 28),
 (93, 30, 41, 27),
-(94, 30, 42, 28);
+(94, 30, 42, 28),
+(95, 31, 44, 29),
+(96, 31, 45, 29);
 
 --
 -- Indexes for dumped tables
@@ -471,25 +487,25 @@ ALTER TABLE `rules_premise`
 -- AUTO_INCREMENT for table `answer`
 --
 ALTER TABLE `answer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `experts`
 --
 ALTER TABLE `experts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `premise`
 --
 ALTER TABLE `premise`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `premise_answer_list`
 --
 ALTER TABLE `premise_answer_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT for table `premise_rules`
@@ -501,13 +517,13 @@ ALTER TABLE `premise_rules`
 -- AUTO_INCREMENT for table `rule`
 --
 ALTER TABLE `rule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `rules_premise`
 --
 ALTER TABLE `rules_premise`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- Constraints for dumped tables
