@@ -170,7 +170,7 @@ public class AddRule extends javax.swing.JPanel
 	    return;
 	}
 	
-        int hirarki = 1; //default to non-final rule
+        int hirarki = 2; //default to non-final rule
         int result = JOptionPane.showConfirmDialog
 			(this, 
 			"Final rule?", 
@@ -178,7 +178,7 @@ public class AddRule extends javax.swing.JPanel
 
 	if (result == JOptionPane.YES_OPTION)
 	{
-            hirarki = 2; //set to final rule
+            hirarki = 1; //set to final rule
 	}
         
 	//save rule (answer, premise, conclusion, hierarchy) to database
