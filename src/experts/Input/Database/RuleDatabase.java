@@ -40,13 +40,13 @@ public class RuleDatabase extends SQLiteDatabase
 	super();
     }    
     
-    public int InsertRule(int expert_id, String conclusion, int answer_id, int hierarchy)
+    public int InsertRule(int expert_id, String conclusion, int answer_id, int hierarchy, double cf)
     {
 	try
 	{
 	    this.Connect();
-	    String sql = "INSERT INTO RULE (EXPERT_ID, CONCLUSION, CONCLUSION_VALUE, HIERARCHY) " + 
-			 "VALUES (" + expert_id + ", '" + conclusion + "', " + answer_id + ", " + hierarchy + ")";
+	    String sql = "INSERT INTO RULE (EXPERT_ID, CONCLUSION, CONCLUSION_VALUE, HIERARCHY, CF) " + 
+			 "VALUES (" + expert_id + ", '" + conclusion + "', " + answer_id + ", " + hierarchy + ", " + cf + ")";
 	    
 	    try (Statement stmt = this._Connection.createStatement())
 	    {

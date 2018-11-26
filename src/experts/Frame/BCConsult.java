@@ -24,28 +24,19 @@
 package experts.Frame;
 
 import experts.Database.AnswerStore;
-import experts.Database.Storage;
-import experts.Engine.BCDatabase;
-import experts.Engine.BCManager;
+import experts.Engine.Manage.BCManager;
 import experts.Entities.Answer;
-import experts.Entities.Premise;
-import experts.Engine.GoalTable;
-import experts.Entities.Rule;
-import experts.Engine.WorkingMemory;
 import experts.Entities.Expert;
+import experts.Entities.Premise;
+import experts.Entities.Rule;
 import experts.Modified.swing.RadioButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
 
 /**
  *

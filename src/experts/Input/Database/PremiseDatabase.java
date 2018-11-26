@@ -103,8 +103,8 @@ public class PremiseDatabase extends SQLiteDatabase
 	try
 	{
 	    this.Connect();
-	    String sql = "INSERT INTO PREMISE (EXPERTID, NAME, QUESTION) "
-		       + "VALUES (" + expert_id + ", '" + premise.GetName() + "', '" + premise.getQuestion() + "')";
+	    String sql = "INSERT INTO PREMISE (EXPERTID, NAME, QUESTION, CF) "
+		       + "VALUES (" + expert_id + ", '" + premise.GetName() + "', '" + premise.getQuestion() + "', " + premise.GetCertaintyFactor() + ")";
 	    try(Statement stmt = this._Connection.createStatement())
 	    {
 		stmt.execute(sql);

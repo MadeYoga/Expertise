@@ -17,6 +17,8 @@ public class Premise
     String  question	= "";
     String  answer	= "";
     String  Name	= "";
+    double _CertaintyFactor = 0;
+    
     
     // NILAI KETENTUAN PREMISE DARI RULE
     int rules_premise_val = -1; // ACTUAL VALUE
@@ -115,6 +117,16 @@ public class Premise
 	    this.rules = new ArrayList<Rule>();
 	}
 	
+    }
+    
+    public void SetCertaintyFactor(double cf)
+    {
+        this._CertaintyFactor = cf;
+    }
+    
+    public double GetCertaintyFactor()
+    {
+        return this._CertaintyFactor;
     }
     
     @Override
