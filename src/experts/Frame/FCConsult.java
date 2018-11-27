@@ -185,6 +185,8 @@ public class FCConsult extends javax.swing.JFrame {
         
         setAnswerList();
         
+        setEnvironmentList();
+        
         howButton.setVisible(false);
         
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
