@@ -176,7 +176,7 @@ public class BCConsult extends javax.swing.JFrame {
             button.setText(active_premise.list_of_answer.get(i).getAnswer());
 
             radio_buttons.add(button);
-            radio_buttons.get(i).getButton().setBounds(315, 175 + i * 25, 100, 20);
+            radio_buttons.get(i).getButton().setBounds(315, 175 + i * 25, 200, 20);
             
             panel1.add(radio_buttons.get(i).getButton());
 
@@ -212,6 +212,7 @@ public class BCConsult extends javax.swing.JFrame {
                 }
             }
         }
+        
         // list_model.addElement(list_temp);
         for (Object o : list_temp.toArray()) {
             list_model.addElement(o);
@@ -482,12 +483,10 @@ public class BCConsult extends javax.swing.JFrame {
         // CHECK KONDISI RULE YANG SEDANG ACTIVE (queue_table)
         manager.checkRuleStatus();
         
+        setMemoryListReady();
+        memory_item_list.setModel(list_model);
         // CHECK MANAGER'S CURRENT CONDITION
-        if (manager.getUnknownConclusion()) {
-            QuestionLabel.setText("Question: -");
-            conclusionLabel.setText("UNKNOWN");
-            return;
-        } else if (manager.conclusionObtained()) {
+        if (manager.conclusionObtained()) {
             try {
                 howButton.setVisible(true);
                 whyButton.setVisible(false);
@@ -506,10 +505,20 @@ public class BCConsult extends javax.swing.JFrame {
                 Logger.getLogger(BCConsult.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        else if (manager.getUnknownConclusion()) {
+            QuestionLabel.setText("Question: -");
+            conclusionLabel.setText("UNKNOWN");
+            return;
+        } 
 
         // GET NEXT PREMISE
         active_premise = manager.getNextPremise();
         if (active_premise == null) {
+            if (!manager.getUnknownConclusion() || 
+                !manager.conclusionObtained()) {
+                QuestionLabel.setText("Question: -");
+                conclusionLabel.setText("UNKNOWN");
+            }
             return;
         }
         manager.printPath_();
@@ -524,7 +533,7 @@ public class BCConsult extends javax.swing.JFrame {
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(
                 this,
-                manager.get_path_(),
+                "the question is being asked because:\n" + manager.get_path_(),
                 "Why ask this question ?",
                 JOptionPane.INFORMATION_MESSAGE
         );

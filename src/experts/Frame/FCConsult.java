@@ -229,7 +229,7 @@ public class FCConsult extends javax.swing.JFrame {
             button.setText(current_premise.list_of_answer.get(i).getAnswer());
             radio_buttons.add(button);
             //param x,y,w,h
-            radio_buttons.get(i).getButton().setBounds(305, 150 + i * 25, 100, 20);
+            radio_buttons.get(i).getButton().setBounds(305, 150 + i * 25, 200, 20);
             
             this.getContentPane().add(radio_buttons.get(i).getButton());
             radio_buttons.get(i).getButton().addActionListener(new ActionListener(){
@@ -485,6 +485,8 @@ public class FCConsult extends javax.swing.JFrame {
             return;
         }
         
+        setAnswerList();
+        
         questionLabel.setText("Question: " + current_premise.getQuestion());
         
     }//GEN-LAST:event_submitButtonActionPerformed
@@ -503,7 +505,9 @@ public class FCConsult extends javax.swing.JFrame {
             msg += (i + 1) + ". " + manager.marked_rule.premises.get(i).getQuestion() + "\n";
         }
         JOptionPane.showMessageDialog(
-                this, msg, "Why ask this question ?",
+                this, 
+                "the question is being asked because:\n" + msg, 
+                "Why ask this question ?",
                 JOptionPane.INFORMATION_MESSAGE
         );
     }//GEN-LAST:event_whyButtonActionPerformed

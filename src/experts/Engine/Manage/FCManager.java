@@ -91,6 +91,7 @@ public class FCManager {
     public Premise getNextPremise(){
         if (obtain_conclusion || unknown_conclusion) 
         {
+            System.out.println("obtained conclusion || unknown conclusion");
             return null;
         }
         if (marked_rule == null) // first question
@@ -106,6 +107,7 @@ public class FCManager {
                     }
                 }
             }
+            System.out.println("return NULL");
             return null;
         }
         for (int i = 0; i < marked_rule.premises.size(); i++) {
@@ -131,18 +133,26 @@ public class FCManager {
             updateStatusByEnvironment();                                        // update status by environment value
         } while (updateTriggeredStatus());
         updateFiredStatus();
-        if (!anyActiveRule() && !anyTriggeredRule())
-        {
-            unknown_conclusion = true;
-            showRulesStatuses();
-            return;
-        }
-        else if (obtain_conclusion || unknown_conclusion)
-        {
-            showRulesStatuses();
-            return;
-        }
+        
         marked_rule = getMarkedRule();
+        if (marked_rule == null)
+        {
+            System.out.println("null marked rule");
+            if (!anyActiveRule() && !anyTriggeredRule())
+            {
+                System.out.println("no active rule/triggeredrule");
+                unknown_conclusion = true;
+                showRulesStatuses();
+                return;
+            }
+            else if (obtain_conclusion)
+            {
+                System.out.println("obtained conclusion");
+                showRulesStatuses();
+                return;
+            }
+        }
+        
         showRulesStatuses();
         return;
     }
@@ -248,6 +258,9 @@ public class FCManager {
             if (database.rules.get(i).statuses.contains("TD"))
                 continue;
             if (ruleTriggered(database.rules.get(i))) {
+                System.out.println("TRIGGERED " + 
+                        database.rules.get(i).getConclusion() + 
+                        database.rules.get(i).getConclusionValue());
                 working_memory.environment.put(
                     database.rules.get(i).getConclusion(), 
                     database.rules.get(i).getConclusionValue());
@@ -263,6 +276,7 @@ public class FCManager {
     
     public Rule getMarkedRule() {
         if (marked_rule != null && markedRuleValid()) {
+            System.out.println("not null & valid marked rule");
             return marked_rule;
         }
         for (int i = 0; i < database.rules.size(); i++) {
@@ -272,10 +286,13 @@ public class FCManager {
                     Premise p = database.rules.get(i).premises.get(j);
                     if (database.premiseHaveRules(p)) {
                         premise_have_rules = true;
+                    } else {
+                        premise_have_rules = false;
                         break;
                     }
                 }
-                if (premise_have_rules){
+                if (premise_have_rules) {
+                    System.out.println("premise have rules");
                     continue;
                 }
                 database.rules.get(i).statuses.remove("U");
@@ -310,37 +327,67 @@ public class FCManager {
         return true;
     }
     
-    private void updateFiredStatus() {
+    private void updateFiredStatus() { // problem
+        if (last_triggered_rule == null)
+            return;
         boolean use_in_future = false;
         int ltr_idx = -1;
         for (int i = 0; i < database.rules.size(); i++) {
-            if (database.rules.get(i).statuses.contains("D")) {
+            if (database.rules.get(i).getId() == last_triggered_rule.getId()) {
+                ltr_idx = i;
                 continue;
-            } else if (database.rules.get(i).statuses.contains("A")) {
-                for (int j = 0; j < database.rules.get(i).premises.size(); j++) {
-                    Premise p = database.rules.get(i).premises.get(j);
-                    if (working_memory.environment.containsKey(p.getQuestion())) {
-                        use_in_future = true;
-                    }
-                }
-                if (use_in_future) break;
-            } else {
-                if (!use_in_future && 
-                    database.rules.get(i).getId() == last_triggered_rule.getId()) 
-                {
-                    ltr_idx = i;
-                    database.rules.get(i).statuses.remove("TD");
-                    database.rules.get(i).statuses.add("FD");
-                    obtain_conclusion = true;
+            }
+            for (int j = 0; j < database.rules.get(i).premises.size(); j++) {
+                Premise p = database.rules.get(i).premises.get(j);
+                if (last_triggered_rule.getConclusion().equals(p.getQuestion())) {
+                    // used in future
                     return;
                 }
             }
         }
-        if (!anyActiveRule() && ltr_idx != -1) {
-            database.rules.get(ltr_idx).statuses.remove("TD");
-            database.rules.get(ltr_idx).statuses.add("FD");
-            obtain_conclusion = true;
-        }
+        database.rules.get(ltr_idx).statuses.remove("TD");
+        database.rules.get(ltr_idx).statuses.add("FD");
+        obtain_conclusion = true;
+//        for (int i = 0; i < database.rules.size(); i++) {
+//            System.out.println("CHECKING " + database.rules.get(i).toString());
+//            if (database.rules.get(i).statuses.contains("D")) {
+//                continue;
+//            } else if (database.rules.get(i).statuses.contains("A")) {
+//                System.out.println("CHECKING ACTIVE RULE" + database.rules.get(i).toString());
+//                for (int j = 0; j < database.rules.get(i).premises.size(); j++) {
+//                    Premise p = database.rules.get(i).premises.get(j);
+//                    if (working_memory.environment.containsKey(p.getQuestion())) {
+//                        use_in_future = true;
+//                    }
+//                }
+//                if (use_in_future) 
+//                {
+//                    System.out.println("used in future");
+//                    break; 
+//                } 
+//            } else {
+//                for (int j = 0; j < database.rules.get(i).premises.size(); j++) {
+//                    Premise p = database.rules.get(i).premises.get(j);
+//                    if (working_memory.environment.containsKey(p.getQuestion())) {
+//                        use_in_future = true;
+//                    }
+//                }
+//                if (!use_in_future && 
+//                    database.rules.get(i).getId() == last_triggered_rule.getId()) 
+//                {
+//                    ltr_idx = i;
+//                    database.rules.get(i).statuses.remove("TD");
+//                    database.rules.get(i).statuses.add("FD");
+//                    obtain_conclusion = true;
+//                    return;
+//                }
+//            }
+//        }
+//        if (!anyActiveRule() && ltr_idx != -1) {
+//            database.rules.get(ltr_idx).statuses.remove("TD");
+//            database.rules.get(ltr_idx).statuses.add("FD");
+//            obtain_conclusion = true;
+//        }
     }
     
     private boolean anyActiveRule() {
@@ -402,6 +449,12 @@ public class FCManager {
                         database.rules.get(i).getConclusionValue()) + " " + 
                 database.rules.get(i).statuses.toString()
             );
+            for (int j = 0; j < database.rules.get(i).premises.size(); j++) {
+                System.out.println(
+                        database.rules.get(i).premises.get(j).toString() + " " + 
+                        database.rules.get(i).premises.get(j).statuses
+                );
+            }
         }
     }
     

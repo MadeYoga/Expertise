@@ -240,9 +240,17 @@ public class BCManager {
                         working_memory.cache.put(premise_target.getId(), rule_status);
                         return -1;
                     }
-                    working_memory.memory.put(premise_target.getId(), premise_target.getRulesPremiseValue());
-                    working_memory.cache.put(premise_target.getId(), premise_target.getRulesPremiseValue());
-                    return premise_target.getRulesPremiseValue();
+//                    working_memory.memory.put(premise_target.getId(), premise_target.getRulesPremiseValue());
+//                    working_memory.cache.put(premise_target.getId(), premise_target.getRulesPremiseValue());
+//                    return premise_target.getRulesPremiseValue();
+                    count_answered_premise += 1;
+                    if (count_answered_premise >= rule_target.premises.size()){
+                        working_memory.memory.put(premise_target.getId(), rule_target.getConclusionValue());
+                        working_memory.cache.put(premise_target.getId(), rule_target.getConclusionValue());
+                        System.out.println("Return " + answerStore.get_answer_by_id(rule_target.getConclusionValue()));
+                        return rule_target.getConclusionValue();
+                    }
+                    
                 } 
                 else { 
                     boolean answered = working_memory.memory.containsKey(premise_target.getId());
@@ -253,12 +261,16 @@ public class BCManager {
                             break;
                         }
                     } 
-                    else 
-                        // ASUMSI, JIKA 1 TIDAK TERJAWAB, // MAKA SISAHNYA TIDAK TERJAWAB
-                        break;
+//                    else 
+//                        // ASUMSI, JIKA 1 TIDAK TERJAWAB, // MAKA SISAHNYA TIDAK TERJAWAB
+//                        break;
                     // SUDAH TERJAWAB SEMUA DAN BENAR! RETURN RULE CONCLUSION VALUE
-                    if (count_answered_premise >= rule_target.premises.size()){
-                        System.out.println(rule_target.getConclusion() + " = " + rule_target.getConclusionValue());
+                    if (count_answered_premise >= rule_target.premises.size()) {
+                        System.out.println(rule_target.getId() + " " + rule_target.getConclusion() + " = " + rule_target.getConclusionValue());
+                        System.out.println(premise_target.getId() + " " + premise_target.getQuestion() + " = " + premise_target.getRulesPremiseValue());
+                        working_memory.memory.put(premise_target.getId(), premise_target.getRulesPremiseValue());
+                        working_memory.cache.put(rule_target.getId(), rule_target.getConclusionValue());
+                        working_memory.cache.put(premise_target.getId(), premise_target.getRulesPremiseValue());
                         return rule_target.getConclusionValue();
                     }
                 }
