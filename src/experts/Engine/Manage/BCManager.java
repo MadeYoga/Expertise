@@ -50,7 +50,7 @@ public class BCManager {
     private boolean unknown_conclusion  = false;
     
     private Stack path_ = new Stack();
-    
+    public Rule current_active_rule;
     public AnswerStore answerStore = new AnswerStore();
     
     public BCManager(){
@@ -87,8 +87,8 @@ public class BCManager {
         Queue q = new LinkedList();
         for (int i = 0; i < goal_table.current_rule.premises.size(); i++) {
             Premise current_premise = goal_table.current_rule.premises.get(i);
-            if (working_memory.cache.containsKey(current_premise.getId()) ||
-                working_memory.memory.containsKey(current_premise.getId())){
+            if (working_memory.cache.containsKey(current_premise.getQuestion()) ||
+                working_memory.memory.containsKey(current_premise.getQuestion())){
                 q.offer(current_premise);
                 
                 if (current_premise.rules.size() > 0)
@@ -96,10 +96,10 @@ public class BCManager {
                 else
                     how_ += (i + 1) + ". " + current_premise.getQuestion() + ", User Answer: ";
                 int _id = -1;
-                if (working_memory.memory.containsKey(current_premise.getId()))
-                    _id = (int) working_memory.memory.get(current_premise.getId());
+                if (working_memory.memory.containsKey(current_premise.getQuestion()))
+                    _id = (int) working_memory.memory.get(current_premise.getQuestion());
                 else
-                    _id = (int) working_memory.cache.get(current_premise.getId());
+                    _id = (int) working_memory.cache.get(current_premise.getQuestion());
                 how_ += answerStore.get_answer_by_id(_id) + "\n";
             }
             if (current_premise.rules.size() > 0){
@@ -112,11 +112,10 @@ public class BCManager {
     public String how(Premise current_premise){
         String how_ = "";
         Queue q = new LinkedList();
-//        for (int i = 0; i < current_premise.rules.size(); i++){
-        Rule rule_sample = current_premise.rules.get(0);
+        Rule rule_sample = current_premise.rules.get(0);                        // Fix this please 
         for (int j = 0; j < rule_sample.premises.size(); j++){
             Premise next_premise = rule_sample.premises.get(j);
-            if (working_memory.memory.containsKey(next_premise.getId())){
+            if (working_memory.memory.containsKey(next_premise.getQuestion())){
                 if (!q.contains(next_premise))
                     q.offer(next_premise);
                 else continue;
@@ -125,16 +124,15 @@ public class BCManager {
                 how_ += how(current_premise);
             }
         }
-//            break;
-//        }
         while (!q.isEmpty()){
-            how_ += q.peek().toString();
+            Premise p = (Premise)q.peek();
+//            how_ += "premise " + p.getId() + " " + p.getQuestion() + " = " + answerStore.get_answer_by_id(p.getRulesPremiseValue());
+            how_ += "premise " + p.getId() + " " + p.getQuestion();
             how_ += ", User Answer: ";
-            int id = (int)working_memory.memory.get(((Premise)q.peek()).getId());
+            int id = (int)working_memory.memory.get(((Premise)q.peek()).getQuestion());
             how_ += answerStore.get_answer_by_id(id) + "\n";
             q.poll();
         }
-        // System.out.println(how_);
         return how_;
     }
     
@@ -167,6 +165,10 @@ public class BCManager {
         return path;
     }
     
+    public Stack get_path_stack() {
+        return path_;
+    }
+    
     private Premise getNextPremise(Premise p){
         Premise premise = null;
         for (int i = 0; i < p.rules.size(); i++){
@@ -174,8 +176,8 @@ public class BCManager {
             path_.push(rule_target);
             for (int j = 0; j < rule_target.premises.size(); j++){
                 Premise premise_target = rule_target.premises.get(j);
-                if (working_memory.memory.containsKey(premise_target.getId()) || 
-                    working_memory.cache .containsKey(premise_target.getId())){
+                if (working_memory.memory.containsKey(premise_target.getQuestion()) || 
+                    working_memory.cache .containsKey(premise_target.getQuestion())){
                     continue;
                 }
                 if (premise_target.rules.size() > 0){
@@ -184,9 +186,8 @@ public class BCManager {
                         path_.push(next_premise);
                         return next_premise;
                     }
-                    // path_.pop();
                 }
-                else if (!working_memory.memory.containsKey(premise_target.getId())){
+                else if (!working_memory.memory.containsKey(premise_target.getQuestion())){
                     path_.push(premise_target);
                     return premise_target;
                 }
@@ -202,19 +203,17 @@ public class BCManager {
         for (int i = 0; i < current_rule.premises.size(); i++){
             path_.clear();
             Premise target = current_rule.premises.get(i);
-            if (working_memory.memory.containsKey(target.getId()) || 
-                working_memory.cache .containsKey(target.getId())){
+            if (working_memory.memory.containsKey(target.getQuestion()) || 
+                working_memory.cache .containsKey(target.getQuestion())){
                 continue;
             }
             if (target.rules.size() > 0){
                 Premise next_premise = getNextPremise(target);
                 if (next_premise != null){
-                    // path_.push(next_premise);
                     return next_premise;
                 }
-                // path_.pop();
             }
-            else if (!working_memory.memory.containsKey(target.getId())){
+            else if (!working_memory.memory.containsKey(target.getQuestion())){
                 path_.push(target);
                 return target;
             }
@@ -236,8 +235,8 @@ public class BCManager {
                         break;
                     
                     if (rule_status != premise_target.getRulesPremiseValue()){
-                        working_memory.memory.put(premise_target.getId(), rule_status);
-                        working_memory.cache.put(premise_target.getId(), rule_status);
+                        working_memory.memory.put(premise_target.getQuestion(), rule_status);
+                        working_memory.cache.put(premise_target.getQuestion(), rule_status);
                         return -1;
                     }
 //                    working_memory.memory.put(premise_target.getId(), premise_target.getRulesPremiseValue());
@@ -245,18 +244,18 @@ public class BCManager {
 //                    return premise_target.getRulesPremiseValue();
                     count_answered_premise += 1;
                     if (count_answered_premise >= rule_target.premises.size()){
-                        working_memory.memory.put(premise_target.getId(), rule_target.getConclusionValue());
-                        working_memory.cache.put(premise_target.getId(), rule_target.getConclusionValue());
+                        working_memory.memory.put(premise_target.getQuestion(), rule_target.getConclusionValue());
+                        working_memory.cache.put(premise_target.getQuestion(), rule_target.getConclusionValue());
                         System.out.println("Return " + answerStore.get_answer_by_id(rule_target.getConclusionValue()));
                         return rule_target.getConclusionValue();
                     }
                     
                 } 
                 else { 
-                    boolean answered = working_memory.memory.containsKey(premise_target.getId());
+                    boolean answered = working_memory.memory.containsKey(premise_target.getQuestion());
                     if (answered){
                         count_answered_premise += 1;
-                        int user_answer = (int) working_memory.memory.get(premise_target.getId());
+                        int user_answer = (int) working_memory.memory.get(premise_target.getQuestion());
                         if (premise_target.getRulesPremiseValue() != user_answer){
                             break;
                         }
@@ -268,9 +267,9 @@ public class BCManager {
                     if (count_answered_premise >= rule_target.premises.size()) {
                         System.out.println(rule_target.getId() + " " + rule_target.getConclusion() + " = " + rule_target.getConclusionValue());
                         System.out.println(premise_target.getId() + " " + premise_target.getQuestion() + " = " + premise_target.getRulesPremiseValue());
-                        working_memory.memory.put(premise_target.getId(), premise_target.getRulesPremiseValue());
-                        working_memory.cache.put(rule_target.getId(), rule_target.getConclusionValue());
-                        working_memory.cache.put(premise_target.getId(), premise_target.getRulesPremiseValue());
+                        working_memory.memory.put(premise_target.getQuestion(), premise_target.getRulesPremiseValue());
+                        working_memory.cache.put(rule_target.getConclusion(), rule_target.getConclusionValue());
+                        working_memory.cache.put(premise_target.getQuestion(), premise_target.getRulesPremiseValue());
                         return rule_target.getConclusionValue();
                     }
                 }
@@ -286,7 +285,7 @@ public class BCManager {
             Premise target = current_rule.premises.get(i);
             
             if (working_memory.cache .containsKey(target.getId())){
-                int current_conclusion = (int) working_memory.cache.get(target.getId());
+                int current_conclusion = (int) working_memory.cache.get(target.getQuestion());
                 if (current_conclusion != target.getRulesPremiseValue()){
                     System.out.println("Rule " + current_rule.getId() + " Salah");
                     return false;
@@ -300,17 +299,17 @@ public class BCManager {
                 if (rule_status == -1) // belum terjawab semua
                     break;
                 if (rule_status != target.getRulesPremiseValue()){
-                    working_memory.cache.put(target.getId(), rule_status);
+                    working_memory.cache.put(target.getQuestion(), rule_status);
                     return false;
                 }
                 
                 System.out.println(rule_status + " : " + target.getRulesPremiseValue());
                 
-                working_memory.cache.put(target.getId(), target.getRulesPremiseValue());
+                working_memory.cache.put(target.getQuestion(), target.getRulesPremiseValue());
             } else {
-                boolean answered = working_memory.memory.containsKey(target.getId());
+                boolean answered = working_memory.memory.containsKey(target.getQuestion());
                 if (answered) {
-                    int user_answer = (int) working_memory.memory.get(target.getId());
+                    int user_answer = (int) working_memory.memory.get(target.getQuestion());
                     if (target.getRulesPremiseValue() != user_answer){
                         return false;
                     }
@@ -329,9 +328,7 @@ public class BCManager {
         if (active_premise == null)
             return;
         
-        working_memory.memory.put(active_premise.getId(), answer_id);
-        System.out.println(working_memory.memory.toString());
-        System.out.println(working_memory.cache.toString());
+        working_memory.memory.put(active_premise.getQuestion(), answer_id);
         if (checkRuleStatus() == false){
             do {
                 if (rule_pointer >= database.getRules().size()){
@@ -347,6 +344,9 @@ public class BCManager {
             } while(!checkRuleStatus());
         } 
         
+        System.out.println(working_memory.memory.toString());
+        System.out.println(working_memory.cache.toString());
+        
         if (allPremiseAnswered()){
             conclusion_obtained = true;
             System.out.println("Conclusion: " + goal_table.current_rule.getConclusion());
@@ -358,8 +358,8 @@ public class BCManager {
         for (int i = 0; i < goal_table.current_rule.premises.size(); i++){
             Premise sample = goal_table.current_rule.premises.get(i);
             if (
-                    !working_memory.memory.containsKey(sample.getId()) && 
-                    !working_memory.cache .containsKey(sample.getId())
+                    !working_memory.memory.containsKey(sample.getQuestion()) && 
+                    !working_memory.cache .containsKey(sample.getQuestion())
                )
             {
                 return false;

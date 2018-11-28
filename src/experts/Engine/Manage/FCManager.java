@@ -55,6 +55,7 @@ public class FCManager {
     public AnswerStore answerStore;
     public Rule marked_rule;
     public Rule last_triggered_rule;
+    public Rule first_rule;
     private boolean obtain_conclusion;
     private boolean unknown_conclusion;
     
@@ -103,6 +104,7 @@ public class FCManager {
                     Premise target = database.rules.get(i).premises.get(j);
                     if (database.questions.containsKey(target.getId()))
                     {
+                        first_rule = database.rules.get(i);
                         return target;
                     }
                 }
@@ -228,6 +230,19 @@ public class FCManager {
     
     private void updateStatusByEnvironment(){
         for (int i = 0; i < database.rules.size(); i++) {
+            if (working_memory.environment.containsKey(database.rules.get(i).getConclusion())) 
+            {
+                if (database.rules.get(i).statuses.contains("A")) 
+                {
+                    database.rules.get(i).statuses.remove("U");
+                    database.rules.get(i).statuses.remove("D");
+                    database.rules.get(i).statuses.remove("A");
+                    database.rules.get(i).statuses.remove("M");
+                    database.rules.get(i).statuses.add("U");
+                    database.rules.get(i).statuses.add("D");
+                }
+                continue;
+            }
             for (int j = 0; j < database.rules.get(i).premises.size(); j++) {
                 Premise p = database.rules.get(i).premises.get(j);
                 if (working_memory.environment.containsKey(p.getQuestion()) &&
@@ -419,18 +434,22 @@ public class FCManager {
         String how_ = "";
         for (int i = 0; i < database.rules.size(); i++) {
             if (database.rules.get(i).statuses.contains("TD")) {
-                how_ += "Rule " + database.rules.get(i).getConclusion() + "\n";
+                how_ += database.rules.get(i).toString() + " : " 
+                        + answerStore.get_answer_by_id(database.rules.get(i).getConclusionValue())
+                        + "\n";
                 for (int j = 0; j < database.rules.get(i).premises.size();j++)
                 {
                     Premise p = database.rules.get(i).premises.get(j);
-                    how_ += p.getQuestion() + ", User Answer: ";
+                    how_ += p.toString() + ", User Answer: ";
                     how_ += answerStore.get_answer_by_id(p.getRulesPremiseValue());
                     how_ += "\n";
                 }
                 how_ += "\n";
             }
         }
-        how_ += "Rule " + last_triggered_rule.getConclusion() + "\n";
+        how_ += last_triggered_rule.toString() + " : " 
+                + answerStore.get_answer_by_id(last_triggered_rule.getConclusionValue())
+                + "\n";
         for (int j = 0; j < last_triggered_rule.premises.size(); j++) {
             Premise p = last_triggered_rule.premises.get(j);
             how_ += p.getQuestion() + ", Conclusion Answer: ";

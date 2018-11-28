@@ -50,7 +50,7 @@ public class Rule {
 
     @Override
     public String toString() {
-        return "Rule " + "" + id + ", " + conclusion + ", cf: " + certainty_factor;
+        return "Rule " + id + ", " + conclusion + ", cf: " + certainty_factor;
     }
     
     public int getId() {

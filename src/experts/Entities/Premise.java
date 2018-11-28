@@ -23,6 +23,7 @@
  */
 package experts.Entities;
 
+import experts.Database.AnswerStore;
 import java.util.ArrayList;
 
 /**
@@ -64,7 +65,7 @@ public class Premise {
 
     @Override
     public String toString() {
-        return "Premise " + id + ", " + question ;
+        return "Premise " + id + ", " + question;
     }
     
     public int getId() {

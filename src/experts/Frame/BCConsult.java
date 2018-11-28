@@ -36,6 +36,7 @@ import experts.Modified.swing.RadioButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
@@ -196,23 +197,34 @@ public class BCConsult extends javax.swing.JFrame {
 
     public void setMemoryListReady() {
         list_model.removeAllElements();
-        for (Object key : manager.getMemory().cache.keySet()) {
-            Rule current_rule = manager.getGoalTable().current_rule;
-            for (int i = 0; i < current_rule.premises.size(); i++) {
-                Premise target = current_rule.premises.get(i);
-                if ((int) key == target.getId()) {
-                    Answer answer = manager.answerStore.get_answer_by_id (
-                        (int) manager.getMemory().cache.get(key)
-                    );
-                    list_model.addElement(
-                            target.getQuestion()
-                            + " : "
-                            + answer.getAnswer()
-                    );
-                }
-            }
+//        for (Object key : manager.getMemory().cache.keySet()) {
+//            Rule current_rule = manager.getGoalTable().current_rule;
+//            for (int i = 0; i < current_rule.premises.size(); i++) {
+//                Premise target = current_rule.premises.get(i);
+//                if ((String) key == target.getQuestion()) {
+//                    Answer answer = manager.answerStore.get_answer_by_id (
+//                        (int) manager.getMemory().cache.get(key)
+//                    );
+//                    list_model.addElement(
+//                            target.getQuestion()
+//                            + " : "
+//                            + answer.getAnswer()
+//                    );
+//                }
+//            }
+//        }
+        for (Object key : manager.getMemory().cache.keySet()) 
+        {
+            list_model.addElement(key + " : " + 
+                    manager.answerStore.get_answer_by_id((int)manager.getMemory().cache.get(key)));
         }
-        
+        for (Object key : manager.getMemory().memory.keySet()) 
+        {
+            String target = key + " : " + 
+                        manager.answerStore.get_answer_by_id((int)manager.getMemory().memory.get(key));
+            if (!list_model.contains(target))
+                list_model.addElement(target);
+        }
         // list_model.addElement(list_temp);
         for (Object o : list_temp.toArray()) {
             list_model.addElement(o);
@@ -526,15 +538,44 @@ public class BCConsult extends javax.swing.JFrame {
         // OUTPUT LABEL
         QuestionLabel.setText("Question: " + active_premise.getQuestion());
         // SET ACTIVE PREMISE ANSWER OPTION ON RADIO BUTTONS
+        selected_answer = null;
         setButtonsReady();
     }//GEN-LAST:event_submitButtonActionPerformed
 
     private void whyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_whyButtonActionPerformed
         // TODO add your handling code here:
+        String msg = "the question is being asked because:\n" + 
+                manager.get_path_() + "\n\n";
+        
+        Stack stack = manager.get_path_stack();
+        if (stack.isEmpty()) return;
+        Rule r = null;
+        ArrayList <Object> a = new ArrayList<Object>();
+        while (true) {
+            if (stack.isEmpty()) break;
+            a.add(stack.peek()) ;
+            Object rule = stack.pop();
+            if (rule instanceof Premise) {
+                Premise p2 = (Premise)rule;
+                r = p2.parent;
+            }
+            if (rule instanceof Rule) {
+                r = (Rule) rule;
+                break;
+            } 
+        }
+        for (int i = a.size() - 1; i >= 0; i--) {
+            manager.get_path_stack().push(a.get(i));
+        }
+        msg += "Rule " + r.getConclusion() + " = " + 
+                manager.answerStore.get_answer_by_id(r.getConclusionValue());
+        for (Premise p : r.premises) {
+            msg += "\n  " + p.getQuestion() + " = " + 
+                    manager.answerStore.get_answer_by_id(p.getRulesPremiseValue()
+                    );
+        } 
         JOptionPane.showMessageDialog(
-                this,
-                "the question is being asked because:\n" + manager.get_path_(),
-                "Why ask this question ?",
+                this, msg, "Why ask this question ?",
                 JOptionPane.INFORMATION_MESSAGE
         );
     }//GEN-LAST:event_whyButtonActionPerformed

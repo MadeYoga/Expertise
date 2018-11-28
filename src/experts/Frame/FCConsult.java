@@ -463,8 +463,10 @@ public class FCConsult extends javax.swing.JFrame {
                 conclusionLabel.setText(
                     "Conclusion: " +
                     new MYCIN().getUncertaintyTerm(manager.last_triggered_rule)
-                    + " " +
-                    manager.last_triggered_rule.getConclusion()
+                    + " " + 
+                    manager.last_triggered_rule.getConclusion() + " = " + 
+                    answerStore.get_answer_by_id(
+                            manager.last_triggered_rule.getConclusionValue())
                 );
                 questionLabel.setText("Question: -");
                 whyButton.setVisible(false);
@@ -494,8 +496,18 @@ public class FCConsult extends javax.swing.JFrame {
     private void whyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_whyButtonActionPerformed
         // TODO add your handling code here:
         if (manager.marked_rule == null) {
+            String msg = "Rule " + manager.first_rule.getConclusion() + " = " + 
+                    answerStore.get_answer_by_id(
+                            manager.first_rule.getConclusionValue()
+                    ) + "\n";
+            for (int i = 0; i < manager.first_rule.premises.size(); i++) {
+                Premise p = manager.first_rule.premises.get(i);
+                msg += (i + 1) + ". " + p.getQuestion() + " = " + 
+                        answerStore.get_answer_by_id(p.getRulesPremiseValue()) + 
+                        "\n";
+            }
             JOptionPane.showMessageDialog (
-                this, "this is the First Question!", "Why ask this question ?",
+                this, msg, "Why ask this question ?",
                 JOptionPane.INFORMATION_MESSAGE
             );
             return;
