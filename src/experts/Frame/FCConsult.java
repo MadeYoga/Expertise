@@ -439,7 +439,6 @@ public class FCConsult extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
-        // TODO add your handling code here:
         
         if (selected_answer == null) {
             JOptionPane.showMessageDialog (
@@ -494,7 +493,6 @@ public class FCConsult extends javax.swing.JFrame {
     }//GEN-LAST:event_submitButtonActionPerformed
 
     private void whyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_whyButtonActionPerformed
-        // TODO add your handling code here:
         if (manager.marked_rule == null) {
             String msg = "Rule " + manager.first_rule.getConclusion() + " = " + 
                     answerStore.get_answer_by_id(
@@ -525,7 +523,6 @@ public class FCConsult extends javax.swing.JFrame {
     }//GEN-LAST:event_whyButtonActionPerformed
 
     private void howButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_howButtonActionPerformed
-        // TODO add your handling code here:
         JOptionPane.showMessageDialog (
             this, manager.how(), "How can Expertise get this conclusion ?",
             JOptionPane.INFORMATION_MESSAGE

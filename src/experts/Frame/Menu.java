@@ -236,7 +236,7 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jList1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseReleased
-        // TODO add your handling code here:
+
         
         Object selected = jList1.getSelectedValue();
         
@@ -250,11 +250,11 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jList1MouseReleased
 
     private void FCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FCActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_FCActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+
         MainForm obj = new MainForm();
         obj.setVisible(true);
         this.setVisible(false);
@@ -262,7 +262,7 @@ public class Menu extends javax.swing.JFrame {
     
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+
         if (selected_expert == null) 
         {
             JOptionPane.showMessageDialog(
@@ -295,7 +295,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void dragMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dragMouseDragged
-        // TODO add your handling code here:
+
         int x =evt.getXOnScreen();
         int y =evt.getYOnScreen();
         this.setLocation(x - xMouse, y - yMouse);
@@ -303,19 +303,18 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_dragMouseDragged
 
     private void dragMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dragMousePressed
-        // TODO add your handling code here:
+
         xMouse = evt.getX();
         yMouse = evt.getY();
         
     }//GEN-LAST:event_dragMousePressed
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void closeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseReleased
-        // TODO add your handling code here:
-         this.dispose();
+        this.dispose();
     }//GEN-LAST:event_closeMouseReleased
     
    

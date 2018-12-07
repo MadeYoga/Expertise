@@ -458,7 +458,7 @@ public class BCConsult extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
-        // TODO add your handling code here:
+        
         
         if (selected_answer == null) {
             JOptionPane.showMessageDialog (
@@ -543,7 +543,7 @@ public class BCConsult extends javax.swing.JFrame {
     }//GEN-LAST:event_submitButtonActionPerformed
 
     private void whyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_whyButtonActionPerformed
-        // TODO add your handling code here:
+        
         String msg = "the question is being asked because:\n" + 
                 manager.get_path_() + "\n\n";
         
@@ -581,7 +581,7 @@ public class BCConsult extends javax.swing.JFrame {
     }//GEN-LAST:event_whyButtonActionPerformed
 
     private void howButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_howButtonActionPerformed
-        // TODO add your handling code here:
+        
         // System.out.println(manager.how());
         JOptionPane.showMessageDialog(
                 this,
